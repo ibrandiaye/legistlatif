@@ -37,12 +37,13 @@
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalform2">
                     importer
                 </button>
-                <table id="example1" class="table table-bordered table-responsive-md table-striped text-center">
+                <table  id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center datatable-buttons">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Nom département</th>
                             <th>Nom region</th>
+                            <th>Nombre de Candidat</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -52,6 +53,7 @@
                             <td>{{ $departement->id }}</td>
                             <td>{{ $departement->nom }}</td>
                             <td>{{ $departement->region->nom }}</td>
+                            <td>{{ $departement->nb }}</td>
                             <td>
                                 <a href="{{ route('departement.edit', $departement->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                 {!! Form::open(['method' => 'DELETE', 'route'=>['departement.destroy', $departement->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}

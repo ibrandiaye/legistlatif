@@ -56,6 +56,11 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste]])
         ->first();
        }
+       public function getByCniAndListeAndDepartement($cni,$liste,$departement_id){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
+        ->first();
+       }
        public function getByOrdreAndListe($ordre,$liste,$departement,$type){
         return DB::table("liste_departementals")
         ->where([['ordre',$ordre],["liste_id",$liste],["departement_id",$departement],["type",$type]])
@@ -66,6 +71,13 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where([["liste_id",$liste_id],['type',$type],
         ['departement_id',$departement]])
         ->orderBy("ordre",'desc')
+        ->first();
+       }
+       
+       public function getLastOrdreByListeAndOrdre($liste_id,$type,$departement,$ordre){
+        return DB::table("liste_departementals")
+        ->where([["liste_id",$liste_id],['type',$type],
+        ['departement_id',$departement],['ordre',$ordre]])
         ->first();
        }
        public function countByTypeAndListe($type,$liste)
@@ -83,4 +95,5 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->groupBy("departement_id",'type')
         ->get();
        }
+       
 }

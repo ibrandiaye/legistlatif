@@ -43,6 +43,13 @@
 
                                 </div>
                                 <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Nombre decandidat</label>
+                                    <input type="number" name="nb" class="form-control" value="{{$departement->nb}}"   required>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
                                     <label>Région</label>
                                     <select class="form-control" name="region_id" required="">
                                         @foreach ($regions as $region)

@@ -157,4 +157,11 @@ class DepartementController extends Controller
         $departements = $this->departementRepository->getByRegion($region);
         return response()->json($departements);
     }
+
+    public function getByIdDepartement($id)
+    {
+        $departement = $this->departementRepository->getById($id);
+        return response()->json($departement);
+    }
+    
 }

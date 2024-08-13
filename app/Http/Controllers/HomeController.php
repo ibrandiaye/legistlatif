@@ -35,7 +35,7 @@ class HomeController extends Controller
             $nbTitulaireDepartemental = $this->listeDepartementRepository->countByTypeAndListe("titulaire", Auth::user()->liste_id);
             $nbSupleantDepartemental = $this->listeDepartementRepository->countByTypeAndListe("supleant", Auth::user()->liste_id);
             $nbCandidatByListeGroupByDptAndTypes = $this->listeDepartementRepository->countByListeGroupByDepartementAndType(Auth::user()->liste_id);
-            $departements = $this->departementRepository->getAll();
+            $departements = $this->departementRepository->getOrbyRegion();
         
             $tabCandidats = [];
         
@@ -70,11 +70,11 @@ class HomeController extends Controller
     
     public function liste($type)
     {
-        $departements                       = $this->departementRepository->getAll();
-        $listenationalSuppleant                      = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'suppleant');
-        $listenationalTitulaire                      = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'titulaire');
+        $departements                       = $this->departementRepository->getOrbyRegion();
+        $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'supleant');
+        $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'titulaire');
         $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",Auth::user()->liste_id);
-        $listeDepartementaleSupleants      = $this->listeDepartementRepository->getByTypeAndListe("supleant",Auth::user()->liste_id);
+        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",Auth::user()->liste_id);
 
         $listeParDepartementFinal = [];
     
@@ -97,11 +97,12 @@ class HomeController extends Controller
             {
                 $listeParDepartementFinal[$departement->nom]["titulaire"] = $titulaire;
                 $listeParDepartementFinal[$departement->nom]["supleant"] = $supleant;
+                $listeParDepartementFinal[$departement->nom]["nombre"] = $departement->nb;
             }
          
         }
     
-        //dd($listeParDepartementFinal); // Pour déboguer et afficher le résultat final
+       // dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
         if($type==1)
         {
             return view("listecomplet",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire')); // Vous pouvez retourner le résultat final si besoin

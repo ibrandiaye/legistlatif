@@ -50,6 +50,8 @@ Route::get('/listenationnal/changer/etat/{id}',[ListeNationalController::class,'
 Route::get('/tab/{type}',[HomeController::class,'liste'])->name("liste.tableau")->middleware(["auth"]);
 
 Route::get('/liste/admin/{id}',[HomeController::class,'listeAdmin'])->name("liste.admin")->middleware(["auth"]);
+Route::get('/last/save/by/liste/{scrutin}/{type}/{departement_id}',[ListeDepartementalController::class,'getLasTCandidatByListe'])->name("last.save.by.liste")->middleware(["auth"]);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -60,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/get/by/departement/{id}',[DepartementController::class,'getByIdDepartement'])->name("get.departement.id")->middleware(["auth"]);
 
 Route::get('/declaration/{id}/{type}', [HomeController::class,'declarer'])->name("declaration");
 

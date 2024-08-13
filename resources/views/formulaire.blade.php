@@ -297,7 +297,7 @@
 <div class="row text-center" >
     <div class="col text-center">
         <h4>I- TITULAIRE</h4>
-        <p>Soixante (60) candidats</p>
+        <p>{{$categories['nombre']}} candidats</p>
     </div>
    
 </div>
@@ -322,18 +322,18 @@
             </thead>
             <tbody>
             
-                @if(!empty($categories['supleant']))
-                    @foreach($categories['supleant'] as $supleant)
+                @if(!empty($categories['titulaire']))
+                    @foreach($categories['titulaire'] as $titulaire)
                     
                         <tr>
-                            <td>{{ $supleant['data']->ordre }}</td>
-                            <td>{{ $supleant['data']->prenom }}</td>
-                            <td>{{ $supleant['data']->nom }}</td>
-                            <td>{{ $supleant['data']->datenaiss }} à {{ $supleant['data']->lieunaiss }}</td>
-                            <td>{{ $supleant['data']->sexe }}</td>
-                            <td>{{ $supleant['data']->profession }}</td>
-                            <td>{{ $supleant['data']->domicile }}</td>
-                            <td>{{ $supleant['data']->se }}</td>
+                            <td>{{ $titulaire['data']->ordre }}</td>
+                            <td>{{ $titulaire['data']->prenom }}</td>
+                            <td>{{ $titulaire['data']->nom }}</td>
+                            <td>{{ $titulaire['data']->datenaiss }} à {{ $titulaire['data']->lieunaiss }}</td>
+                            <td>{{ $titulaire['data']->sexe }}</td>
+                            <td>{{ $titulaire['data']->profession }}</td>
+                            <td>{{ $titulaire['data']->domicile }}</td>
+                            <td>{{ $titulaire['data']->se }}</td>
 
 
                         </tr>
@@ -353,7 +353,7 @@
 <div class="row text-center" >
     <div class="col text-center">
         <h4>II- SUPPLEANTS</h4>
-        <p>Soixante (52) candidats</p>
+        <p>{{$categories['nombre']}} candidats</p>
     </div>
    
 </div>

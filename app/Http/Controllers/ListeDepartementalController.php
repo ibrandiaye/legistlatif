@@ -62,7 +62,7 @@ class ListeDepartementalController extends Controller
      */
     public function create()
     {
-        $departements = $this->departementRepository->getAll();
+        $departements = $this->departementRepository->getOrbyRegion();
         $listes       = $this->listeRepository->getAll();
         return view('listedepartemental.add',compact("departements","listes"));
     }
@@ -77,6 +77,11 @@ class ListeDepartementalController extends Controller
     {
         $erreur = "";
         $erreurdge = "";
+        $user = Auth::user();
+        if($user->role=="candidats")
+        {
+            $request->merge(["liste_id"=>$user->liste_id]);
+        }
         if($request->extrait_ou_cnis){
             $extrait_ou_cni = 'extrait_ou_cnis'.$request->prenom.'_'.$request->nom.'_'.$request->datenaiss.'_'.uniqid() .time().'.'.$request->extrait_ou_cnis->extension();
             $request->extrait_ou_cnis->move('extrait_ou_cnis/', $extrait_ou_cni);
@@ -108,26 +113,82 @@ class ListeDepartementalController extends Controller
                 'type'              => 'string|required',
                 'numcni'            => 'string|required',
                 'departement_id'    => 'string|required',
-                'ordre'             => 'integer|required',
+                'nb'                => 'integer|required',
             ]);
-            $lastSave  = $this->listedepartementalRepository->getLastOrdreByListe(Auth::user()->liste_id,$request->type,$request->departement_id);
-            if(!empty($lastSave) && $lastSave->sexe==$request->sexe)
+            $lastSave  = $this->listedepartementalRepository->getLastOrdreByListe($request->liste_id,$request->type,$request->departement_id);
+            if( !empty($lastSave) && $request->nb<$lastSave->ordre +1)
             {
-                $erreur = $erreur. ' Partite non respecter';
-                $erreurdge = $erreurdge. 'Partite non respecter';
+                return redirect()->back()->with('error', 'Nombre de candidat autorisé dépassé.');  
+            }
+            if($request->nb == 1)
+            {
+                if($request->type == "titulaire")
+                {
+                    $lastSaveForOne  = $this->listedepartementalRepository->getLastOrdreByListe($request->liste_id,"supleant",$request->departement_id);
+                    if(!empty($lastSaveForOne) && $request->sexe==$lastSaveForOne->sexe)
+                    {
+                        $erreur = $erreur. ' Parite non respecter ';
+                        $erreurdge = $erreurdge. 'Partite non respecter ';
+                    }
+                }
+                else
+                {
+                    $lastSaveForOne  = $this->listedepartementalRepository->getLastOrdreByListe($request->liste_id,"titulaire",$request->departement_id);
+                    if(!empty($lastSaveForOne) && $request->sexe==$lastSaveForOne->sexe)
+                    {
+                        $erreur = $erreur. ' Parite non respecter' ;
+                        $erreurdge = $erreurdge. 'Partite non respecter ';
+                    }
+                }
+            }
+           else
+           {
+                if($request->nb%2==0)
+                {
+                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
+                    {
+                        $erreur = $erreur. ' Parite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+                    }
+                }
+                else
+                {
+                //  dd(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb,
+                    //$lastSave);
+                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+                    }
+                }
+           
+           }
+           
+            if(empty($lastSave))
+            {
+                $request->merge(["ordre"=>1]);
+            }
+            else
+            {
+                $request->merge(["ordre"=>$lastSave->ordre+1]);
+
             }
             $listeDepartemental = $this->listedepartementalRepository->getByCni($request->numcni);
-            if(!empty($listeDepartemental))
+            $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
+            if(!empty($listeDepartemental) ||  $listeNational)
             {
                 $erreurdge = $erreurdge. ' Doublon externe ou interne';
             }
-            $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,Auth::user()->liste_id);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartement($request->numcni,$request->liste_id,$request->departement_id);
+            $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+
+            if(!empty($listeDepartemental) || !empty($mylisteNational))
             {
                 $erreur = $erreur. ' Doublon interne';
                 $erreurdge = $erreurdge. ' Doublon interne ';
             }
             $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
-            $ordre = $this->listedepartementalRepository->getByOrdreAndListe($request->ordre,Auth::user()->liste_id,$request->departement_id,$request->type);
+            $ordre = $this->listedepartementalRepository->getByOrdreAndListe($request->ordre,$request->liste_id,$request->departement_id,$request->type);
             if(!empty($ordre))
             {
                 return redirect()->back()->with('error', 'Numéro ordre déja utilisé.');  
@@ -151,36 +212,71 @@ class ListeDepartementalController extends Controller
                 'lieunaiss'         => 'string|required',
                 'type'              => 'string|required',
                 'numcni'            => 'string|required',
-                'ordre'             => 'integer|required',
             ]);
-            $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
+
+            $lastSave  = $this->listeNationalRepository->getLastOrdreByListe($request->liste_id,$request->type);
+            if(!empty($lastSave) && 54<$lastSave->ordre+1  && $request->type=="titulaire")
+            {
+                return redirect()->back()->with('error', 'Nombre de candidat autorisé dépassé.');  
+            }
+            if(!empty($lastSave) && 50<$lastSave->ordre+1 && $request->type=="supleant")
+            {
+                return redirect()->back()->with('error', 'Nombre de candidat autorisé dépassé.');  
+            }
+            if($request->nb%2==0)
+            {
+                if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
+                {
+                    $erreur = $erreur. ' Partite non respecter';
+                    $erreurdge = $erreurdge. 'Partite non respecter';
+                }
+            }
+            else
+            {
+                if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                {
+                    $erreur = $erreur. ' Partite non respecter';
+                    $erreurdge = $erreurdge. 'Partite non respecter';
+
+                }
+            }
            
-            if(!empty($listeNational))
+            if(empty($lastSave))
+            {
+                $request->merge(["ordre"=>1]);
+            }
+            else
+            {
+                $request->merge(["ordre"=>$lastSave->ordre+1]);
+
+            }
+            $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
+            $listeDepartemental = $this->listedepartementalRepository->getByCni($request->numcni);
+
+           
+            if(!empty($listeNational) || !empty($listeDepartemental))
             {
                 //$erreur = $erreur. 'Doublon externe';
                 $erreurdge = $erreurdge. 'Doublon externe ou interne';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
             }
-            $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,Auth::user()->liste_id);
-            if(!empty($mylisteNational))
+            $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+
+            
+            if(!empty($mylisteNational) || !empty($listeDepartemental))
             {
                 $erreur = $erreur. 'Doublon interne';
                 $erreurdge = $erreurdge. 'Doublon interne ';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
             }
-            $ordre = $this->listeNationalRepository->getByOrdreAndListe($request->ordre,Auth::user()->liste_id,$request->type);
+            $ordre = $this->listeNationalRepository->getByOrdreAndListe($request->ordre,$request->liste_id,$request->type);
+
             if(!empty($ordre))
             {
                 return redirect()->back()->with('error', 'Numéro ordre déja utilisé.');  
             }
-            $lastSave  = $this->listeNationalRepository->getLastOrdreByListe(Auth::user()->liste_id,$request->type);
-            if(!empty($lastSave) && $lastSave->sexe==$request->sexe)
-            {
-                $erreur = $erreur. 'Partite non respecter';
-                $erreurdge = $erreurdge. 'Partite non respecter';
-               // return redirect()->back()->with('error', 'Vous n\'avez pas respecte la parité.');  
-            }
-            
+          // dd("ok");
                 $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
                 $listenationals = $this->listeNationalRepository->store($request->all());
                 //return redirect('listenational');
@@ -230,6 +326,8 @@ class ListeDepartementalController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $erreur = "";
+        $erreurdge = "";
         if($request->extrait_ou_cnis){
             $extrait_ou_cni = uniqid() .'.'.$request->extrait_ou_cnis->extension();
             $request->extrait_ou_cnis->move('document/', $extrait_ou_cni);
@@ -240,7 +338,169 @@ class ListeDepartementalController extends Controller
             $request->casiers->move('document/', $casier);
             $request->merge(['casier'=>$extrait_ou_cni]);
         }
-        $this->listedepartementalRepository->update($id, $request->all());
+
+        $age = $this->listedepartementalRepository->calculerAge($request->datenaiss);
+            //dd($age);
+            if($age < 25)
+            {
+                $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
+            }
+    
+        if($request->scrutin=="majoritaire")
+        {
+            $this->validate($request, [
+                'nom'               => 'string|required',
+                'prenom'            =>'string|required',
+                'numelecteur'       => 'integer|required',
+                'sexe'              => 'string|required',
+                'profession'        => 'string|required',
+                'datenaiss'         => 'date|required',
+                'lieunaiss'         => 'string|required',
+                'type'              => 'string|required',
+                'numcni'            => 'string|required',
+                'departement_id'    => 'string|required',
+                'nb'                => 'integer|required',
+            ]);
+            $lastSave  = $this->listedepartementalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$request->departement_id,$request->ordre-1);
+            $candidat = $this->listedepartementalRepository->getById($id);
+            if($candidat->numcni!=$request->numcni)
+            {
+                if($request->nb == 1)
+                {
+                    if($request->type == "titulaire")
+                    {
+                        $lastSaveForOne  = $this->listedepartementalRepository->getLastOrdreByListeAndOrdre($request->liste_id,"supleant",$request->departement_id,$request->ordre-1);
+                        if(!empty($lastSaveForOne) && $request->sexe==$lastSaveForOne->sexe)
+                        {
+                            $erreur = $erreur. ' Parite non respecter ';
+                            $erreurdge = $erreurdge. 'Partite non respecter ';
+                        }
+                    }
+                    else
+                    {
+                        $lastSaveForOne  = $this->listedepartementalRepository->getLastOrdreByListeAndOrdre($request->liste_id,"titulaire",$request->departement_id,$request->ordre-1);
+                        if(!empty($lastSaveForOne) && $request->sexe==$lastSaveForOne->sexe)
+                        {
+                            $erreur = $erreur. ' Parite non respecter' ;
+                            $erreurdge = $erreurdge. 'Partite non respecter ';
+                        }
+                    }
+                }
+               else
+               {
+                    if($request->nb%2==0)
+                    {
+                        if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
+                        {
+                            $erreur = $erreur. ' Parite non respecter';
+                            $erreurdge = $erreurdge. 'Partite non respecter';
+                        }
+                    }
+                    else
+                    {
+                    //  dd(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb,
+                        //$lastSave);
+                        if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                        {
+                            $erreur = $erreur. ' Partite non respecter';
+                            $erreurdge = $erreurdge. 'Partite non respecter';
+                        }
+                    }
+               
+               }
+              
+               
+                $listeDepartemental = $this->listedepartementalRepository->getByCni($request->numcni);
+                $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
+                if(!empty($listeDepartemental) ||  $listeNational)
+                {
+                    $erreurdge = $erreurdge. ' Doublon externe ou interne';
+                }
+                $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartement($request->numcni,$request->liste_id,$request->departement_id);
+                $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+    
+                if(!empty($listeDepartemental) || !empty($mylisteNational))
+                {
+                    $erreur = $erreur. ' Doublon interne';
+                    $erreurdge = $erreurdge. ' Doublon interne ';
+                }
+                $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
+             
+                    $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
+            }
+            
+            $this->listedepartementalRepository->update($id, $request->all());
+            return redirect()->back()->with('success', 'Candidat enregistré avec.');  
+            
+           
+
+        }
+        else if($request->scrutin=="propotionnel")
+        {
+            $this->validate($request, [
+                'nom'               => 'string|required',
+                'prenom'            =>'string|required',
+                'numelecteur'       => 'string|required',
+                'sexe'              => 'string|required',
+                'profession'        => 'string|required',
+                'datenaiss'         => 'date|required',
+                'lieunaiss'         => 'string|required',
+                'type'              => 'string|required',
+                'numcni'            => 'string|required',
+            ]);
+
+            $lastSave  = $this->listeNationalRepository->getLastOrdreByListe($request->liste_id,$request->type);
+            $candidat = $this->listeNationalRepository->getById($id);
+            if($candidat->cni!=$request->cni)
+            {
+                if($request->nb%2==0)
+                {
+                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+                    }
+                }
+                else
+                {
+                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+    
+                    }
+                }
+               
+              
+                $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
+                $listeDepartemental = $this->listedepartementalRepository->getByCni($request->numcni);
+    
+               
+                if(!empty($listeNational) || !empty($listeDepartemental))
+                {
+                    //$erreur = $erreur. 'Doublon externe';
+                    $erreurdge = $erreurdge. 'Doublon externe ou interne';
+                    //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                }
+                $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+                $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+    
+                
+                if(!empty($mylisteNational) || !empty($listeDepartemental))
+                {
+                    $erreur = $erreur. 'Doublon interne';
+                    $erreurdge = $erreurdge. 'Doublon interne ';
+                    //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                }
+              // dd("ok");
+                $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
+                $this->listeNationalRepository->update($id, $request->all());
+                //return redirect('listenational');
+                return redirect()->back()->with('success', 'Candidat enregistré avec.');  
+            }
+
+        }
+
         return redirect('listedepartemental');
     }
 
@@ -264,7 +524,8 @@ class ListeDepartementalController extends Controller
         $departement        = null;
 
         $type = null;
-        if(Auth::user()->role=='admin')
+        $user = Auth::user();
+        if($user->role=='admin')
         {
             if($request->liste_id && $request->type && $request->departement_id ){
             $listedepartementals = $this->listedepartementalRepository->getByListeAndType($request->liste_id ,$request->type,$request->departement_id);
@@ -294,18 +555,18 @@ class ListeDepartementalController extends Controller
         else
         {
             if( $request->type && $request->departement_id ){
-                $listedepartementals = $this->listedepartementalRepository->getByListeAndType(Auth::user()->liste_id ,$request->type,$request->departement_id);
+                $listedepartementals = $this->listedepartementalRepository->getByListeAndType($user->liste_id ,$request->type,$request->departement_id);
                 }
                 else if( $request->departement_id){
-                    $listedepartementals = $this->listedepartementalRepository->getByListe(Auth::user()->liste_id,$request->departement_id);
+                    $listedepartementals = $this->listedepartementalRepository->getByListe($user->liste_id,$request->departement_id);
     
                 }
                 else if($request->type && $request->departement_id){
-                    $listedepartementals = $this->listedepartementalRepository->getByTypeAndListe($request->type,Auth::user()->liste_id);
+                    $listedepartementals = $this->listedepartementalRepository->getByTypeAndListe($request->type,$user->liste_id);
     
                 }
                 foreach ($listes as $key => $value) {
-                    if($value->id == Auth::user()->liste_id)
+                    if($value->id == $user->liste_id)
                     {
                         $liste = $value;
                     }
@@ -375,5 +636,23 @@ class ListeDepartementalController extends Controller
         $this->listedepartementalRepository->changerEtat($id,1);
         return redirect()->back();
     }
+
+    public function getLasTCandidatByListe($scrutin,$type,$departement_id)
+    {
+        $lastSave =null;
+        
+        if($scrutin == "majoritaire")
+        {
+            $lastSave  = $this->listedepartementalRepository->getLastOrdreByListe(Auth::user()->liste_id,$type,$departement_id);
+
+        }
+        else if($scrutin == "propotionnel")
+        {
+            $lastSave  = $this->listeNationalRepository->getLastOrdreByListe(Auth::user()->liste_id,$type);
+
+        }
+        return response()->json($lastSave);
+    }
+
 
 }

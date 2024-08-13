@@ -29,4 +29,11 @@ class DepartementRepository extends RessourceRepository{
         return DB::table("departements")
         ->delete();
        }
+       public function getOrbyRegion()
+       {
+        return DB::table('departements')
+        ->join("regions","departements.region_id","=","regions.id")
+        ->select("departements.*")
+        ->orderBy("regions.nom",'asc')->orderBy("departements.nom","asc")->get();
+       }
 }

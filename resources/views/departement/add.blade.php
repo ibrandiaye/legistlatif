@@ -41,6 +41,13 @@
                                         <input type="text" name="nom"  value="{{ old('nom') }}" class="form-control" min="1" required>
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Nombre de candidat</label>
+                                    <input type="number" name="nb" class="form-control" value="{{$departement->nb}}"   required>
+                                    </div>
+
+                                </div>
                                     <div class="col-lg-6">
                                         <label>Nom Région</label>
                                         <select class="form-control" name="region_id" required="">

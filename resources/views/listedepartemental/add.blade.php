@@ -24,7 +24,7 @@
         <form action="{{ route('listedepartemental.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
              <div class="card">
-                        <div class="card-header  text-center">FORMULAIRE D'ENREGISTREMENT D'UN Département</div>
+                        <div class="card-header  text-center">Numero Ordre à saisir <h4 id="numero"></h4></div>
                             <div class="card-body">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -53,7 +53,7 @@
                                     <div class="col-lg-3 typeliste" >
                                         <div class="form-group">
                                             <label>Type Liste </label>
-                                            <select class="form-control" name="type" required="">
+                                            <select class="form-control" id="type" name="type" required="">
                                                 <option value="">Selectionner</option>
                                                 <option value="titulaire">titulaire</option>
                                                 <option value="supleant">supleant</option>
@@ -62,18 +62,13 @@
                                     </div>
                                     <div class="col-lg-3 departement">
                                         <label>Departement</label>
-                                        <select class="form-control" name="departement_id" required="">
+                                        <select class="form-control" name="departement_id"  id="departement_id">
+                                            <option value="">Selectionner</option>
                                             @foreach ($departements as $departement)
                                             <option value="{{$departement->id}}">{{$departement->nom}}</option>
                                                 @endforeach
 
                                         </select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Numéro Elecetur </label>
-                                            <input type="number" name="numelecteur" id="numelecteur" value="{{ old('numelecteur') }}" class="form-control"  required>
-                                        </div>
                                     </div>
                                     <div class="col-lg-3">
                                         
@@ -87,10 +82,17 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
+                                            <label>Numéro Elecetur </label>
+                                            <input type="number" name="numelecteur" id="numelecteur" value="{{ old('numelecteur') }}" class="form-control"  required>
+                                        </div>
+                                    </div>
+                                   
+                                   {{--  <div class="col-lg-3">
+                                        <div class="form-group">
                                             <label>Numéro Ordre </label>
                                             <input type="number" name="ordre"  value="{{ old('ordre') }}" class="form-control"  required>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Prenom </label>
@@ -133,17 +135,19 @@
                                         </div>
                                     </div>
                                    
-                                   
-                                        <div class="col-lg-3">
-                                            <label> Liste</label>
-                                            <select class="form-control" id="liste_id" name="liste_id" required="">
-                                                <option value="">Selectionner</option>
-                                                @foreach ($listes as $liste)
-                                                <option value="{{$liste->id}}" {{Auth::user()->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
-                                                    @endforeach
+                                   @if (Auth::user()->role=='admin')
+                                    <div class="col-lg-3">
+                                        <label> Liste</label>
+                                        <select class="form-control" id="liste_id" name="liste_id" required="">
+                                            <option value="">Selectionner</option>
+                                            @foreach ($listes as $liste)
+                                            <option value="{{$liste->id}}" {{Auth::user()->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
+                                                @endforeach
 
-                                            </select>
-                                        </div>
+                                        </select>
+                                    </div>
+                                   @endif
+                                       
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label>Domicile </label>
@@ -169,7 +173,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <input type="hidden" name="nb" id="nb">
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
@@ -223,20 +227,149 @@
         });
           $("#scrutin").change(function () {
             var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            var departement_id =  $("#departement_id").children("option:selected").val();
+            if(scrutin && type)
+            {
+                if(scrutin == "majoritaire")
+                {
+                    if(departement_id)
+                    {
+                        $.ajax({
+                    type:'GET',
+                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                    
+                            console.log(data);
+                            $("#numero").empty()
+                           if(data.ordre)
+                            {
+                                $("#numero").append(data.ordre+1);
+                            }
+                            else
+                            {
+                               
+                                $("#numero").append("1");
+                            }
+
+                            //$("#localite_id").empty();
+                    }
+                });
+                    }
+                }
+                else if(scrutin=='propotionnel')
+                {
+                    $.ajax({
+                    type:'GET',
+                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+
+                        $("#numero").empty();
+                        if(data.ordre)
+                        {
+                            $("#numero").append(data.ordre+1);
+                        }
+                        else
+                        {
+                           
+                            $("#numero").append("1");
+                        }
+                        
+                        
+                    
+                        //$("#localite_id").empty();
+                    }
+                });
+                }
+            }
             if(scrutin=='majoritaire')
             {
                 $(".typeliste").show();
                 $(".departement").show();
+                $('#departement_id').attr('required', true);
             }
             else if(scrutin=='propotionnel')
             {
                 $(".departement").hide();
                 $(".typeliste").show();
+                $('#departement_id').removeAttr('required');
             }
             else
             {
                 $(".departement").hide();
                 $(".typeliste").hide();
+                $('#departement_id').attr('required', true);
+
+            }
+          });
+          $("#type").change(function () {
+           
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            var departement_id =  $("#departement_id").children("option:selected").val();
+            console.log(scrutin,type,departement_id);
+            if(scrutin && type)
+            {
+                if(scrutin == "majoritaire")
+                {
+                    if(departement_id)
+                    {
+                        $.ajax({
+                    type:'GET',
+                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                    
+                            console.log(data);
+                            $("#numero").empty();
+                           if(data.ordre)
+                            {
+                                $("#numero").append(data.ordre+1);
+                            }
+                            else
+                            {
+                               
+                                $("#numero").append("1");
+                            }
+                            //$("#localite_id").empty();
+                    }
+                });
+                    }
+                }
+                else if(scrutin=='propotionnel')
+                {
+                    
+                    $.ajax({
+                    type:'GET',
+                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+
+                        console.log(data);
+                        $("#numero").empty();
+                        if(data.ordre)
+                        {
+                            $("#numero").append(data.ordre+1);
+                        }
+                        else
+                        {
+                             $("#numero").append("1");
+                        }
+                            
+                        
+                    
+                        //$("#localite_id").empty();
+                    }
+                });
+                }
             }
           });
 
@@ -250,7 +383,63 @@
 }
 
 
+        $("#departement_id").change(function () {
+            var departement_id =  $("#departement_id").children("option:selected").val();
+            $("#nb").val('');
+            if(departement_id)
+            {
+                $.ajax({
+                    type:'GET',
+                    url:'/get/by/departement/'+departement_id,
 
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+
+                    
+                            console.log(data);
+                            $("#nb").val(data.nb);
+                        
+                    
+                        //$("#localite_id").empty();
+                    }
+                });
+            }
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            if(scrutin && type)
+            {
+                if(scrutin == "majoritaire")
+                {
+                    if(departement_id)
+                    {
+                        $.ajax({
+                    type:'GET',
+                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                    
+                            console.log(data);
+                            $("#numero").empty();
+                           if(data.ordre)
+                            {
+                                $("#numero").append(data.ordre+1);
+                            }
+                            else
+                            {
+                                $("#numero").append("1");
+                            }
+                            //$("#localite_id").empty();
+                    }
+                });
+                    }
+                }
+            
+            }
+            
+        });
     </script>
 @endsection
 

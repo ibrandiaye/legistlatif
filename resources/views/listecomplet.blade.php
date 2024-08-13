@@ -90,7 +90,7 @@
                         </thead>
                         <tbody>
                         @foreach ($listenationalSuppleant as $listenational)
-                            @if($listenational->type=='suppleant')
+                            @if($listenational->type=='supleant')
                                 <tr>
                                     <td>{{ $listenational->ordre }}</td>
                                     <td>{{ $listenational->prenom }}</td>
