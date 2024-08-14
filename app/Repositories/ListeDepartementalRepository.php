@@ -51,6 +51,13 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where('numcni',$cni)
         ->first();
        }
+
+        public function getByCniOuterListe($cni,$liste){
+        return DB::table("liste_departementals")
+        ->whereNot('liste_id',$liste)
+        ->where('numcni',$cni)
+        ->first();
+       }
        public function getByCniAndListe($cni,$liste){
         return DB::table("liste_departementals")
         ->where([['numcni',$cni],["liste_id",$liste]])

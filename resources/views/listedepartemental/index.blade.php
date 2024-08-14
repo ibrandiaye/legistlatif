@@ -85,38 +85,49 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('search.listedepartemental') }}">
                     @csrf
+                    @if(Auth::user()->role=='admin')
                     <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Type Liste </label>
-                            <select class="form-control" name="type" >
+                        <div class="col ">
+                            <label> Liste</label>
+                            <select class="form-control" name="liste_id" id="liste_id">
                                 <option value="">Selectionner</option>
-                                <option value="titulaire">titulaire</option>
-                                <option value="propotionel">propotionel</option>
+                                @foreach ($listes as $liste)
+                                <option value="{{$liste->id}}" {{old('liste_id')==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
+                                    @endforeach
+            
                             </select>
                         </div>
-                    </div>
-                    @if(Auth::user()->role=='admin')
-                    <div class="col">
-                        <label> Liste</label>
-                        <select class="form-control" name="liste_id" >
-                            <option value="">Selectionner</option>
-                            @foreach ($listes as $liste)
-                            <option value="{{$liste->id}}" {{old('liste_id')==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
-                                @endforeach
-        
-                        </select>
-                    </div>
+                        <div class="col-lg-3 scrutin">
+                            <label> Scrutin</label>
+                            <select class="form-control" id="scrutin" name="scrutin" required="">
+                                <option value="">Selectionner</option>
+                                <option value="majoritaire">Majoritaire</option>
+                                <option value="propotionnel">Propotionnel</option>
+                            </select>
+                        </div>
+                        <div class="col departement">
+                            <label>Departement</label>
+                            <select class="form-control" name="departement_id" id="departement_id" required="">
+                                <option value="">Selectionner</option>
+                                @foreach ($departements as $departement)
+                                <option value="{{$departement->id}}">{{$departement->nom}}</option>
+                                    @endforeach
+            
+                            </select>
+                        </div>
+                        <div class="col typeliste">
+                            <div class="form-group ">
+                                <label>Type Liste </label>
+                                <select class="form-control" name="type"id="type" >
+                                    <option value="">Selectionner</option>
+                                    <option value="titulaire">titulaire</option>
+                                    <option value="supleant">supleant</option>
+                                </select>
+                            </div>
+                        </div>
+                  
                     @endif
-                    <div class="col">
-                        <label>Departement</label>
-                        <select class="form-control" name="departement_id" required="">
-                            @foreach ($departements as $departement)
-                            <option value="{{$departement->id}}">{{$departement->nom}}</option>
-                                @endforeach
-        
-                        </select>
-                    </div>
+                  
                     <div class="col">
                         <br>
                         <button type="submit" class="btn btn-success btn btn-lg " style="margin-top: 10px;"> ENREGISTRER</button>                        
@@ -124,9 +135,9 @@
                 
             </div>
         </form>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalform2">
+               {{--  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalform2">
                     importer
-                </button>
+                </button> --}}
                 <table id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center datatable-buttons">
                     <thead>
                         <tr>
@@ -142,8 +153,8 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    @foreach ($listedepartementals as $listedepartemental)
+                    <tbody id="tbody">
+                  {{--   @foreach ($listedepartementals as $listedepartemental)
                         <tr>
                             <td>{{ $listedepartemental->id }}</td>
                             <td>{{ $listedepartemental->prenom }}</td>
@@ -166,7 +177,7 @@
                             </td>
 
                         </tr>
-                        @endforeach
+                        @endforeach --}}
 
                     </tbody>
                 </table>
@@ -233,3 +244,305 @@
                     </div>
                 </div>
 @endsection
+
+@section('script')
+    <script>
+          $(document).ready(function () {
+           
+            var url = "/search/ajax";
+           // setTimeout(, 2000); 
+            $(".departement").hide();
+            $(".typeliste").hide();
+            $(".scrutin").hide();
+
+             $("#liste_id").change(function () {
+                $(".departement").hide();
+                $(".typeliste").hide();
+               
+                var liste_id =  $("#liste_id").children("option:selected").val();
+                if(liste_id)
+                {
+                    $(".scrutin").show();
+                }
+                else
+                {
+                    $(".scrutin").hide();
+                }
+             });
+          $("#scrutin").change(function () {
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            var departement_id =  $("#departement_id").children("option:selected").val();
+            var liste_id =  $("#liste_id").children("option:selected").val();
+            $("#tbody").empty();
+            if(scrutin=='majoritaire')
+            {
+                $(".departement").show();
+                $('#departement_id').attr('required', true);
+              
+            }
+            else if(scrutin=='propotionnel' && !type)
+            {
+                $(".departement").hide();
+                $(".typeliste").show();
+                $('#departement_id').removeAttr('required');
+                if(liste_id)
+                {
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreurdge+"</td>"+
+                                    "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                                    "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").empty();
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
+                }
+                if(type && scrutin)
+                {
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            type: type,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreurdge+"</td>";
+                                     if(type== "majoritaire")
+                                     {
+                                        contenu = contenu +   "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                            "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td></tr>"+
+                                            "</tr>";
+                                     }
+                                     else if(type== "propotionnel")
+                                     {
+                                        contenu = contenu +    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                        "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td></tr>";
+                                     }
+                                  
+                                    
+                            });
+                            $("#tbody").empty();
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
+                }
+            }
+            else
+            {
+                $(".departement").hide();
+                $(".typeliste").hide();
+                $('#departement_id').attr('required', true);
+
+            }
+          });
+        $("#liste_id").change(function () {
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            var departement_id =  $("#departement_id").children("option:selected").val();
+        });
+        $("#type").change(function () {
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            var departement_id =  $("#departement_id").children("option:selected").val();
+            var liste_id =  $("#liste_id").children("option:selected").val();
+            if(scrutin=='majoritaire' && type && liste_id)
+            {
+                $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            departement_id: departement_id,
+                            type: type,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                               "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").empty();
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    }); 
+            }
+            else if(scrutin=='propotionnel' && type && liste_id)
+            {
+                $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            type:type,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreurdge+"</td>"+
+                                    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                                    "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").empty();
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
+            }
+            
+        });
+        $("#departement_id").change(function () {
+
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            var departement_id =  $("#departement_id").children("option:selected").val();
+            var liste_id =  $("#liste_id").children("option:selected").val();
+            if(departement_id && liste_id && scrutin)
+            {
+                $(".typeliste").show();
+                $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            departement_id: departement_id,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreurdge+"</td>"+
+                                     "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                                    "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").empty();
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
+            }
+            else
+            {
+                $(".typeliste").hide();
+            }
+        });
+    });
+
+          function convertirDate(dateStr) {
+    // Séparer la date en jour, mois et année
+    const [jour, mois, annee] = dateStr.split('/');
+
+    // Formater la date en "yyyy-mm-jj"
+    const dateFormatee = `${annee}-${mois}-${jour}`;
+    return dateFormatee;
+}
+
+
+       
+    </script>
+@endsection
+

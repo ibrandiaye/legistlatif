@@ -64,7 +64,9 @@
                                     <td>{{ $listenational->lieunaiss }}</td>
                                     <td class="text-danger">{{ $listenational->erreur }}</td>
                                     <td>
-                                        <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a></td>
+                                        <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
+                                            <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        </td>
                                     </td>    
                                 </tr>
                             @endif
@@ -101,7 +103,9 @@
                                     <td>{{ $listenational->datenaiss }}</td>
                                     <td>{{ $listenational->lieunaiss }}</td>
                                     <td class="text-danger">{{ $listenational->erreur }}</td>
-                                   <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a></td>
+                                   <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
+                                    <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                </td>
 
                                 </tr>
                             @endif
@@ -151,7 +155,9 @@
                                 <td>{{ $titulaire['data']->datenaiss }}</td>
                                 <td>{{ $titulaire['data']->lieunaiss }}</td>
                                 <td class="text-danger">{{ $titulaire['data']->erreur }}</td>
-                                <td> <a href="{{ route('declaration',["id"=>$titulaire['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a></td>
+                                <td> <a href="{{ route('declaration',["id"=>$titulaire['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
+                                    <a href="{{ route('listedepartemental.edit', $titulaire['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                </td>
 
 
                             </tr>
@@ -198,7 +204,8 @@
                     <td>{{ $supleant['data']->datenaiss }}</td>
                     <td>{{ $supleant['data']->lieunaiss }}</td>
                     <td class="text-danger">{{ $supleant['data']->erreur }}</td>
-                    <td> <a href="{{ route('declaration',["id"=> $supleant['data']->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a></td>
+                    <td> <a href="{{ route('declaration',["id"=> $supleant['data']->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
+                        <a href="{{ route('listedepartemental.edit', $supleant['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
 
 
                 </tr>

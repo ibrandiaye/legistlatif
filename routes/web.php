@@ -52,6 +52,8 @@ Route::get('/tab/{type}',[HomeController::class,'liste'])->name("liste.tableau")
 Route::get('/liste/admin/{id}',[HomeController::class,'listeAdmin'])->name("liste.admin")->middleware(["auth"]);
 Route::get('/last/save/by/liste/{scrutin}/{type}/{departement_id}',[ListeDepartementalController::class,'getLasTCandidatByListe'])->name("last.save.by.liste")->middleware(["auth"]);
 
+Route::post('/search/ajax',[ListeDepartementalController::class,'searchAjax'])->name("search.ajax")->middleware("auth");
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

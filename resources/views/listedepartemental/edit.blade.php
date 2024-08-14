@@ -35,30 +35,47 @@
                                     </div>
                                 @endif
                                 <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>Numéro CNI </label>
+                                        <input type="text" name="numcni" id="cni"  value="{{$listedepartemental->numcni }}" class="form-control"  required>
+                                        <span class="input-group-append">
+                                            <button type="button" id="btncni" class="btn  btn-primary"><i class="fa fa-search"></i> Rechercher</button>
+                                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>Numéro Elecetur </label>
+                                        <input type="number" name="numelecteur" id="numelecteur"  value="{{$listedepartemental->numelecteur }}" class="form-control" min="1" required>
+                                    </div>
+                                </div>
+                               
+                              {{--   <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label>Numéro Ordre </label>
-                                            <input type="number" name="ordre"  value="{{ $listedepartemental->ordre }}" class="form-control"  required>
-                                        </div>
-                                    </div>
+                                            <label>Numéro Ordre </label> --}}
+                                            <input type="hidden" name="ordre"  value="{{ $listedepartemental->ordre }}" class="form-control"  required>
+                                        {{-- </div>
+                                    </div> --}}
                                
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Prenom </label>
-                                        <input type="text" name="prenom"  value="{{$listedepartemental->prenom }}" class="form-control"  required>
+                                        <input type="text" name="prenom" id="prenom" value="{{$listedepartemental->prenom }}" class="form-control"  required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Nom </label>
-                                        <input type="text" name="nom"  value="{{$listedepartemental->nom }}" class="form-control" required>
+                                        <input type="text" name="nom" id="nom" value="{{$listedepartemental->nom }}" class="form-control" required>
                                     </div>
                                 </div>
                                 
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Sexe </label>
-                                        <select class="form-control" name="sexe" required="">
+                                        <select class="form-control" name="sexe" id="sexe" required="">
                                             <option value="Selectionner"></option>
                                             <option value="M" {{$listedepartemental->sexe=="M" ? 'selected' : ''}}>Homme</option>
                                             <option value="F" {{$listedepartemental->sexe=="F" ? 'selected' : ''}}>Femme</option>
@@ -68,40 +85,29 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Profession </label>
-                                        <input type="text" name="profession"  value="{{$listedepartemental->profession }}" class="form-control" min="1" required>
+                                        <input type="text" name="profession" id="profession"  value="{{$listedepartemental->profession }}" class="form-control" min="1" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Date de naissance </label>
-                                        <input type="date" name="datenaiss"  value="{{$listedepartemental->datenaiss }}" class="form-control" min="1" required>
+                                        <input type="date" name="datenaiss" id="datenaiss"  value="{{$listedepartemental->datenaiss }}" class="form-control" min="1" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Lieu de naissance  </label>
-                                        <input type="text" name="lieunaiss"  value="{{$listedepartemental->lieunaiss }}" class="form-control" min="1" required>
+                                        <input type="text" name="lieunaiss" id="lieunaiss" value="{{$listedepartemental->lieunaiss }}" class="form-control" min="1" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Numéro Elecetur </label>
-                                        <input type="number" name="numelecteur"  value="{{$listedepartemental->numelecteur }}" class="form-control" min="1" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Numéro CNI </label>
-                                        <input type="number" name="numcni"  value="{{$listedepartemental->numcni }}" class="form-control" min="1" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
+                               
+                                <div class="col-lg-3" style="display: none;">
                                     <div class="form-group">
                                         <label>Type Liste </label>
                                         <select class="form-control" name="type" required="">
                                             <option value="">Selectionner</option>
                                             <option value="titulaire" {{$listedepartemental->type=="titulaire" ? 'selected' : ''}}>titulaire</option>
-                                            <option value="propotionel" {{$listedepartemental->type=="titulaire" ? 'selected' : ''}}>propotionel</option>
+                                            <option value="supleant" {{$listedepartemental->type=="supleant" ? 'selected' : ''}}>supleant</option>
                                         </select>
                                     </div>
                                 </div>
@@ -150,7 +156,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+                            </div>
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> MODIFIER</button>
@@ -162,4 +168,52 @@
                         </div>
     {!! Form::close() !!}
 
+@endsection
+
+@section('script')
+
+<script>
+
+$(document).ready(function () {
+           
+           // setTimeout(, 2000); 
+          
+            $("#btncni").click(function () {
+                var cni = $("#cni").val();
+                $.blockUI({ message: "<p>Patienter</p>" }); 
+                $.ajax({
+            type:'GET',
+            url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+          
+            data:'_token = <?php echo csrf_token() ?>',
+            success:function(data) {
+                console.log(data,data.length);
+                setTimeout($.unblockUI, 1);
+                if(data.length >=1)
+                {
+                    console.log(data[0].ELEC_PRENOM)
+                    $("#prenom").val(data[0].ELEC_PRENOM)
+                    $("#nom").val(data[0].ELEC_NOM)
+                    $("#sexe").val(data[0].ELEC_SEXE)
+                    $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
+                    $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
+                }
+                else
+                {
+                    alert("CNI non trouve");
+                }
+                
+            },
+            error:function(){
+                setTimeout($.unblockUI, 1); 
+            }
+        });
+            });
+            setTimeout($.unblockUI, 1); 
+        });
+
+        1910200503871
+
+</script>
+    
 @endsection

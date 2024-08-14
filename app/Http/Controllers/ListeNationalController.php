@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ListeNational;
+use App\Repositories\ListeDepartementalRepository;
 use App\Repositories\ListeNationalRepository;
 use App\Repositories\ListeRepository;
 use Illuminate\Http\Request;
@@ -13,11 +14,13 @@ class ListeNationalController extends Controller
 {
     protected $listenationalRepository;
     protected $listeRepository;
+    protected $listedepartementalRepository;
 
     public function __construct(ListeNationalRepository $listenationalRepository,
-    ListeRepository $listeRepository){
-        $this->listenationalRepository = $listenationalRepository;
-        $this->listeRepository         = $listeRepository;
+    ListeRepository $listeRepository,ListeDepartementalRepository $listedepartementalRepository){
+        $this->listenationalRepository          = $listenationalRepository;
+        $this->listeRepository                  = $listeRepository;
+        $this->listedepartementalRepository     = $listedepartementalRepository;
     }
 
     /**
@@ -111,6 +114,7 @@ class ListeNationalController extends Controller
     public function update(Request $request, $id)
     {
         if($request->extrait_ou_cnis){
+          
             $extrait_ou_cni = 'extrait_ou_cnis'.$request->prenom.'_'.$request->nom.'_'.$request->datenaiss.'_'.uniqid() .time().'.'.$request->extrait_ou_cnis->extension();
             $request->extrait_ou_cnis->move('extrait_ou_cnis/', $extrait_ou_cni);
             $request->merge(['extrait_ou_cni'=>$extrait_ou_cni]);
@@ -121,8 +125,92 @@ class ListeNationalController extends Controller
             $request->casiers->move('casier_judiciare/', $casier);
             $request->merge(['casier'=>$extrait_ou_cni]);
         }
-        $this->listenationalRepository->update($id, $request->all());
-        return redirect('listenational');
+        $this->validate($request, [
+            'nom'               => 'string|required',
+            'prenom'            =>'string|required',
+            'numelecteur'       => 'string|required',
+            'sexe'              => 'string|required',
+            'profession'        => 'string|required',
+            'datenaiss'         => 'date|required',
+            'lieunaiss'         => 'string|required',
+            'type'              => 'string|required',
+            'numcni'            => 'string|required',
+        ]);
+
+        $candidat = $this->listenationalRepository->getById($id);
+
+      
+            //dd($candidat->numcni,$request->numcni);
+            if($candidat->cni!=$request->numcni)
+            {
+                $erreur     = "";
+                $erreurdge  = "";
+                $age = $this->listenationalRepository->calculerAge($request->datenaiss);
+                //dd($age);
+                if($age < 25)
+                {
+                    $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
+                }
+        
+                if($candidat->ordre > 1)
+                {
+                    $lastSave  = $this->listenationalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$candidat->ordre-1);
+        
+                if($request->nb%2==0)
+                {
+                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+                    }
+                }
+                else
+                {
+                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+    
+                    }
+                }
+            }
+           
+          
+            $listeNational = $this->listenationalRepository->getByCniOuterListe($request->numcni,$candidat->liste_id);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniOuterListe($request->numcni,$candidat->liste_id);
+
+           
+            if(!empty($listeNational) || !empty($listeDepartemental))
+            {
+                //$erreur = $erreur. 'Doublon externe';
+                $erreurdge = $erreurdge. 'Doublon externe ';
+                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+            }
+            if($candidat->ordre > 1)
+                $mylisteNational = $this->listenationalRepository->getByCniAndListe($request->numcni,$candidat->liste_id);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$candidat->liste_id);
+
+            
+            if(!empty($mylisteNational) || !empty($listeDepartemental))
+            {
+                $erreur = $erreur. 'Doublon interne';
+                $erreurdge = $erreurdge. 'Doublon interne ';
+                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+            }
+          // dd("ok");
+            $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
+           // dd($erreur);
+            $this->listenationalRepository->update($id, $request->all());
+            //return redirect('listenational');
+            return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  
+        }
+        else
+        {
+            $this->listenationalRepository->update($id, $request->all());
+            return redirect('tab/1')->with('success', 'Candidat modifier avec succees.');  ;
+        }
+
+       /*  */
     }
 
     /**

@@ -102,7 +102,7 @@ class HomeController extends Controller
          
         }
     
-       // dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
+       //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
         if($type==1)
         {
             return view("listecomplet",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire')); // Vous pouvez retourner le résultat final si besoin

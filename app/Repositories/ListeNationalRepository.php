@@ -40,9 +40,21 @@ class ListeNationalRepository extends RessourceRepository{
         ->where('numcni',$cni)
         ->first();
        }
+       public function getByCniBordre($cni,$ordre){
+        return DB::table("liste_nationals")
+        ->whereNot("ordre",$ordre)
+        ->where('numcni',$cni)
+        ->first();
+       }
        public function getByCniAndListe($cni,$liste){
         return DB::table("liste_nationals")
         ->where([['numcni',$cni],["liste_id",$liste]])
+        ->first();
+       }
+       public function getByCniOuterListe($cni,$liste){
+        return DB::table("liste_nationals")
+        ->whereNot("liste_id",$liste)
+        ->where('numcni',$cni)
         ->first();
        }
        public function getByOrdreAndListe($ordre,$liste,$type){
@@ -54,6 +66,11 @@ class ListeNationalRepository extends RessourceRepository{
         return DB::table("liste_nationals")
         ->where([["liste_id",$liste_id],["type",$type]])
         ->orderBy("ordre",'desc')
+        ->first();
+       }
+       public function getLastOrdreByListeAndOrdre($liste_id,$type,$ordre){
+        return DB::table("liste_nationals")
+        ->where([["liste_id",$liste_id],["type",$type],["ordre",$ordre]])
         ->first();
        }
        public function countByTypeAndListe($type,$liste)

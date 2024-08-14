@@ -42,9 +42,7 @@
         </div>
         <div class="col-sm-8 text-center">
             <h3>FORMULAIRE</h3>
-            <h4>DE PRESENTATION DE LA LISTE DES CANDIDATS </h4>
             <h4>POUR LE SCRUTIN PROPORTIONNEL</h4>
-            <h4>(liste nationale)</h4>
 
         </div>
         <div class="col-sm-2">
@@ -183,17 +181,17 @@
             <tbody>
             
                 @foreach ($listenationalSuppleant as $listenational)
-                            @if($listenational->type=='suppleant')
+                            @if($listenational->type=='supleant')
                     
                         <tr>
-                            <td>{{ $supleant['data']->ordre }}</td>
-                            <td>{{ $supleant['data']->prenom }}</td>
-                            <td>{{ $supleant['data']->nom }}</td>
-                            <td>{{ $supleant['data']->datenaiss }} à {{ $supleant['data']->lieunaiss }}</td>
-                            <td>{{ $supleant['data']->sexe }}</td>
-                            <td>{{ $supleant['data']->profession }}</td>
-                            <td>{{ $supleant['data']->domicile }}</td>
-                            <td>{{ $supleant['data']->se }}</td>
+                            <td>{{$listenational->ordre }}</td>
+                            <td>{{$listenational->prenom }}</td>
+                            <td>{{$listenational->nom }}</td>
+                            <td>{{$listenational->datenaiss }} à {{$listenational->lieunaiss }}</td>
+                            <td>{{$listenational->sexe }}</td>
+                            <td>{{$listenational->profession }}</td>
+                            <td>{{$listenational->domicile }}</td>
+                            <td>{{$listenational->se }}</td>
 
 
                         </tr>
@@ -222,7 +220,6 @@
         </div>
         <div class="col-sm-8 text-center">
             <h3>FORMULAIRE</h3>
-            <h4>DE PRESENTATION DE LA LISTE DES CANDIDATS </h4>
             <h4>POUR LE SCRUTIN MAJORITAIRE DEPARTEMENTAL</h4>
             
 
