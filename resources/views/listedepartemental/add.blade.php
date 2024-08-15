@@ -188,6 +188,7 @@
 @endsection
 @section('script')
     <script>
+        url = "http://5.189.166.92/legistlatif/public/";
           $(document).ready(function () {
            
            // setTimeout(, 2000); 
@@ -198,7 +199,8 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-            url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+           // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+           url: 'http://5.189.166.92:7777/api/cartes/get/by/nin?nin='+cni,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -237,7 +239,7 @@
                     {
                         $.ajax({
                     type:'GET',
-                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
@@ -264,7 +266,7 @@
                 {
                     $.ajax({
                     type:'GET',
-                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
                     success:function(data) {
@@ -321,7 +323,7 @@
                     {
                         $.ajax({
                     type:'GET',
-                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
@@ -348,7 +350,7 @@
                     
                     $.ajax({
                     type:'GET',
-                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
                     success:function(data) {
@@ -390,7 +392,7 @@
             {
                 $.ajax({
                     type:'GET',
-                    url:'/get/by/departement/'+departement_id,
+                    url: url+'get/by/departement/'+departement_id,
 
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
@@ -415,7 +417,7 @@
                     {
                         $.ajax({
                     type:'GET',
-                    url:'/last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',

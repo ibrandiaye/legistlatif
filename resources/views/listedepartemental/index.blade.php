@@ -248,8 +248,7 @@
 @section('script')
     <script>
           $(document).ready(function () {
-           
-            var url = "/search/ajax";
+            url = "http://5.189.166.92/legistlatif/public/search/ajax";
            // setTimeout(, 2000); 
             $(".departement").hide();
             $(".typeliste").hide();
