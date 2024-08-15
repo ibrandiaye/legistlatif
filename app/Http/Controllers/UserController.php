@@ -60,7 +60,8 @@ class UserController extends Controller
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
-            'role'=>$request['role']
+            'role'=>$request['role'],
+            'liste_id'=>$request['liste_id']
         ]);
         return redirect('user');
 

@@ -63,6 +63,7 @@
                                     <div class="col-lg-6">
                                         <label>Liste</label>
                                         <select class="form-control" name="liste_id" required="">
+                                            <option value="">Selectionner</option>
                                             @foreach ($listes as $liste)
                                             <option value="{{$liste->id}}">{{$liste->nom}}</option>
                                                 @endforeach
