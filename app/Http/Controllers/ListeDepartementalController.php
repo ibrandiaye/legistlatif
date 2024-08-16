@@ -51,7 +51,7 @@ class ListeDepartementalController extends Controller
             $listedepartementals   = $this->listedepartementalRepository->getByOneListe(Auth::user()->liste_id);
             $listes                = [];
             $departements          = $this->departementRepository->getAll();
-            $listenationals = $this->listeNationalRepository->getByListe(Auth::user()->liste_id);
+            $listenationals        = $this->listeNationalRepository->getByListe(Auth::user()->liste_id);
         }
         return view('listedepartemental.index',compact('listedepartementals',"listes","departements","listenationals"));
     }
