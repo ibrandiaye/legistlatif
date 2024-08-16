@@ -68,6 +68,12 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
         ->first();
        }
+       public function getByCniAndListeAndDepartementOuterOrdre($cni,$liste,$departement_id,$ordre){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
+        ->whereNot('ordre',$ordre)
+        ->first();
+       }
        public function getByOrdreAndListe($ordre,$liste,$departement,$type){
         return DB::table("liste_departementals")
         ->where([['ordre',$ordre],["liste_id",$liste],["departement_id",$departement],["type",$type]])

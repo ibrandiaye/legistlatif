@@ -121,7 +121,7 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3" style="display: none;">
                                         <label> Liste</label>
                                         <select class="form-control" name="liste_id" required="">
                                             <option value="">Selectionner</option>

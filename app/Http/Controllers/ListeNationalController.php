@@ -139,34 +139,60 @@ class ListeNationalController extends Controller
 
         $candidat = $this->listenationalRepository->getById($id);
 
-      
+        if($request->type=="titulaire")
+        {
+            $request->merge(["nb"=>53]);
+        }
+        else
+        {
+            $request->merge(["nb"=>50]);
+        }
             //dd($candidat->numcni,$request->numcni);
-            if($candidat->cni!=$request->numcni)
+            if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
             {
+                //dd("eee");
                 $erreur     = "";
                 $erreurdge  = "";
                 $age = $this->listenationalRepository->calculerAge($request->datenaiss);
-                //dd($age);
                 if($age < 25)
                 {
                     $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
+                    $erreur     = $erreur. 'age minimun non ateint. age : '.$age.' ans';;
                 }
         
                 if($candidat->ordre > 1)
                 {
                     $lastSave  = $this->listenationalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$candidat->ordre-1);
+                    $nextCandidat =null;
+                    if($request->nb > $candidat->ordre)
+                    {
+                        $nextCandidat = $this->listenationalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$candidat->ordre+1);
+                    }
         
                 if($request->nb%2==0)
                 {
+                    dd("pair");
                     if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
                     {
                         $erreur = $erreur. ' Partite non respecter';
                         $erreurdge = $erreurdge. 'Partite non respecter';
                     }
+                    if(!empty($nextCandidat) && $nextCandidat->sexe==$request->sexe )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+                    }
+                    
                 }
                 else
                 {
                     if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                    {
+                        $erreur = $erreur. ' Partite non respecter';
+                        $erreurdge = $erreurdge. 'Partite non respecter';
+    
+                    }
+                    if(!empty($nextCandidat) && $nextCandidat->sexe==$request->sexe && $nextCandidat->ordre < $request->nb )
                     {
                         $erreur = $erreur. ' Partite non respecter';
                         $erreurdge = $erreurdge. 'Partite non respecter';
@@ -187,7 +213,7 @@ class ListeNationalController extends Controller
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
             }
             if($candidat->ordre > 1)
-                $mylisteNational = $this->listenationalRepository->getByCniAndListe($request->numcni,$candidat->liste_id);
+                $mylisteNational = $this->listenationalRepository->getByCniAndListeOuterOrdre($request->numcni,$candidat->liste_id,$candidat->ordre);
             $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$candidat->liste_id);
 
             

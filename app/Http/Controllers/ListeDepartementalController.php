@@ -359,9 +359,11 @@ class ListeDepartementalController extends Controller
                 'departement_id'    => 'string|required',
             ]);
             $lastSave  = $this->listedepartementalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$request->departement_id,$request->ordre-1);
+            $nextCandidat = null;
             $candidat = $this->listedepartementalRepository->getById($id);
+
             $departement = $this->departementRepository->getById($request->departement_id);
-            if($candidat->numcni!=$request->numcni)
+            if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
             {
                 if($departement->nb == 1)
                 {
@@ -389,9 +391,18 @@ class ListeDepartementalController extends Controller
 
                 if($candidat->ordre > 1)
                 {
+                    if($candidat->ordre <$request->nb)
+                    {
+                        $nextCandidat  = $this->listedepartementalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$request->departement_id,$request->ordre+1);
+                    }
                     if($request->nb%2==0)
                     {
                         if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
+                        {
+                            $erreur = $erreur. ' Parite non respecter';
+                            $erreurdge = $erreurdge. 'Partite non respecter';
+                        }
+                        if(!empty($nextCandidat) && $nextCandidat->sexe==$request->sexe )
                         {
                             $erreur = $erreur. ' Parite non respecter';
                             $erreurdge = $erreurdge. 'Partite non respecter';
@@ -402,6 +413,11 @@ class ListeDepartementalController extends Controller
                     //  dd(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb,
                         //$lastSave);
                         if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
+                        {
+                            $erreur = $erreur. ' Parite non respecter';
+                            $erreurdge = $erreurdge. 'Parite non respecter';
+                        }
+                        if(!empty($nextCandidat) && $nextCandidat->sexe==$request->sexe && $nextCandidat->ordre<$request->nb )
                         {
                             $erreur = $erreur. ' Parite non respecter';
                             $erreurdge = $erreurdge. 'Parite non respecter';
@@ -419,7 +435,7 @@ class ListeDepartementalController extends Controller
                 {
                     $erreurdge = $erreurdge. ' Doublon externe ou interne';
                 }
-                $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartement($request->numcni,$request->liste_id,$request->departement_id);
+                $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterOrdre($request->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                 $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
     
                 if(!empty($listeDepartemental) || !empty($mylisteNational))

@@ -51,6 +51,12 @@ class ListeNationalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste]])
         ->first();
        }
+       public function getByCniAndListeOuterOrdre($cni,$liste,$ordre){
+        return DB::table("liste_nationals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->whereNot("ordre",$ordre)
+        ->first();
+       }
        public function getByCniOuterListe($cni,$liste){
         return DB::table("liste_nationals")
         ->whereNot("liste_id",$liste)

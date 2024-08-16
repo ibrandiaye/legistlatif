@@ -80,7 +80,12 @@
                                     <li><a href="{{ route('liste.index') }}">Lister</a></li>
                                 </ul>
                             </li>
-                            <li class="has_sub">
+                            <li>
+                                <a href="{{ route('listedepartemental.index') }}">
+                                <i class="mdi mdi-airplay"></i> Liste Candidat
+                            </a>
+                            </li>
+                           {{--  <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account-circle"></i><span>Liste National </span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="{{ route('listenational.create') }}"> Ajoute</a></li>
@@ -93,7 +98,7 @@
                                     <li><a href="{{ route('listedepartemental.create') }}"> Ajoute</a></li>
                                     <li><a href="{{ route('listedepartemental.index') }}">Lister</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             @endif
                             @if(Auth::user()->role=="candidats")
                             <li>
