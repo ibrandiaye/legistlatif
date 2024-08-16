@@ -155,6 +155,7 @@ class HomeController extends Controller
    {
         $departement =null;
     
+       
         if($type == "majoritaire")
         {
             $candidat = $this->listeDepartementRepository->getById($id);

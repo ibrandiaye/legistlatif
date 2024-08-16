@@ -64,7 +64,7 @@
                                     <td>{{ $listenational->lieunaiss }}</td>
                                     <td class="text-danger">{{ $listenational->erreur }}</td>
                                     <td>
-                                        <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
+                                        <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
                                             <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                         </td>
                                     </td>    
@@ -146,7 +146,7 @@
                     @foreach($categories['titulaire'] as $titulaire)
                     
                             <tr>
-                                <td>{{ $titulaire['data']->id }}</td>
+                                <td>{{ $titulaire['data']->ordre }}</td>
                                 <td>{{ $titulaire['data']->prenom }}</td>
                                 <td>{{ $titulaire['data']->nom }}</td>
                                 <td>{{ $titulaire['data']->numelecteur }}</td>
@@ -204,7 +204,7 @@
                     <td>{{ $supleant['data']->datenaiss }}</td>
                     <td>{{ $supleant['data']->lieunaiss }}</td>
                     <td class="text-danger">{{ $supleant['data']->erreur }}</td>
-                    <td> <a href="{{ route('declaration',["id"=> $supleant['data']->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
+                    <td> <a href="{{ route('declaration',["id"=> $supleant['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
                         <a href="{{ route('listedepartemental.edit', $supleant['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
 
 
