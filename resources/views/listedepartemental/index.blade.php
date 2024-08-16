@@ -274,6 +274,7 @@
             var departement_id =  $("#departement_id").children("option:selected").val();
             var liste_id =  $("#liste_id").children("option:selected").val();
             $("#tbody").empty();
+            $("#tbody").empty();
             if(scrutin=='majoritaire')
             {
                 $(".departement").show();
@@ -388,6 +389,7 @@
             var departement_id =  $("#departement_id").children("option:selected").val();
         });
         $("#type").change(function () {
+            $("#tbody").empty();
             var scrutin =  $("#scrutin").children("option:selected").val();
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
@@ -482,6 +484,7 @@
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
             var liste_id =  $("#liste_id").children("option:selected").val();
+            $("#tbody").empty();
             if(departement_id && liste_id && scrutin)
             {
                 $(".typeliste").show();

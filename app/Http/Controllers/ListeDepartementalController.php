@@ -634,7 +634,7 @@ class ListeDepartementalController extends Controller
                
             }
     
-            else if($request->type){
+                 if($request->type){
                 $query->where("type",$request->type);
             }
         }
