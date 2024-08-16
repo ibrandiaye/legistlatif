@@ -41,7 +41,7 @@ class ListeDepartementalController extends Controller
         if(Auth::user()->role=='admin')
         {
             $listedepartementals = $this->listedepartementalRepository->getAll();
-            $departements = $this->departementRepository->getAll();
+            $departements = $this->departementRepository->getOrbyRegion();
             $listenationals = $this->listeNationalRepository->getAll();
             $listes       = $this->listeRepository->getAll();
 
