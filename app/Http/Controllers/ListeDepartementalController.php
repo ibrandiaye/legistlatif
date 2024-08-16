@@ -10,6 +10,7 @@ use App\Repositories\ListeNationalRepository;
 use App\Repositories\ListeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ListeDepartementalController extends Controller
@@ -175,11 +176,26 @@ class ListeDepartementalController extends Controller
                 $request->merge(["ordre"=>$lastSave->ordre+1]);
 
             }
-            $listeDepartemental = $this->listedepartementalRepository->getByCni($request->numcni);
-            $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniOuterListe($request->numcni,$user->liste_id);
+            $listeNational = $this->listeNationalRepository->getByCniOuterListe($request->numcni,$user->liste_id);
             if(!empty($listeDepartemental) ||  $listeNational)
             {
-                $erreurdge = $erreurdge. ' Doublon externe ou interne';
+                $erreurdge = $erreurdge. ' Doublon externe ';
+                if($listeDepartemental)
+                {
+                    $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
+                    $departement = DB::table("departements")->where("id",$listeDepartemental->departement_id)->first();
+                    $erreurdge = $erreurdge. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
+                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["erreurdge"=>$listeDepartemental->erreurdge." Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
+
+                }
+                if($listeNational)
+                {
+                    $liste = DB::table("listes")->where("id",$listeNational->liste_id)->first();
+                    $erreurdge = $erreurdge. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
+                    ListeNational::where("id",$listeNational->id)->update(["erreurdge"=>$listeNational->erreurdge." Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
+
+                }
             }
             $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartement($request->numcni,$request->liste_id,$request->departement_id);
             $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
@@ -252,15 +268,30 @@ class ListeDepartementalController extends Controller
                 $request->merge(["ordre"=>$lastSave->ordre+1]);
 
             }
-            $listeNational = $this->listeNationalRepository->getByCni($request->numcni);
-            $listeDepartemental = $this->listedepartementalRepository->getByCni($request->numcni);
+            $listeNational = $this->listeNationalRepository->getByCniOuterListe($request->numcni,$user->liste_id);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniOuterListe($request->numcni,$user->liste_id);
 
            
             if(!empty($listeNational) || !empty($listeDepartemental))
             {
                 //$erreur = $erreur. 'Doublon externe';
-                $erreurdge = $erreurdge. 'Doublon externe ou interne';
+                $erreurdge = $erreurdge. 'Doublon externe ';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                if($listeDepartemental)
+                {
+                    $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
+                    $departement = DB::table("departements")->where("id",$listeDepartemental->departement_id)->first();
+                    $erreurdge = $erreurdge. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
+                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["erreurdge"=>$listeDepartemental->erreurdge." Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
+
+                }
+                if($listeNational)
+                {
+                    $liste = DB::table("listes")->where("id",$listeNational->liste_id)->first();
+                    $erreurdge = $erreurdge. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
+                    ListeNational::where("id",$listeNational->id)->update(["erreurdge"=>$listeNational->erreurdge." Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
+
+                }
             }
             $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
             $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$request->liste_id);
@@ -436,7 +467,23 @@ class ListeDepartementalController extends Controller
                 $listeNational = $this->listeNationalRepository->getByCniOuterListe($request->numcni,$candidat->liste_id);
                 if(!empty($listeDepartemental) ||  $listeNational)
                 {
-                    $erreurdge = $erreurdge. ' Doublon externe ou interne';
+
+                    $erreurdge = $erreurdge. ' Doublon externe ';
+                    if($listeDepartemental)
+                    {
+                        $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
+                        $departement = DB::table("departements")->where("id",$listeDepartemental->departement_id)->first();
+                        $erreurdge = $erreurdge. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
+                        ListeDepartemental::where("id",$listeDepartemental->id)->update(["erreurdge"=>$listeDepartemental->erreurdge." Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
+
+                    }
+                    if($listeNational)
+                    {
+                        $liste = DB::table("listes")->where("id",$listeNational->liste_id)->first();
+                        $erreurdge = $erreurdge. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
+                        ListeNational::where("id",$listeNational->id)->update(["erreurdge"=>$listeNational->erreurdge." Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
+
+                    }
                 }
                 $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterOrdre($request->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                 $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);

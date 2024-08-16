@@ -131,6 +131,16 @@
 
                                         </select>
                                     </div>
+                                    <div style="display: none;">
+                                        <label> Liste</label>
+                                        <select class="form-control"  name="liste" required="">
+                                            <option value="">Selectionner</option>
+                                            @foreach ($listes as $liste)
+                                            <option value="{{$liste->nom}}" {{Auth::user()->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
+                                                @endforeach
+    
+                                        </select>
+                                       </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Domicile </label>
@@ -212,8 +222,14 @@ $(document).ready(function () {
             });
             setTimeout($.unblockUI, 1); 
         });
+        function convertirDate(dateStr) {
+            // Séparer la date en jour, mois et année
+            const [jour, mois, annee] = dateStr.split('/');
 
-        1910200503871
+            // Formater la date en "yyyy-mm-jj"
+            const dateFormatee = `${annee}-${mois}-${jour}`;
+            return dateFormatee;
+        }
 
 </script>
     

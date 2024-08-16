@@ -249,6 +249,7 @@
     <script>
           $(document).ready(function () {
             url = "http://5.189.166.92/legistlatif/public/search/ajax";
+         //  url = "http://127.0.0.1:8000/search/ajax"
            // setTimeout(, 2000); 
             $(".departement").hide();
             $(".typeliste").hide();
@@ -270,10 +271,9 @@
              });
           $("#scrutin").change(function () {
             var scrutin =  $("#scrutin").children("option:selected").val();
-            var type =  $("#type").children("option:selected").val();
-            var departement_id =  $("#departement_id").children("option:selected").val();
             var liste_id =  $("#liste_id").children("option:selected").val();
-            $("#tbody").empty();
+            $("#departement_id").val("");
+            $("#type").val("");
             $("#tbody").empty();
             if(scrutin=='majoritaire')
             {
@@ -281,7 +281,7 @@
                 $('#departement_id').attr('required', true);
               
             }
-            else if(scrutin=='propotionnel' && !type)
+            else if(scrutin=='propotionnel' )
             {
                 $(".departement").hide();
                 $(".typeliste").show();
@@ -325,55 +325,7 @@
                         }
                     });
                 }
-                if(type && scrutin)
-                {
-                    $.ajax({
-                        url: url,
-                        method: 'POST',
-                        data: {
-                           " _token": "{{csrf_token()}}",
-                            liste_id: liste_id,
-                            scrutin: scrutin,
-                            type: type,
-                            // add more key-value pairs as needed
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            // do something with the response data
-                            var contenu ='';
-                            response.forEach(element => {
-                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
-                                    "<td>"+element.prenom+"</td>"+
-                                    "<td>"+element.nom+"</td>"+
-                                    "<td>"+element.numelecteur+"</td>"+
-                                    "<td>"+element.sexe+"</td>"+
-                                    "<td>"+element.profession+"</td>"+
-                                     "<td>"+element.datenaiss+"</td>"+
-                                     "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreurdge+"</td>";
-                                     if(type== "majoritaire")
-                                     {
-                                        contenu = contenu +   "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                            "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td></tr>"+
-                                            "</tr>";
-                                     }
-                                     else if(type== "propotionnel")
-                                     {
-                                        contenu = contenu +    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                        "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td></tr>";
-                                     }
-                                  
-                                    
-                            });
-                            $("#tbody").empty();
-                            $("#tbody").append(contenu);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown);
-                            // handle the error case
-                        }
-                    });
-                }
+            
             }
             else
             {

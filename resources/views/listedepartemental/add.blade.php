@@ -147,6 +147,16 @@
                                         </select>
                                     </div>
                                    @endif
+                                   <div style="display: none;">
+                                    <label> Liste</label>
+                                    <select class="form-control"  name="liste" required="">
+                                        <option value="">Selectionner</option>
+                                        @foreach ($listes as $liste)
+                                        <option value="{{$liste->nom}}" {{Auth::user()->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
+                                            @endforeach
+
+                                    </select>
+                                   </div>
                                        
                                         <div class="col-lg-3">
                                             <div class="form-group">
@@ -189,6 +199,7 @@
 @section('script')
     <script>
         url = "http://5.189.166.92/legistlatif/public/";
+       // url = "http://127.0.0.1:8000/";
           $(document).ready(function () {
            
            // setTimeout(, 2000); 
@@ -386,13 +397,13 @@
           });
 
           function convertirDate(dateStr) {
-    // Séparer la date en jour, mois et année
-    const [jour, mois, annee] = dateStr.split('/');
+            // Séparer la date en jour, mois et année
+            const [jour, mois, annee] = dateStr.split('/');
 
-    // Formater la date en "yyyy-mm-jj"
-    const dateFormatee = `${annee}-${mois}-${jour}`;
-    return dateFormatee;
-}
+            // Formater la date en "yyyy-mm-jj"
+            const dateFormatee = `${annee}-${mois}-${jour}`;
+            return dateFormatee;
+        }
 
 
         $("#departement_id").change(function () {

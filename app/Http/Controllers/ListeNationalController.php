@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ListeDepartemental;
 use App\Models\ListeNational;
 use App\Repositories\ListeDepartementalRepository;
 use App\Repositories\ListeNationalRepository;
 use App\Repositories\ListeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ListeNationalController extends Controller
@@ -210,7 +212,22 @@ class ListeNationalController extends Controller
             {
                 //$erreur = $erreur. 'Doublon externe';
                 $erreurdge = $erreurdge. 'Doublon externe ';
-                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.'); 
+                if($listeDepartemental)
+                {
+                    $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
+                    $departement = DB::table("departements")->where("id",$listeDepartemental->departement_id)->first();
+                    $erreurdge = $erreurdge. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
+                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["erreurdge"=>$listeDepartemental->erreurdge." Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
+
+                }
+                if($listeNational)
+                {
+                    $liste = DB::table("listes")->where("id",$listeNational->liste_id)->first();
+                    $erreurdge = $erreurdge. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
+                    ListeNational::where("id",$listeNational->id)->update(["erreurdge"=>$listeNational->erreurdge." Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
+
+                }
             }
             if($candidat->ordre > 1)
                 $mylisteNational = $this->listenationalRepository->getByCniAndListeOuterOrdre($request->numcni,$candidat->liste_id,$candidat->ordre);

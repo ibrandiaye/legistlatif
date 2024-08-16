@@ -23,7 +23,7 @@
         {!! Form::model($listenational, ['method'=>'PATCH','route'=>['listenational.update', $listenational->id],"enctype"=>"multipart/form-data"]) !!}
             @csrf
              <div class="card ">
-                        <div class="card-header text-center">FORMULAIRE DE MODIFICATION Département</div>
+                        <div class="card-header text-center">FORMULAIRE DE MODIFICATION Liste National</div>
                             <div class="card-body">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -110,7 +110,16 @@
                                         </div>
                                     </div>
                                    
-                                        
+                                    <div style="display: none;">
+                                        <label> Liste</label>
+                                        <select class="form-control"  name="liste" required="">
+                                            <option value="">Selectionner</option>
+                                            @foreach ($listes as $liste)
+                                            <option value="{{$liste->nom}}" {{Auth::user()->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
+                                                @endforeach
+    
+                                        </select>
+                                       </div>
                                         <div class="col-lg-3" style="display: none;">
                                             <label> Liste</label>
                                             <select class="form-control" name="liste_id" required="">
@@ -189,6 +198,14 @@ $(document).ready(function () {
             });
             setTimeout($.unblockUI, 1); 
         });
+        function convertirDate(dateStr) {
+            // Séparer la date en jour, mois et année
+            const [jour, mois, annee] = dateStr.split('/');
+
+            // Formater la date en "yyyy-mm-jj"
+            const dateFormatee = `${annee}-${mois}-${jour}`;
+            return dateFormatee;
+        }
 </script>
     
 @endsection
