@@ -128,11 +128,11 @@
                   
                     @endif
                   
-                    <div class="col">
+                   {{--  <div class="col">
                         <br>
                         <button type="submit" class="btn btn-success btn btn-lg " style="margin-top: 10px;"> ENREGISTRER</button>                        
                     </div>
-                
+                 --}}
             </div>
         </form>
                {{--  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalform2">
