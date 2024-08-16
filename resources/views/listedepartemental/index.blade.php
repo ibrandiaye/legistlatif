@@ -87,7 +87,7 @@
                     @csrf
                     @if(Auth::user()->role=='admin')
                     <div class="row">
-                        <div class="col ">
+                        <div class="col-md-4 ">
                             <label> Liste</label>
                             <select class="form-control" name="liste_id" id="liste_id">
                                 <option value="">Selectionner</option>
