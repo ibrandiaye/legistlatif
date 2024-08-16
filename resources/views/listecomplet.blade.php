@@ -199,7 +199,7 @@
                     <td>{{ $supleant['data']->prenom }}</td>
                     <td>{{ $supleant['data']->nom }}</td>
                     <td>{{ $supleant['data']->numelecteur }}</td>
-                    <td>{{ $titulaire['data']->sexe }}</td>
+                    <td>{{ $supleant['data']->sexe }}</td>
                     <td>{{ $supleant['data']->profession }}</td>
                     <td>{{ $supleant['data']->datenaiss }}</td>
                     <td>{{ $supleant['data']->lieunaiss }}</td>

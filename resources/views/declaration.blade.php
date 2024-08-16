@@ -80,9 +80,9 @@
            <p> je figure en qualité de <b> {{$liste->nom}} </b>         sur : </p>
             
          @if ($type=="majoritaire")
-         <p>le numero <b>{{ $candidat->ordre}}</b> la liste du Département de <b>{{$departement->nom}}</b> pour le scrutin majoritaire </p>
+         <p>le numero <b>{{ $candidat->ordre}}</b> la liste du Département de <b>{{$departement->nom}}</b> pour le scrutin majoritaire  ({{$candidat->type}}) </p>
          @else
-         <p>le numero <b>{{ $candidat->ordre}}  </b>     la liste nationale, pour le scrutin proportionnel </p>
+         <p>le numero <b>{{ $candidat->ordre}}  </b>     la liste nationale, pour le scrutin proportionne ({{$candidat->type}}) l </p>
 
          @endif   
          @if ($liste->type=="partie_ou_coalition")
