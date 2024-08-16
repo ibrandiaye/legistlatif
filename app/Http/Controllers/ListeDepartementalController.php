@@ -98,6 +98,8 @@ class ListeDepartementalController extends Controller
             if($age < 25)
             {
                 $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
+                $erreur = $erreur. 'age minimun non ateint. age : '.$age.' ans';
+
             }
     
         if($request->scrutin=="majoritaire")
@@ -344,6 +346,7 @@ class ListeDepartementalController extends Controller
             if($age < 25)
             {
                 $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
+                $erreur = $erreur. 'age minimun non ateint. age : '.$age.' ans';
             }
     
         $this->validate($request, [
