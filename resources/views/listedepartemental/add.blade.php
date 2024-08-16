@@ -24,7 +24,7 @@
         <form action="{{ route('listedepartemental.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
              <div class="card">
-                        <div class="card-header  text-center"> <span id="sexe"></span>  &nbsp;&nbsp; Ordre à saisir <h4 id="numero"></h4></div>
+                        <div class="card-header  text-center"> <span id="sexeSaisir"></span>  &nbsp;&nbsp; Ordre à saisir <h4 id="numero"></h4></div>
                             <div class="card-body">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -247,18 +247,18 @@
                             sexe =""
                             console.log(data);
                             $("#numero").empty()
-                            $("#sexe").empty()
+                            $("#sexeSaisir").empty()
                            if(data.ordre)
                             {
                                 sexe  = data.sexe
                                 $("#numero").append(data.ordre+1);
                                 if(sexe=="M")
                                 {
-                                    $("#sexe").append("Sexe à saisi Feminin ")
+                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                 }
                                 else if(sexe=="F")
                                 {
-                                    $("#sexe").append("Sexe à saisi Masculin ")
+                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 }
                             }
                             else
