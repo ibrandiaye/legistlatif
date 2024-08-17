@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ListeDepartementalRepository;
+use App\Repositories\ListeNationalRepository;
 use App\Repositories\ListeRepository;
 use Illuminate\Http\Request;
 
 class ListeController extends Controller
 {
     protected $listeRepository;
+    protected $listeNationalRepository;
+    protected $listeDepartementalRepository;
 
-    public function __construct(ListeRepository $listeRepository){
-        $this->listeRepository =$listeRepository;
+    public function __construct(ListeRepository $listeRepository,ListeNationalRepository $listeNationalRepository,
+    ListeDepartementalRepository $listeDepartementalRepository){
+        $this->listeRepository              = $listeRepository;
+        $this->listeDepartementalRepository = $listeDepartementalRepository;
+        $this->listeNationalRepository      = $listeNationalRepository;
     }
 
     /**
@@ -106,7 +113,11 @@ class ListeController extends Controller
      */
     public function destroy($id)
     {
+        $this->listeDepartementalRepository->deleteByListe($id);
+        $this->listeNationalRepository->deleteByListe($id);
         $this->listeRepository->destroy($id);
+       
+
         return redirect('liste');
     }
 

@@ -85,5 +85,10 @@ class ListeNationalRepository extends RessourceRepository{
         ->where([["liste_id",$liste],["type",$type]])
         ->count();
        }
+
+       public function deleteByListe($id)
+       {
+            return ListeNational::where("liste_is",$id)->delete();
+       }
      
 }

@@ -108,5 +108,10 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->groupBy("departement_id",'type')
         ->get();
        }
+
+       public function deleteByListe($id)
+       {
+            return ListeDepartemental::where("liste_is",$id)->delete();
+       }
        
 }
