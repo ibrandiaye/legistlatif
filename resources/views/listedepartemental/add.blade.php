@@ -198,8 +198,8 @@
 @endsection
 @section('script')
     <script>
-        url = "http://5.189.166.92/legistlatif/public/";
-       // url = "http://127.0.0.1:8000/";
+      //  url = "http://5.189.166.92/legistlatif/public/";
+       url = "http://127.0.0.1:8000/";
           $(document).ready(function () {
            
            // setTimeout(, 2000); 
@@ -261,8 +261,9 @@
                             $("#sexeSaisir").empty()
                            if(data.ordre)
                             {
-                                sexe  = data.sexe
                                 $("#numero").append(data.ordre+1);
+                                sexe = data.sexe; 
+                                $("#sexeSaisir").empty();
                                 if(sexe=="M")
                                 {
                                     $("#sexeSaisir").append("Sexe à saisi Feminin ")
@@ -274,10 +275,10 @@
                             }
                             else
                             {
+                                $("#sexeSaisir").empty();
                                
                                 $("#numero").append("1");
                             }
-
                             //$("#localite_id").empty();
                     }
                 });
@@ -296,15 +297,24 @@
                         if(data.ordre)
                         {
                             $("#numero").append(data.ordre+1);
+                            sexe = data.sexe;
+                            $("#sexeSaisir").empty();
+                                if(sexe=="M")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                }
+                                else if(sexe=="F")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                }
                         }
                         else
                         {
-                           
+                            $("#sexeSaisir").empty();
                             $("#numero").append("1");
                         }
-                        
-                        
-                    
+                     
+                       
                         //$("#localite_id").empty();
                     }
                 });
@@ -355,12 +365,24 @@
                            if(data.ordre)
                             {
                                 $("#numero").append(data.ordre+1);
+                                sexe = data.sexe; 
+                                $("#sexeSaisir").empty();
+                                if(sexe=="M")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                }
+                                else if(sexe=="F")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                }
                             }
                             else
                             {
                                
+                                $("#sexeSaisir").empty();
                                 $("#numero").append("1");
                             }
+                          
                             //$("#localite_id").empty();
                     }
                 });
@@ -381,13 +403,24 @@
                         if(data.ordre)
                         {
                             $("#numero").append(data.ordre+1);
+                            sexe = data.sexe; 
+                                $("#sexeSaisir").empty();
+                                if(sexe=="M")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                }
+                                else if(sexe=="F")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                }
                         }
                         else
                         {
+                            $("#sexeSaisir").empty();
+
                              $("#numero").append("1");
                         }
-                            
-                        
+    
                     
                         //$("#localite_id").empty();
                     }
@@ -449,11 +482,23 @@
                            if(data.ordre)
                             {
                                 $("#numero").append(data.ordre+1);
+                                sexe = data.sexe; 
+                                $("#sexeSaisir").empty();
+                                if(sexe=="M")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                }
+                                else if(sexe=="F")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                }
                             }
                             else
                             {
+                                $("#sexeSaisir").empty();
                                 $("#numero").append("1");
                             }
+                          
                             //$("#localite_id").empty();
                     }
                 });
