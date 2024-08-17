@@ -210,7 +210,7 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-           /url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+           url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
          //  url: 'http://5.189.166.92:7777/api/cartes/get/by/nin?nin='+cni,
           
             data:'_token = <?php echo csrf_token() ?>',
