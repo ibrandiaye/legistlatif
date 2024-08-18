@@ -264,7 +264,7 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if((data.ordre < data.nb &&  data%2!=0 ) || data%2==0)
+                                if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                 {
                                     
                                
@@ -374,7 +374,7 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if((data.ordre < data.nb &&  data%2!=0 ) || data%2==0)
+                                if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                 {
                                     
                                
@@ -496,7 +496,7 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if((data.ordre < data.nb &&  data%2!=0 ) || data%2==0)
+                                if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                 {
                                     
                                
