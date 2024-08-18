@@ -111,7 +111,7 @@ class ListeDepartementalRepository extends RessourceRepository{
 
        public function deleteByListe($id)
        {
-            return ListeDepartemental::where("liste_is",$id)->delete();
+            return ListeDepartemental::where("liste_id",$id)->delete();
        }
        
 }

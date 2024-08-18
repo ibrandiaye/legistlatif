@@ -644,7 +644,16 @@ class ListeDepartementalController extends Controller
         
         if($scrutin == "majoritaire")
         {
-            $lastSave  = $this->listedepartementalRepository->getLastOrdreByListe(Auth::user()->liste_id,$type,$departement_id);
+            $candidat  = $this->listedepartementalRepository->getLastOrdreByListe(Auth::user()->liste_id,$type,$departement_id);
+            if($candidat)
+            {
+                $departement = $this->departementRepository->getById($candidat->departement_id);
+                $lastSave = new \stdClass();
+                $lastSave->ordre = $candidat->ordre;
+                $lastSave->nb = $departement->nb;
+                $lastSave->sexe = $candidat->sexe;
+            }
+          
 
         }
         else if($scrutin == "propotionnel")
@@ -654,10 +663,12 @@ class ListeDepartementalController extends Controller
         }
         return response()->json($lastSave);
     }
-    public function searchAjax(Request $request)
+      public function searchAjax(Request $request)
     {
+      // return response()->json($request);
 
-        $query = ListeDepartemental::query();
+
+       $query = ListeDepartemental::query();
         if($request->scrutin == 'majoritaire')
         {
             $query = ListeDepartemental::query();
@@ -691,7 +702,7 @@ class ListeDepartementalController extends Controller
         return response()->json($data);
 
 
-    }
+    } 
 
 
 }

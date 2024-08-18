@@ -88,7 +88,7 @@ class ListeNationalRepository extends RessourceRepository{
 
        public function deleteByListe($id)
        {
-            return ListeNational::where("liste_is",$id)->delete();
+            return ListeNational::where("liste_id",$id)->delete();
        }
      
 }

@@ -115,7 +115,7 @@ class ListeController extends Controller
     {
         $this->listeDepartementalRepository->deleteByListe($id);
         $this->listeNationalRepository->deleteByListe($id);
-        $this->listeRepository->destroy($id);
+      //  $this->listeRepository->destroy($id);
        
 
         return redirect('liste');

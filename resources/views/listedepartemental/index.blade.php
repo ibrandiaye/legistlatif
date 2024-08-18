@@ -249,7 +249,7 @@
     <script>
           $(document).ready(function () {
            // url = "http://5.189.166.92/legistlatif/public/search/ajax";
-          url = "http://127.0.0.1:8000/search/ajax"
+           url = "http://127.0.0.1:8000/search/ajax"
            // setTimeout(, 2000); 
             $(".departement").hide();
             $(".typeliste").hide();
@@ -292,7 +292,7 @@
                         url: url,
                         method: 'POST',
                         data: {
-                           " _token": "{{csrf_token()}}",
+                           _token: '{!! csrf_token() !!}',
                             liste_id: liste_id,
                             scrutin: scrutin,
                             // add more key-value pairs as needed

@@ -264,14 +264,20 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if(sexe=="M")
+                                if((data.ordre < data.nb &&  data%2!=0 ) || data%2==0)
                                 {
-                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                    
+                               
+                                    if(sexe=="M")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                    }
                                 }
-                                else if(sexe=="F")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                }
+                                
                             }
                             else
                             {
@@ -299,6 +305,7 @@
                             $("#numero").append(data.ordre+1);
                             sexe = data.sexe;
                             $("#sexeSaisir").empty();
+                          
                                 if(sexe=="M")
                                 {
                                     $("#sexeSaisir").append("Sexe à saisi Feminin ")
@@ -367,13 +374,18 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if(sexe=="M")
+                                if((data.ordre < data.nb &&  data%2!=0 ) || data%2==0)
                                 {
-                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                }
-                                else if(sexe=="F")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                    
+                               
+                                    if(sexe=="M")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                    }
                                 }
                             }
                             else
@@ -484,13 +496,18 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if(sexe=="M")
+                                if((data.ordre < data.nb &&  data%2!=0 ) || data%2==0)
                                 {
-                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                }
-                                else if(sexe=="F")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                    
+                               
+                                    if(sexe=="M")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                    }
                                 }
                             }
                             else
