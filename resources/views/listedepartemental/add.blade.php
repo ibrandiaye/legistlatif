@@ -40,6 +40,9 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
+                            <div  id="full-message">
+                              
+                            </div>
                                 <div class="row">
 
                                     <div class="col-lg-3">
@@ -259,6 +262,7 @@
                             console.log(data);
                             $("#numero").empty()
                             $("#sexeSaisir").empty()
+                            $("#full-message").empty()
                            if(data.ordre)
                             {
                                 $("#numero").append(data.ordre+1);
@@ -276,6 +280,10 @@
                                     {
                                         $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                     }
+                                }
+                                if(data.ordre == data.nb)
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
                                 }
                                 
                             }
@@ -300,6 +308,7 @@
                     success:function(data) {
 
                         $("#numero").empty();
+                        $("#full-message").empty()
                         if(data.ordre)
                         {
                             $("#numero").append(data.ordre+1);
@@ -314,6 +323,17 @@
                                 {
                                     $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 }
+                                if( data.type == "titulaire" && data.ordre ==53 )
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                                }
+                                else if(ata.type == "supleant" && data.ordre ==50 )
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+
+                                }
+
+                               
                         }
                         else
                         {
@@ -369,6 +389,7 @@
                     
                             console.log(data);
                             $("#numero").empty();
+                            $("#full-message").empty()
                            if(data.ordre)
                             {
                                 $("#numero").append(data.ordre+1);
@@ -386,6 +407,10 @@
                                     {
                                         $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                     }
+                                }
+                                if(data.ordre == data.nb)
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
                                 }
                             }
                             else
@@ -412,19 +437,29 @@
 
                         console.log(data);
                         $("#numero").empty();
+                        $("#full-message").empty()
                         if(data.ordre)
                         {
                             $("#numero").append(data.ordre+1);
                             sexe = data.sexe; 
-                                $("#sexeSaisir").empty();
-                                if(sexe=="M")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                }
-                                else if(sexe=="F")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                }
+                            $("#sexeSaisir").empty();
+                            if(sexe=="M")
+                            {
+                                $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                            }
+                            else if(sexe=="F")
+                            {
+                                $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                            }
+                            if( data.type == "titulaire" && data.ordre ==53 )
+                            {
+                                $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                            }
+                            else if(ata.type == "supleant" && data.ordre ==50 )
+                            {
+                                $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+
+                            }
                         }
                         else
                         {
@@ -491,6 +526,7 @@
                     
                             console.log(data);
                             $("#numero").empty();
+                            $("#full-message").empty()
                            if(data.ordre)
                             {
                                 $("#numero").append(data.ordre+1);
@@ -508,6 +544,11 @@
                                     {
                                         $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                     }
+                                    
+                                }
+                                if(data.ordre == data.nb)
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
                                 }
                             }
                             else
