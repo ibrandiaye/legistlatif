@@ -61,8 +61,8 @@
             </div>
         </div>
         <div class="col-sm-8">
-            <iframe src ="{{ asset('/laraview/#../document/'.$listedepartemental->extrait_ou_cni) }}" width="800px" height="600px"></iframe>
-            <iframe src ="{{ asset('/laraview/#../document/'.$listedepartemental->casier) }}" width="800px" height="600px"></iframe>
+            <iframe src ="{{ asset('/laraview/#../extrait_ou_cnis/'.$listedepartemental->extrait_ou_cni) }}" width="800px" height="600px"></iframe>
+            <iframe src ="{{ asset('/laraview/#../casier_judiciare/'.$listedepartemental->casier) }}" width="800px" height="600px"></iframe>
 
         </div>    
     </div>    

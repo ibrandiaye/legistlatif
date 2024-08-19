@@ -91,7 +91,7 @@ class ListeDepartementalController extends Controller
         if($request->casiers){
             $casier =  'casier_judiciare'.$request->prenom.'_'.$request->nom.'_'.$request->datenaiss.'_'.uniqid() .time().'.'.$request->casiers->extension();
             $request->casiers->move('casier_judiciare/', $casier);
-            $request->merge(['casier'=>$extrait_ou_cni]);
+            $request->merge(['casier'=>$casier]);
         }
       
         $age = $this->listedepartementalRepository->calculerAge($request->datenaiss);
@@ -363,12 +363,12 @@ class ListeDepartementalController extends Controller
         $erreurdge = "";
         if($request->extrait_ou_cnis){
             $extrait_ou_cni = uniqid() .'.'.$request->extrait_ou_cnis->extension();
-            $request->extrait_ou_cnis->move('document/', $extrait_ou_cni);
+            $request->extrait_ou_cnis->move('extrait_ou_cnis/', $extrait_ou_cni);
             $request->merge(['extrait_ou_cni'=>$extrait_ou_cni]);
         }
         if($request->casiers){
             $casier = uniqid() .'.'.$request->casiers->extension();
-            $request->casiers->move('document/', $casier);
+            $request->casiers->move('casier_judiciare/', $casier);
             $request->merge(['casier'=>$extrait_ou_cni]);
         }
 
