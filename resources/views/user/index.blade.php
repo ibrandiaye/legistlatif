@@ -60,7 +60,49 @@
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                 {!! Form::close() !!}
 
-
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalform2{{$user->id}}">
+                                    modifier Mot de passe
+                                </button>
+                                  <!-- Modal -->
+                                  <div class="modal fade" id="exampleModalform2{{$user->id}}" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Modification mot de passe</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="{{ route('user.password.update') }}" method="POST">
+                                                @csrf
+                                            <div class="modal-body">
+                                               
+                                                <input type="hidden" name="id" value="{{$user->id}}">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="field-3" class="control-label">Mot de passe</label>
+                                                            <input type="password" class="form-control" id="field-3" placeholder="Mot de passe"  name="password">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group no-margin">
+                                                            <label for="field-7" class="control-label">Repetez Mot de passe</label>
+                                                            <input type="password" name="password_confirmation" class="form-control" id="field-3" placeholder="Address">                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                          
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                                <button type="submint" class="btn btn-primary">Modifier mot de passe</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
 
                             </td>
 

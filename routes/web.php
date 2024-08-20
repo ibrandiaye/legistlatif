@@ -54,6 +54,10 @@ Route::get('/last/save/by/liste/{scrutin}/{type}/{departement_id}',[ListeDeparte
 
 Route::post('/search/ajax',[ListeDepartementalController::class,'searchAjax'])->name("search.ajax")->middleware(["auth"]);
 
+Route::post('/update/password',[UserController::class,'updatePassword'])->name("user.password.update")->middleware(["auth","admin"]);
+
+Route::post('/search/candidat',[HomeController::class,'searchCandidat'])->name("search.candidat")->middleware(["auth","admin"]);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

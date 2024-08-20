@@ -116,4 +116,16 @@ class UserController extends Controller
         $this->userRepository->destroy($id);
         return redirect('user');
     }
+
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required',
+            'password' => 'required|string|min:8|confirmed',
+            //'g-recaptcha-response' => 'required|captcha',
+        ]);
+        User::where("id",$request->id)->update(["password"=>Hash::make($request['password'])]);
+        return redirect('user');
+
+    }
 }

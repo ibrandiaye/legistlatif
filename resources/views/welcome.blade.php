@@ -99,6 +99,12 @@
                                     <li><a href="{{ route('listedepartemental.index') }}">Lister</a></li>
                                 </ul>
                             </li> --}}
+                            <li>
+                                <a href="#"><button type="button" class="btn btn-primary waves-e	ffect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Large modal</button>
+                                </a>
+                            </a>
+                            </li>
+                           
                             @endif
                             @if(Auth::user()->role=="candidats")
                             <li>
@@ -337,7 +343,42 @@
 
                            @yield("content")
 
-
+                           <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    </div>
+                                    <form action="{{ route('search.candidat') }}" method="POST">
+                                        @csrf
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="field-3" class="control-label">Numero Carte d'identite</label>
+                                                    <input type="text" class="form-control" id="field-3"   name="cni">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group no-margin">
+                                                    <label for="field-7" class="control-label">Numero Electeur</label>
+                                                    <input type="text" name="numelec" class="form-control" id="field-3" placeholder="Address">                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                        <button type="submint" class="btn btn-primary">Chercher</button>
+                                    </div>
+                                    </form>        
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
                         </div><!-- container -->
 
                     </div> <!-- Page content Wrapper -->

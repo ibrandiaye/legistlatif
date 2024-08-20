@@ -6,6 +6,7 @@ use App\Repositories\DepartementRepository;
 use App\Repositories\ListeDepartementalRepository;
 use App\Repositories\ListeNationalRepository;
 use App\Repositories\ListeRepository;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
@@ -168,6 +169,39 @@ class HomeController extends Controller
         $liste = $this->listeRepository->getById(Auth::user()->liste_id);
         return view("declaration",compact("candidat","type","liste","departement"));
    }
-
+    public function searchCandidat(Request $request)
+    {
+        $listeNationals = null;
+        $listeDepartementals = null;
+        $query1 = null;
+        $query2 = null;
+        ;
+        if($request->cni || $request->nin)
+        {
+            $query1 =  DB::table("liste_nationals")->join('listes','liste_nationals.liste_id','=','listes.id')
+            ->select("liste_nationals.*","listes.nom as liste");
+            $query2 =  DB::table("liste_departementals")
+            ->join('listes','liste_departementals.liste_id','=','listes.id')
+            ->join('departements','liste_departementals.departement_id','=','departements.id')
+            ->select("liste_departementals.*","departements.nom as departement","listes.nom as liste");
+        }
+        if($request->cni)
+        {
+           $query1->where("liste_nationals.numcni",$request->cni);
+           $query2->where("liste_departementals.numcni",$request->cni);
+         
+        }
+        if($request->numelec)
+        {
+            $query1->where("liste_nationals.numelecteur",$request->numelec);
+            $query2->where("liste_departementals.numelecteur",$request->numelec);
+        }
+        if($request->cni || $request->nin)
+        {
+            $listeNationals       = $query1->get();
+            $listeDepartementals  = $query2->get();
+        } 
+        return view("search",compact("listeNationals","listeDepartementals")); 
+    }
     
 }
