@@ -173,7 +173,7 @@ class ListeNationalController extends Controller
         
                 if($request->nb%2==0)
                 {
-                    dd("pair");
+                   // dd("pair");
                     if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
                     {
                         $erreur = $erreur. ' Partite non respecter';
