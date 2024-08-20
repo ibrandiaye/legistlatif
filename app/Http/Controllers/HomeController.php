@@ -176,7 +176,7 @@ class HomeController extends Controller
         $query1 = null;
         $query2 = null;
         ;
-        if($request->cni || $request->nin)
+        if($request->cni || $request->numelec)
         {
             $query1 =  DB::table("liste_nationals")->join('listes','liste_nationals.liste_id','=','listes.id')
             ->select("liste_nationals.*","listes.nom as liste");
