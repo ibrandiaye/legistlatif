@@ -100,7 +100,7 @@
                                 </ul>
                             </li> --}}
                             <li>
-                                <a href="#"><button type="button" class="btn btn-primary waves-e	ffect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Large modal</button>
+                                <a href="#"><button type="button" class="btn btn-primary waves-e	ffect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Chercher</button>
                                 </a>
                             </a>
                             </li>
@@ -366,7 +366,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group no-margin">
                                                     <label for="field-7" class="control-label">Numero Electeur</label>
-                                                    <input type="text" name="numelec" class="form-control" id="field-3" placeholder="Address">                                                        </div>
+                                                    <input type="text" name="numelec" class="form-control" id="field-3" >                                                        </div>
                                             </div>
                                         </div>
                                     </div>
