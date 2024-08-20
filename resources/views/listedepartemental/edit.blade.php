@@ -46,8 +46,11 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label>Numéro Elecetur </label>
+                                        <label>Numéro Electeur </label>
                                         <input type="number" name="numelecteur" id="numelecteur"  value="{{$listedepartemental->numelecteur }}" class="form-control" min="1" required>
+                                        <span class="input-group-append">
+                                            <button type="button" id="btnnumelec" class="btn  btn-primary"><i class="fa fa-search"></i> Rechercher</button>
+                                            </span>
                                     </div>
                                 </div>
                                
@@ -214,6 +217,37 @@ $(document).ready(function () {
                     alert("CNI non trouve");
                 }
                 
+            },
+            error:function(){
+                setTimeout($.unblockUI, 1); 
+            }
+        });
+            });
+            $("#btnnumelec").click(function () {
+                var numelecteur = $("#numelecteur").val();
+                $.blockUI({ message: "<p>Patienter</p>" }); 
+                $.ajax({
+            type:'GET',
+          // url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+           url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+          
+            data:'_token = <?php echo csrf_token() ?>',
+            success:function(data) {
+                console.log(data,data.length);
+                if(data.length >=1)
+                {
+                    console.log(data[0].ELEC_PRENOM)
+                    $("#prenom").val(data[0].ELEC_PRENOM)
+                    $("#nom").val(data[0].ELEC_NOM)
+                    $("#sexe").val(data[0].ELEC_SEXE)
+                    $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
+                    $("#cni").val(data[0].NIN)
+                }
+                else
+                {
+                    alert("CNI non trouve");
+                }
+                setTimeout($.unblockUI, 1); 
             },
             error:function(){
                 setTimeout($.unblockUI, 1); 
