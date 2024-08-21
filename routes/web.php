@@ -73,4 +73,8 @@ Route::get('/get/by/departement/{id}',[DepartementController::class,'getByIdDepa
 
 Route::get('/declaration/{id}/{type}', [HomeController::class,'declarer'])->name("declaration");
 
+Route::get('/recherche/candidat', [ListeDepartementalController::class,'listeCandidat'])->name("liste.candidat")->middleware("auth");
+
+
+
 require __DIR__.'/auth.php';

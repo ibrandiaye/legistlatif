@@ -49,8 +49,8 @@
                                         <label> Scrutin</label>
                                         <select class="form-control" id="scrutin" name="scrutin" required="">
                                             <option value="">Selectionner</option>
-                                            <option value="majoritaire">Majoritaire</option>
-                                            <option value="propotionnel">Propotionnel</option>
+                                            <option value="majoritaire" {{old('scrutin') == 'majoritaire' ? 'selected' : '' }}>Majoritaire</option>
+                                            <option value="propotionnel" {{old('scrutin') == 'propotionnel' ? 'selected' : '' }}>Propotionnel</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-3 typeliste" >
@@ -58,8 +58,8 @@
                                             <label>Type Liste </label>
                                             <select class="form-control" id="type" name="type" required="">
                                                 <option value="">Selectionner</option>
-                                                <option value="titulaire">titulaire</option>
-                                                <option value="supleant">supleant</option>
+                                                <option value="titulaire" {{old('type') == 'titulaire' ? 'selected' : '' }}>titulaire</option>
+                                                <option value="supleant"  {{old('type') == 'supleant' ? 'selected' : ''}}>supleant</option>
                                             </select>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         <select class="form-control" name="departement_id"  id="departement_id">
                                             <option value="">Selectionner</option>
                                             @foreach ($departements as $departement)
-                                            <option value="{{$departement->id}}">{{$departement->nom}}</option>
+                                            <option value="{{$departement->id}}"  {{old('departement_id') == $departement->id ? 'selected' : '' }}>{{$departement->nom}}</option>
                                                 @endforeach
 
                                         </select>
@@ -77,16 +77,16 @@
                                         
                                         <div class="form-group ">
                                             <label>Numéro CNI </label>
-                                            <input type="number" name="numcni" id="cni" value="{{ old('numcni') }}" class="form-control"  required>
+                                            <input type="number" name="numcni" id="cni" class="form-control"  required>
                                             <span class="input-group-append">
                                                 <button type="button" id="btncni" class="btn  btn-primary"><i class="fa fa-search"></i> Rechercher</button>
                                                 </span>
-                                        </div>
+                                        </div> 
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Numéro Elecetur </label>
-                                            <input type="number" name="numelecteur" id="numelecteur" value="{{ old('numelecteur') }}" class="form-control"  required>
+                                            <input type="number" name="numelecteur" id="numelecteur"  class="form-control"  required>
                                             <span class="input-group-append">
                                                 <button type="button" id="btnnumelec" class="btn  btn-primary"><i class="fa fa-search"></i> Rechercher</button>
                                                 </span>
@@ -103,13 +103,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Prenom </label>
-                                            <input type="text" name="prenom" id="prenom"  value="{{ old('prenom') }}" class="form-control"  required>
+                                            <input type="text" name="prenom" id="prenom"   class="form-control"  required>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Nom </label>
-                                            <input type="text" name="nom" id="nom"  value="{{ old('nom') }}" class="form-control"  required>
+                                            <input type="text" name="nom" id="nom"   class="form-control"  required>
                                         </div>
                                     </div>
                                     
@@ -126,19 +126,19 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Profession </label>
-                                            <input type="text" name="profession"   value="{{ old('profession') }}" class="form-control"  required>
+                                            <input type="text" name="profession"    class="form-control"  required>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Date de naissance </label>
-                                            <input type="date" name="datenaiss" id="datenaiss"  value="{{ old('datenaiss') }}" class="form-control"  required>
+                                            <input type="date" name="datenaiss" id="datenaiss"   class="form-control"  required>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Lieu de naissance  </label>
-                                            <input type="text" name="lieunaiss" id="lieunaiss"  value="{{ old('lieunaiss') }}" class="form-control"  required>
+                                            <input type="text" name="lieunaiss" id="lieunaiss"   class="form-control"  required>
                                         </div>
                                     </div>
                                    
@@ -168,13 +168,13 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label>Domicile </label>
-                                                <input type="text" name="domicile"   value="{{ old('domicile') }}" class="form-control"  >
+                                                <input type="text" name="domicile"    class="form-control"  >
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label>Service, Emploi et lieu d’affectation pour les agents de l’Etat </label>
-                                                <input type="text" name="se"   value="{{ old('se') }}" class="form-control"  >
+                                                <input type="text" name="se"   class="form-control"  >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -190,28 +190,88 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="nb" id="nb">
+                                    <input type="hidden" value="{{old('nb')}}" name="nb" id="nb">
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
                                     </center>
+                                </div>
+                                <?php $candidats = Session::get('candidats') ?  Session::get('candidats') : array(); ?>
+
+                                <div class="col-lg-12">
+                                    <table id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center datatable-buttons">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Prenom</th>
+                                                <th>Nom</th>
+                                                <th>Numero Electeur</th>
+                                                <th>Sexe</th>
+                                                <th>Profession</th>
+                                                <th>Date de Naissance</th>
+                                                <th>Lieux de Naissance</th>
+                                                <th>Erreur</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                         @foreach ($candidats as $candidat)
+                                            <tr>
+                                                <td>{{ $candidat->id }}</td>
+                                                <td>{{ $candidat->prenom }}</td>
+                                                <td>{{ $candidat->nom }}</td>
+                                                <td>{{ $candidat->numelecteur }}</td>
+                                                <td>{{ $candidat->sexe }}</td>
+                                                <td>{{ $candidat->profession }}</td>
+                                                <td>{{ $candidat->datenaiss }}</td>
+                                                <td>{{ $candidat->lieunaiss }}</td>
+                                                <td  class="text-danger">{{ $candidat->erreur }}</td>
+                                                <td>
+                                                   {{--  <a href="{{ route('candidat.show', $candidat->id) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                                                    <a href="{{ route('candidat.edit', $candidat->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                     --}}
+                    
+                                                </td>
+                    
+                                            </tr>
+                                            @endforeach 
+                    
+                                        </tbody>
+                                    </table>
+                    
                                 </div>
                             </div>
 
                             </div>
 
             </form>
+            
 
 @endsection
 @section('script')
     <script>
-       url = "http://5.189.166.92/legistlatif/public/";
+      url = "http://5.189.166.92/legistlatif/public/";
       // url = "http://127.0.0.1:8000/";
+      urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
+    //  urlSearch = "http://127.0.0.1:8000/search/ajax";
+      liste_id = {{Auth::user()->liste_id}}
+
           $(document).ready(function () {
            
            // setTimeout(, 2000); 
             $(".departement").hide();
             $(".typeliste").hide();
+            scrutin = '{{old('scrutin')}}'; 
+        
+            if(scrutin == "majoritaire")
+            {
+                $(".departement").show();
+                $(".typeliste").show();
+            }
+            if(scrutin == "propotionnel")
+            {
+                $(".typeliste").show();
+            }
             $("#btncni").click(function () {
                 var cni = $("#cni").val();
                 $.blockUI({ message: "<p>Patienter</p>" }); 
@@ -249,8 +309,8 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-       //    url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
-           url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+          //url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+          url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -281,6 +341,7 @@
             var scrutin =  $("#scrutin").children("option:selected").val();
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
+            $("#tbody").empty();
             if(scrutin && type)
             {
                 if(scrutin == "majoritaire")
@@ -363,7 +424,7 @@
                                 {
                                     $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
                                 }
-                                else if(ata.type == "supleant" && data.ordre ==50 )
+                                else if(data.type == "supleant" && data.ordre ==50 )
                                 {
                                     $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
 
@@ -381,6 +442,43 @@
                         //$("#localite_id").empty();
                     }
                 });
+                $("#tbody").empty();
+                $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           _token: '{!! csrf_token() !!}',
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                                    "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
                 }
             }
             if(scrutin=='majoritaire')
@@ -459,6 +557,45 @@
                             //$("#localite_id").empty();
                     }
                 });
+                $("#tbody").empty();
+                $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            departement_id: departement_id,
+                            type: type,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                               "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                          
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    }); 
                     }
                 }
                 else if(scrutin=='propotionnel')
@@ -491,7 +628,7 @@
                             {
                                 $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
                             }
-                            else if(ata.type == "supleant" && data.ordre ==50 )
+                            else if(data.type == "supleant" && data.ordre ==50 )
                             {
                                 $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
 
@@ -508,6 +645,45 @@
                         //$("#localite_id").empty();
                     }
                 });
+                $("#tbody").empty();
+                $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            type:type,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                                    "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                          
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
                 }
             }
           });
@@ -596,6 +772,45 @@
                             //$("#localite_id").empty();
                     }
                 });
+                $("#tbody").empty();
+
+                $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            departement_id: departement_id,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                     "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                               
+                                    "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").append(contenu);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
                     }
                 }
             

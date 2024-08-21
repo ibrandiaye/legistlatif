@@ -63,9 +63,10 @@ class ListeDepartementalController extends Controller
      */
     public function create()
     {
+        $candidats = array();
         $departements = $this->departementRepository->getOrbyRegion();
         $listes       = $this->listeRepository->getAll();
-        return view('listedepartemental.add',compact("departements","listes"));
+        return view('listedepartemental.add',compact("departements","listes","candidats"));
     }
 
     /**
@@ -213,7 +214,8 @@ class ListeDepartementalController extends Controller
             } */
                 $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
                 $listedepartementals = $this->listedepartementalRepository->store($request->all());
-                return redirect()->back()->with('success', 'Candidat enregistré avec.');  
+                $candidats  = $this->listedepartementalRepository->getByListeAndType($user->liste_id,$request->type,$request->departement_id);
+                return redirect()->back()->with(['success'=>'Candidat enregistré avec succ-s.','candidats'=>$candidats])->withInput();  
             
            
 
@@ -313,7 +315,8 @@ class ListeDepartementalController extends Controller
                 $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
                 $listenationals = $this->listeNationalRepository->store($request->all());
                 //return redirect('listenational');
-                return redirect()->back()->with('success', 'Candidat enregistré avec.');  
+                $candidats  = $this->listeNationalRepository->getByListeAndType($user->liste_id,$request->type);
+                return redirect()->back()->with(['success'=>'Candidat enregistré avec succès.','candidats'=>$candidats])->withInput();  
            
 
 
@@ -703,6 +706,19 @@ class ListeDepartementalController extends Controller
 
 
     } 
+
+    public function listeCandidat()
+    {
+        //dd("ddd");
+          
+      
+        $listedepartementals   = $this->listedepartementalRepository->getByOneListe(Auth::user()->liste_id);
+        $listes                = [];
+        $departements          = $this->departementRepository->getAll();
+        $listenationals        = $this->listeNationalRepository->getByListe(Auth::user()->liste_id);
+
+        return view('liste_candidat',compact('listedepartementals',"listes","departements","listenationals"));
+    }
 
 
 }

@@ -128,6 +128,11 @@
                                 <i class="mdi mdi-airplay"></i> Formulaire
                             </a>
                             </li>
+                            <li>
+                                <a href="{{route('liste.candidat')}}">
+                                <i class="mdi mdi-airplay"></i> Rechercher
+                            </a>
+                            </li>
                            {{--  <li>
                                 <a href="{{ route('listedepartemental.index') }}">
                                 <i class="mdi mdi-airplay"></i> Liste Majoritaire
