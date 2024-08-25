@@ -4,12 +4,13 @@
  Website: www.mannatthemes.com
  File: Datatable js
  */
+ let table;
 
 $(document).ready(function() {
     $('#datatable').DataTable();
 
     //Buttons examples
-    var table = $('.datatable-buttons').DataTable({
+        table = $('.datatable-buttons').DataTable({
         lengthChange: false,
         buttons: ['copy', 'excel', 'pdf', 'colvis'],
         "ordering": false
@@ -21,3 +22,18 @@ $(document).ready(function() {
         table.buttons().container()
         .appendTo('.datatable-buttons_wrapper .col-md-6:eq(0)');
 } );
+
+function initializeDataTable() {
+    /* table.destroy();
+    table = $('.datatable-buttons').DataTable({
+        lengthChange: false,
+        buttons: ['copy', 'excel', 'pdf', 'colvis'],
+        "ordering": false
+
+    });
+   
+    table.buttons().container()
+        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+        table.buttons().container()
+        .appendTo('.datatable-buttons_wrapper .col-md-6:eq(0)'); */
+}

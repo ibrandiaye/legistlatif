@@ -301,7 +301,7 @@
                             console.log(response);
                             var contenu ='';
                             response.forEach(element => {
-                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
                                     "<td>"+element.prenom+"</td>"+
                                     "<td>"+element.nom+"</td>"+
                                     "<td>"+element.numelecteur+"</td>"+
@@ -364,7 +364,7 @@
                             // do something with the response data
                             var contenu ='';
                             response.forEach(element => {
-                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
                                     "<td>"+element.prenom+"</td>"+
                                     "<td>"+element.nom+"</td>"+
                                     "<td>"+element.numelecteur+"</td>"+
@@ -404,7 +404,7 @@
                             // do something with the response data
                             var contenu ='';
                             response.forEach(element => {
-                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
                                     "<td>"+element.prenom+"</td>"+
                                     "<td>"+element.nom+"</td>"+
                                     "<td>"+element.numelecteur+"</td>"+
@@ -455,7 +455,7 @@
                             // do something with the response data
                             var contenu ='';
                             response.forEach(element => {
-                                contenu = contenu +"<tr><td>"+element.id+"</td>"+
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
                                     "<td>"+element.prenom+"</td>"+
                                     "<td>"+element.nom+"</td>"+
                                     "<td>"+element.numelecteur+"</td>"+
