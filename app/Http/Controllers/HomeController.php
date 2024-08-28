@@ -203,5 +203,37 @@ class HomeController extends Controller
         } 
         return view("search",compact("listeNationals","listeDepartementals")); 
     }
+
+    public function formulaire(Request $request)
+    {
+        $scrutin = $request->scrutin;
+        $type = $request->type;
+        //dd( $request->scrutin,$request->type);
+        if($request->scrutin = "majoritaire" && isset($request->departement_id) && isset($request->type) )
+        {
+            
+            $listes                = $this->listeDepartementRepository->getByListeAndType(Auth::user()->liste_id,$request->type,$request->departement_id);
+            $departement           = $this->departementRepository->getById($request->departement_id);
+          //  dd($listes);
+
+        }
+        else if ($request->scrutin =="propotionnel" && isset($request->type) )
+        {
+            $listes                = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,$request->type);
+            dd($listes);
+        }
+        else
+        {
+            $listes =array();
+            $departement = null;
+        }
+      
+       //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
+       
+            return view("formulairetype",compact('listes','type','scrutin','departement')); // Vous pouvez retourner le résultat final si besoin
+
+       
+    
+    }
     
 }

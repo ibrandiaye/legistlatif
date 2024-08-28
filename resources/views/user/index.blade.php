@@ -13,7 +13,10 @@
                                 <li class="breadcrumb-item active"><a href="{{ route('user.create') }}">ENREGISTRER user</a></li>
                                 </ol>
                             </div>
-                            <h4 class="page-title">Starter</h4>
+                             @if(Auth::user()->role=="admin") DGE
+                        @else
+                        {{Auth::user()->liste->nom}}
+                         @endif
                         </div>
                     </div>
                     <div class="clearfix"></div>

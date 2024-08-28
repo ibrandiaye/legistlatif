@@ -58,6 +58,8 @@ Route::post('/update/password',[UserController::class,'updatePassword'])->name("
 
 Route::post('/search/candidat',[HomeController::class,'searchCandidat'])->name("search.candidat")->middleware(["auth","admin"]);
 
+Route::post('/formulaire',[HomeController::class,'formulaire'])->name("generer.formulaire")->middleware("auth");
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

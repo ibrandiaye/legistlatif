@@ -15,7 +15,10 @@
 
                         </ol>
                     </div>
-                    <h4 class="page-title">Starter</h4>
+                     @if(Auth::user()->role=="admin") DGE
+                        @else
+                        {{Auth::user()->liste->nom}}
+                         @endif
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -85,7 +88,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label>Numéro Elecetur </label>
+                                            <label>Numéro Electeur </label>
                                             <input type="number" name="numelecteur" id="numelecteur"  class="form-control"  required>
                                             <span class="input-group-append">
                                                 <button type="button" id="btnnumelec" class="btn  btn-primary"><i class="fa fa-search"></i> Rechercher</button>
@@ -197,8 +200,19 @@
                                     </center>
                                 </div>
                                 <?php $candidats = Session::get('candidats') ?  Session::get('candidats') : array(); ?>
-
+                            </form>
                                 <div class="col-lg-12">
+                                    
+                                <form action="{{ route('generer.formulaire') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="departement_id"  id="departement_idf">
+                                    <input type="hidden" name="scrutin"  id="scrutinf" required>
+                                    <input type="hidden" name="type"  id="typef" required>
+                                    <br><br>
+                                    <center>
+                                        <button type="submit" class="btn btn-success btn btn-lg "> Imprimer</button>
+                                    </center>
+                                </form>
                                     <table id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center datatable-buttons">
                                         <thead>
                                             <tr>
@@ -244,14 +258,14 @@
 
                             </div>
 
-            </form>
+            
             
 
 @endsection
 @section('script')
     <script>
       url = "http://5.189.166.92/legistlatif/public/";
-      // url = "http://127.0.0.1:8000/";
+      //url = "http://127.0.0.1:8000/";
       urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
      // urlSearch = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
@@ -277,7 +291,7 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-          // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+         // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
           url: 'http://5.189.166.92:7777/api/cartes/get/by/nin?nin='+cni,
           
             data:'_token = <?php echo csrf_token() ?>',
@@ -309,8 +323,8 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-          //url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
-         url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+          url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+         //url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -341,6 +355,9 @@
             var scrutin =  $("#scrutin").children("option:selected").val();
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
+            $("#scrutinf").val(scrutin);
+            $("#typef").val(type);
+            $("#departement_idf").val(departement_id);
             $("#tbody").empty();
             if(scrutin && type)
             {
@@ -508,6 +525,9 @@
             var scrutin =  $("#scrutin").children("option:selected").val();
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
+            $("#scrutinf").val(scrutin);
+            $("#typef").val(type);
+            $("#departement_idf").val(departement_id);
             console.log(scrutin,type,departement_id);
             if(scrutin && type)
             {
@@ -708,6 +728,11 @@
 
         $("#departement_id").change(function () {
             var departement_id =  $("#departement_id").children("option:selected").val();
+            var scrutin =  $("#scrutin").children("option:selected").val();
+            var type =  $("#type").children("option:selected").val();
+            $("#scrutinf").val(scrutin);
+            $("#typef").val(type);
+            $("#departement_idf").val(departement_id);
             $("#nb").val('');
             if(departement_id)
             {
@@ -728,8 +753,7 @@
                     }
                 });
             }
-            var scrutin =  $("#scrutin").children("option:selected").val();
-            var type =  $("#type").children("option:selected").val();
+            
             if(scrutin && type)
             {
                 if(scrutin == "majoritaire")

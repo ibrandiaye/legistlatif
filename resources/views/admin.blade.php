@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item active"><a href="{{ route('user.create') }}">ENREGISTRER user</a></li>
                     </ol>
                 </div>
-                    <h4 class="page-title">Starter</h4>
+                    <h4 class="page-title">{{Auth::user()->liste->nom}}</h4>
             </div>
         </div>
         <div class="clearfix"></div>
