@@ -208,8 +208,7 @@ class HomeController extends Controller
     {
         $scrutin = $request->scrutin;
         $type = $request->type;
-        //dd( $request->scrutin,$request->type);
-        if($request->scrutin = "majoritaire" && isset($request->departement_id) && isset($request->type) )
+        if($request->scrutin == "majoritaire" && isset($request->departement_id) && isset($request->type) )
         {
             
             $listes                = $this->listeDepartementRepository->getByListeAndType(Auth::user()->liste_id,$request->type,$request->departement_id);
@@ -220,12 +219,12 @@ class HomeController extends Controller
         else if ($request->scrutin =="propotionnel" && isset($request->type) )
         {
             $listes                = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,$request->type);
-            dd($listes);
+           // dd($listes);
+           $departement = null;
         }
         else
         {
-            $listes =array();
-            $departement = null;
+            return redirect()->back()->with(['error'=>'Champs manquantes (scrutin,type et  departement si le scrutin est majoriatire )',]);
         }
       
        //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final

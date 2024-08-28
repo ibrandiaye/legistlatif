@@ -267,7 +267,7 @@
       url = "http://5.189.166.92/legistlatif/public/";
       //url = "http://127.0.0.1:8000/";
       urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
-     // urlSearch = "http://127.0.0.1:8000/search/ajax";
+      //   urlSearch = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
 
           $(document).ready(function () {
@@ -275,6 +275,7 @@
            // setTimeout(, 2000); 
             $(".departement").hide();
             $(".typeliste").hide();
+            
             scrutin = '{{old('scrutin')}}'; 
         
             if(scrutin == "majoritaire")
@@ -291,7 +292,7 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-         // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+        // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
           url: 'http://5.189.166.92:7777/api/cartes/get/by/nin?nin='+cni,
           
             data:'_token = <?php echo csrf_token() ?>',
@@ -323,8 +324,8 @@
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
-          url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
-         //url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+         // url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+         url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -460,13 +461,15 @@
                     }
                 });
                 $("#tbody").empty();
-                $.ajax({
+                if(type){
+                    $.ajax({
                         url: urlSearch,
                         method: 'POST',
                         data: {
                            _token: '{!! csrf_token() !!}',
                             liste_id: liste_id,
                             scrutin: scrutin,
+                            type : type
                             // add more key-value pairs as needed
                         },
                         success: function(response) {
@@ -498,6 +501,49 @@
                             // handle the error case
                         }
                     });
+                }
+                else{
+                    $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           _token: '{!! csrf_token() !!}',
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            type : type
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            var contenu ='';
+                            response.forEach(element => {
+                               
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").append(contenu);
+                             initializeDataTable();
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
+                }
+             
                 }
             }
             if(scrutin=='majoritaire')
