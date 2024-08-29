@@ -486,9 +486,9 @@
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
                                      "<td>"+element.erreur+"</td>"+
-                                    "<td> <a href='/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                    "<a href='/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                    "<a href='/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<td> <a href='lhttp://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -527,9 +527,9 @@
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
                                      "<td>"+element.erreur+"</td>"+
-                                    "<td> <a href='/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                    "<a href='/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                    "<a href='/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<td> <a href='lhttp://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -652,9 +652,9 @@
                                     "<td>"+element.profession+"</td>"+
                                     "<td>"+element.datenaiss+"</td>"+
                                     "<td>"+element.lieunaiss+"</td>"+
-                                    "<td> <a href='/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                    " <a href='/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                    "<a href='/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<td> <a href='lhttp://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    " <a href='lhttp://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -743,9 +743,9 @@
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
                                      "<td>"+element.erreur+"</td>"+
-                                    "<td> <a href='/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                    "<a href='/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                    "<a href='/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<td> <a href='lhttp://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -877,9 +877,9 @@
                                     "<td>"+element.datenaiss+"</td>"+
                                     "<td>"+element.lieunaiss+"</td>"+
                                     "<td>"+element.erreur+"</td>"+
-                                    "<td> <a href='/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                    " <a href='/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                    "<a href='/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<td> <a href='lhttp://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    " <a href='lhttp://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='lhttp://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
