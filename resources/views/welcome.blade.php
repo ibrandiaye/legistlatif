@@ -133,6 +133,11 @@
                                 <i class="mdi mdi-airplay"></i> Rechercher
                             </a>
                             </li>
+                            <li>
+                                <a href="{{route('supprimer.voir')}}">
+                                <i class="mdi mdi-airplay"></i> Supprimer
+                            </a>
+                            </li>
                            {{--  <li>
                                 <a href="{{ route('listedepartemental.index') }}">
                                 <i class="mdi mdi-airplay"></i> Liste Majoritaire

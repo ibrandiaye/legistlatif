@@ -198,8 +198,9 @@ class ListeDepartementalController extends Controller
 
                 }
             }
-            $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartement($request->numcni,$request->liste_id,$request->departement_id);
+           // $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartement($request->numcni,$request->liste_id,$request->departement_id);
             $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
+            $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$request->liste_id);
 
             if(!empty($listeDepartemental) || !empty($mylisteNational))
             {

@@ -90,5 +90,11 @@ class ListeNationalRepository extends RessourceRepository{
        {
             return ListeNational::where("liste_id",$id)->delete();
        }
+       public function supprimerListe($liste,$type)
+       {
+        return DB::table("liste_nationals")
+        ->where([["liste_id",$liste],["type",$type]])
+        ->delete();
+       }
      
 }

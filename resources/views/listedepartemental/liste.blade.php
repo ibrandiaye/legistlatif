@@ -29,16 +29,30 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    
+
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-3">
+                   {{--  <div class="col-lg-3">
                         <label> Scrutin</label>
                         <select class="form-control" id="scrutin" name="scrutin" required="">
                             <option value="">Selectionner</option>
                             <option value="majoritaire" {{old('scrutin') == 'majoritaire' ? 'selected' : '' }}>Majoritaire</option>
                             <option value="propotionnel" {{old('scrutin') == 'propotionnel' ? 'selected' : '' }}>Propotionnel</option>
+                        </select>
+                    </div> --}}
+                    <input type="hidden" value="majoritaire" id="scrutin" name="scrutin">
+
+                    <div class="col-lg-3 departement">
+                        <label>Departement</label>
+                        <select class="form-control" name="departement_id"  id="departement_id">
+                            <option value="">Selectionner</option>
+                            @foreach ($departements as $departement)
+                            <option value="{{$departement->id}}"  {{old('departement_id') == $departement->id ? 'selected' : '' }}>{{$departement->nom}}</option>
+                                @endforeach
+    
                         </select>
                     </div>
                     <div class="col-lg-3 typeliste" >
@@ -51,19 +65,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3 departement">
-                        <label>Departement</label>
-                        <select class="form-control" name="departement_id"  id="departement_id">
-                            <option value="">Selectionner</option>
-                            @foreach ($departements as $departement)
-                            <option value="{{$departement->id}}"  {{old('departement_id') == $departement->id ? 'selected' : '' }}>{{$departement->nom}}</option>
-                                @endforeach
-    
-                        </select>
-                    </div>
+                   
                 </div>
                
                 <div id="search">
+                    <h3>Liste Titulaire</h3>
                     <table  class="table table-bordered table-responsive-md table-striped text-center">
                         <thead>
                             <tr>
@@ -109,96 +115,8 @@
             </div>
         </div>
     </div>
-    <div id="defaut">
-        <div class="col-12">
-            <div class="card ">
-                <div class="card-header">LISTE PROPORTIONNEL</div>
-                    <div class="card-body">
-                          
-                    
-                        <h3>Titulaires</h3>
-                        <table id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center ">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Prenom</th>
-                                    <th>Nom</th>
-                                    <th>Numero Electeur</th>
-                                    <th>Sexe</th>
-                                    <th>Profession</th>
-                                    <th>Date de Naissance</th>
-                                    <th>Lieux de Naissance</th>
-                                    <th>Erreur</th>
-                                    <th>Action</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($listenationalTitulaire as $listenational)
-                                @if($listenational->type=='titulaire')
-                                    <tr>
-                                        <td>{{ $listenational->ordre }}</td>
-                                        <td>{{ $listenational->prenom }}</td>
-                                        <td>{{ $listenational->nom }}</td>
-                                        <td>{{ $listenational->numelecteur }}</td>
-                                        <td>{{ $listenational->sexe }}</td>
-                                        <td>{{ $listenational->profession }}</td>
-                                        <td>{{ $listenational->datenaiss }}</td>
-                                        <td>{{ $listenational->lieunaiss }}</td>
-                                        <td class="text-danger">{{ $listenational->erreur }}</td>
-                                        <td>
-                                            <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
-                                                <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                            </td>
-                                        </td>    
-                                    </tr>
-                                @endif
-                            @endforeach
-        
-                            </tbody>
-                        </table>
-                        <h3>Suppleant</h3>
-                        <table id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center ">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Prenom</th>
-                                    <th>Nom</th>
-                                    <th>Numero Electeur</th>
-                                    <th>Sexe</th>
-                                    <th>Profession</th>
-                                    <th>Date de Naissance</th>
-                                    <th>Lieux de Naissance</th>
-                                    <th>Erreur</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($listenationalSuppleant as $listenational)
-                                @if($listenational->type=='supleant')
-                                    <tr>
-                                        <td>{{ $listenational->ordre }}</td>
-                                        <td>{{ $listenational->prenom }}</td>
-                                        <td>{{ $listenational->nom }}</td>
-                                        <td>{{ $listenational->numelecteur }}</td>
-                                        <td>{{ $listenational->sexe }}</td>
-                                        <td>{{ $listenational->profession }}</td>
-                                        <td>{{ $listenational->datenaiss }}</td>
-                                        <td>{{ $listenational->lieunaiss }}</td>
-                                        <td class="text-danger">{{ $listenational->erreur }}</td>
-                                    <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
-                                        <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                    </td>
-
-                                    </tr>
-                                @endif
-                            @endforeach
-        
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
-        </div>           
+    {{-- <div id="defaut">
+             
         @foreach($listeParDepartementFinal as $departement => $categories)
         <div class="col-12">
             <div class="card ">
@@ -305,14 +223,89 @@
         </div>  
     </div>
         @endforeach
+    </div> --}}
+    @foreach ($tabCandidats as $item)
+    @if($item["titulaire"] > 0 || $item["suppleant"] > 0 )
+    <h4 class="page-title">{{$item["departement"]}}</h4>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-row">
+                        <div class="col-3 align-self-center">
+                            <div class="round">
+                                <i class="mdi mdi-eye"></i>
+                            </div>
+                        </div>
+                        <div class="col-9 align-self-center text-right">
+                            <div class="m-l-10">
+                                <h5 class="mt-0">{{ $item["titulaire"]}}</h5>
+                                <p class="mb-0 text-muted">Liste Titulaire </p> {{--<span class="badge bg-soft-success"><i class="mdi mdi-arrow-up"></i>2.35%</span>--}}
+                            </div>
+                        </div>                                                                                          
+                    </div>
+                    <div class="progress mt-3" style="height:3px;">
+                        <div class="progress-bar  bg-success" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="search-type-arrow"></div>
+                    <div class="d-flex flex-row">
+                        <div class="col-3 align-self-center">
+                            <div class="round ">
+                                <i class="mdi mdi-cart"></i>
+                            </div>
+                        </div>
+                        <div class="col-9 align-self-center text-right">
+                            <div class="m-l-10 ">
+                                <h5 class="mt-0">{{$item["suppleant"] }}</h5>
+                                <p class="mb-0 text-muted">Liste Suppleant</p>
+                            </div>
+                        </div>                                                                
+                    </div>
+                    <div class="progress mt-3" style="height:3px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 61%;" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div><!--end col-->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="search-type-arrow"></div>
+                    <div class="d-flex flex-row">
+                        <div class="col-3 align-self-center">
+                            <div class="round ">
+                                <i class="mdi mdi-cart"></i>
+                            </div>
+                        </div>
+                        <div class="col-9 align-self-center text-right">
+                            <div class="m-l-10 ">
+                                <h5 class="mt-0">{{$item["suppleant"] + $item["titulaire"]}}</h5>
+                                <p class="mb-0 text-muted">Total</p>
+                            </div>
+                        </div>                                                                
+                    </div>
+                    <div class="progress mt-3" style="height:3px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 61%;" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div><!--end col-->
     </div>
-    
+
+    @endif
+@endforeach
 
 @endsection
 @section('script')
     <script>
-     url = "http://5.189.166.92/legistlatif/public/";
-    //  url = "http://127.0.0.1:8000/";
+      url = "http://5.189.166.92/legistlatif/public/";
+      //url = "http://127.0.0.1:8000/";
       urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
        // urlSearch = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
@@ -320,118 +313,19 @@
           $(document).ready(function () {
            
            // setTimeout(, 2000); 
-            $(".departement").hide();
+           /*  $(".departement").hide();
             $(".typeliste").hide();
-            $("#search").hide();
+            $("#search").hide(); */
             
             scrutin = '{{old('scrutin')}}'; 
         
-            if(scrutin == "majoritaire")
-            {
-                $(".departement").show();
-                $(".typeliste").show();
-            }
-            if(scrutin == "propotionnel")
-            {
-                $(".typeliste").show();
-            }
+           
     
         });
-          $("#scrutin").change(function () {
-            var scrutin =  $("#scrutin").children("option:selected").val();
-            var type =  $("#type").children("option:selected").val();
-            var departement_id =  $("#departement_id").children("option:selected").val();
-            $("#scrutinf").val(scrutin);
-            $("#typef").val(type);
-            $("#departement_idf").val(departement_id);
-            $("#tbody").empty();
-            $("#search").show();
-            $("#defaut").hide();
-         if(scrutin=='propotionnel')
-            {
-                    
-                $.ajax({
-                    url: urlSearch,
-                    method: 'POST',
-                    data: {
-                    _token: '{!! csrf_token() !!}',
-                        liste_id: liste_id,
-                        scrutin: scrutin,
-                       type : type
-                        // add more key-value pairs as needed
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }       
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                        // handle the error case
-                    }
-                });
-            }
-               
-            if(scrutin=='majoritaire')
-            {
-                $(".typeliste").show();
-                $(".departement").show();
-                $('#departement_id').attr('required', true);
-            }
-            else if(scrutin=='propotionnel')
-            {
-                $(".departement").hide();
-                $(".typeliste").show();
-                $('#departement_id').removeAttr('required');
-            }
-            else
-            {
-                $(".departement").hide();
-                $(".typeliste").hide();
-                $('#departement_id').attr('required', true);
-
-            }
-          });
+         
           $("#type").change(function () {
            
-            var scrutin =  $("#scrutin").children("option:selected").val();
+            var scrutin =  $("#scrutin").val();
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
             $("#tbody").empty();
@@ -580,7 +474,7 @@
 
         $("#departement_id").change(function () {
             var departement_id =  $("#departement_id").children("option:selected").val();
-            var scrutin =  $("#scrutin").children("option:selected").val();
+            var scrutin =  $("#scrutin").val();
             var type =  $("#type").children("option:selected").val();
             $("#tbody").empty();
             $("#tbodys").empty();

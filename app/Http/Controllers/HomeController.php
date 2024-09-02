@@ -35,9 +35,24 @@ class HomeController extends Controller
             $nbSupleantNational = $this->listeNationalRepository->countByTypeAndListe("supleant", Auth::user()->liste_id);
             $nbTitulaireDepartemental = $this->listeDepartementRepository->countByTypeAndListe("titulaire", Auth::user()->liste_id);
             $nbSupleantDepartemental = $this->listeDepartementRepository->countByTypeAndListe("supleant", Auth::user()->liste_id);
+         
+        
+         
+            return view("home", compact("nbTitulaireNational", "nbSupleantNational", "nbTitulaireDepartemental", "nbSupleantDepartemental"));  
+        }
+        else if(Auth::user()->role == 'admin')
+        {
+            $listes = $this->listeRepository->getAll();
+            return view("dashboard",compact("listes"));
+        }
+        
+    }
+    public function stateByScrutin($scrution)
+    {
+        if($scrution=="majoritaire")
+        {
             $nbCandidatByListeGroupByDptAndTypes = $this->listeDepartementRepository->countByListeGroupByDepartementAndType(Auth::user()->liste_id);
             $departements = $this->departementRepository->getOrbyRegion();
-        
             $tabCandidats = [];
         
             foreach ($departements as $departement) {
@@ -59,14 +74,50 @@ class HomeController extends Controller
         
                 $tabCandidats[] = $data;
             }
-            return view("home", compact("nbTitulaireNational", "nbSupleantNational", "nbTitulaireDepartemental", "nbSupleantDepartemental", "tabCandidats"));  
+            $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",Auth::user()->liste_id);
+        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",Auth::user()->liste_id);
+/* 
+        $listeParDepartementFinal = [];
+    
+        foreach ($departements as $departement) {
+            $titulaire = [];
+            $supleant = [];
+    
+            foreach ($listeDepartementaleTitulaires as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $titulaire[] = ["data" => $listeDepartementale];
+                }
+            }
+            foreach ($listeDepartementaleSupleants as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $supleant[] = ["data" => $listeDepartementale];
+                }
+            }
+    
+            if(!empty($titulaire) || !empty($supleant))
+            {
+                $listeParDepartementFinal[$departement->nom]["titulaire"] = $titulaire;
+                $listeParDepartementFinal[$departement->nom]["supleant"] = $supleant;
+                $listeParDepartementFinal[$departement->nom]["nombre"] = $departement->nb;
+            }
+         
+        } */
+   // "listeParDepartementFinal",
+            return view("listedepartemental.liste", compact(   "tabCandidats","departements"));  
+
         }
-        else if(Auth::user()->role == 'admin')
+        else if($scrution=="proportionnel")
         {
-            $listes = $this->listeRepository->getAll();
-            return view("dashboard",compact("listes"));
+            $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'supleant');
+            $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'titulaire');
+            //dd($listenationalTitulaire);
+            return view("listenational.liste", compact("listenationalSuppleant",  "listenationalTitulaire"));  
+
         }
-        
+        else
+        {
+            return redirect()->back();
+        }
     }
     
     public function liste($type)
@@ -106,12 +157,12 @@ class HomeController extends Controller
        //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
         if($type==1)
         {
-            return view("listecomplet",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire')); // Vous pouvez retourner le résultat final si besoin
+            return view("listecomplet",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire','departements')); // Vous pouvez retourner le résultat final si besoin
 
         }
         else
         {
-            return view("formulaire",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire')); // Vous pouvez retourner le résultat final si besoin
+            return view("formulaire",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire','departements')); // Vous pouvez retourner le résultat final si besoin
 
         }
     
@@ -216,6 +267,12 @@ class HomeController extends Controller
           //  dd($listes);
 
         }
+        else if($request->scrutin == "majoritaire" && isset($request->departement_id))
+        {
+            $listes                = $this->listeDepartementRepository->getByListe(Auth::user()->liste_id,$request->departement_id);
+            $departement           = $this->departementRepository->getById($request->departement_id);
+         //   dd($listes);
+        }
         else if ($request->scrutin =="propotionnel" && isset($request->type) )
         {
             $listes                = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,$request->type);
@@ -233,6 +290,30 @@ class HomeController extends Controller
 
        
     
+    }
+    public function supprimerListe($scrutin,$type,$departement)
+    {
+       
+        if($scrutin=="majoritaire")
+        {
+            $this->listeDepartementRepository->supprimerListe(Auth::user()->liste_id,$type,$departement);
+            return redirect()->back()->with('error', 'Suppresion réussi.'); 
+        }
+        else if($scrutin=="proportionnel")
+        {
+           
+            $this->listeNationalRepository->supprimerListe(Auth::user()->liste_id,$type);
+            return redirect()->back()->with('error', 'Suppresion réussi.'); 
+        }
+        else
+        {
+            return redirect()->back();
+        }
+    }
+    public function supprimerVoir()
+    {
+       $departements = $this->departementRepository->getOrbyRegion();
+       return view("supprimer",compact("departements"));
     }
     
 }

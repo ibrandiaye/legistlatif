@@ -51,33 +51,13 @@
 </div>
 <div class="row " >
     <div class="col text-center">
-        <h4>ELECTIONS LEGISLATIVES DU 31 juillet 2024</h4>
+        <h4>ELECTIONS LEGISLATIVES DU XX xx 2024</h4>
 
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>Nom du parti, de la coalition de partis politiques ou de l’entité indépendante</p>
-    </div>
-    <div class="col-sm-2">
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>TITRE (éventuellement)  </p>
-    </div>
-    <div class="col-sm-2">
 
-    </div>
-</div>
 <div class="row">
     <div class="col-sm-2">
     
@@ -174,30 +154,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>ELECTIONS LEGISLATIVES DU 31 juillet 2024</h4>
-
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>Nom du parti, de la coalition de partis politiques ou de l’entité indépendante</p>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>TITRE (éventuellement)  </p>
-    </div>
-    <div class="col-sm-2">
+        <h4>ELECTIONS LEGISLATIVES DU XX xx 2024</h4>
 
     </div>
 </div>
@@ -237,7 +194,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>{{$type}}</h4>
+        <h4>TItulaire</h4>
         <p>{{$departement->nb}} candidats</p>
     </div>
    
@@ -265,6 +222,7 @@
             
                 @if(!empty($listes))
                     @foreach($listes as $liste)
+                        @if($liste->type=="titulaire")
                     
                         <tr>
                             <td>{{ $liste->ordre }}</td>
@@ -278,6 +236,65 @@
 
 
                         </tr>
+                        @endif
+                    @endforeach        
+                @endif
+                    
+            </tbody>
+                
+        </table>
+  
+            
+    </div>
+    <div class="col-sm-1">
+
+    </div>
+</div>
+<div class="row text-center" >
+    <div class="col text-center">
+        <h4>Suppleant</h4>
+        <p>{{$departement->nb}} candidats</p>
+    </div>
+   
+</div>
+<div class="row">
+    <div class="col-sm-1">
+    
+    </div>
+    <div class="col-sm-10">
+
+        <table  class="table table-bordered table-responsive-md table-striped text-center ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Prenom</th>
+                    <th>Nom</th>
+                    <th>Date de Naissance</th>
+                    <th>Sexe</th>
+                    <th>Profession</th>
+                    <th>Domicile </th>
+                    <th>Service, Emploi et lieu d’affectation pour les agents de l’Etat</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+                @if(!empty($listes))
+                    @foreach($listes as $liste)
+                        @if($liste->type=="supleant")
+                    
+                        <tr>
+                            <td>{{ $liste->ordre }}</td>
+                            <td>{{ $liste->prenom }}</td>
+                            <td>{{ $liste->nom }}</td>
+                            <td>{{ $liste->datenaiss }} à {{ $liste->lieunaiss }}</td>
+                            <td>{{ $liste->sexe }}</td>
+                            <td>{{ $liste->profession }}</td>
+                            <td>{{ $liste->domicile }}</td>
+                            <td>{{ $liste->se }}</td>
+
+
+                        </tr>
+                        @endif
                     @endforeach        
                 @endif
                     

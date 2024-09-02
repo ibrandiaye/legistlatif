@@ -213,6 +213,27 @@
                                         <button type="submit" class="btn btn-success btn btn-lg "> Imprimer</button>
                                     </center>
                                 </form>
+                                    <h3>Liste Suppleant</h3>
+                                    <table  class="table table-bordered table-responsive-md table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Prenom</th>
+                                                <th>Nom</th>
+                                                <th>Numero Electeur</th>
+                                                <th>Sexe</th>
+                                                <th>Profession</th>
+                                                <th>Date de Naissance</th>
+                                                <th>Lieux de Naissance</th>
+                                                <th>Erreur</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                        
+                    
+                                        </tbody>
+                                    </table>
                                     <h3>Liste Titulaire</h3>
                                     <table  class="table table-bordered table-responsive-md table-striped text-center">
                                         <thead>
@@ -234,27 +255,6 @@
                     
                                         </tbody>
                                     </table>
-                                    <h3>Liste Suppleant</h3>
-                                    <table  class="table table-bordered table-responsive-md table-striped text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Prenom</th>
-                                                <th>Nom</th>
-                                                <th>Numero Electeur</th>
-                                                <th>Sexe</th>
-                                                <th>Profession</th>
-                                                <th>Date de Naissance</th>
-                                                <th>Lieux de Naissance</th>
-                                                <th>Erreur</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodys">
-                                        
-                    
-                                        </tbody>
-                                    </table>
                     
                                 </div>
                             </div>
@@ -267,10 +267,10 @@
 @endsection
 @section('script')
     <script>
-    //  url = "http://5.189.166.92/legistlatif/public/";
-      url = "http://127.0.0.1:8000/";
-     // urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
-        urlSearch = "http://127.0.0.1:8000/search/ajax";
+      url = "http://5.189.166.92/legistlatif/public/";
+      //url = "http://127.0.0.1:8000/";
+     urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
+        //urlSearch = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
 
           $(document).ready(function () {
@@ -363,7 +363,7 @@
             $("#typef").val(type);
             $("#departement_idf").val(departement_id);
             $("#tbody").empty();
-           if(scrutin && type)
+            if(scrutin && type)
             {
                 if(scrutin == "majoritaire")
                 {
@@ -373,7 +373,7 @@
                     type:'GET',
                     url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
-                    //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
                     success:function(data) {
                             sexe =""
@@ -419,114 +419,136 @@
                 else if(scrutin=='propotionnel')
                 {
                     $.ajax({
-                        type:'GET',
-                        url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
-                       //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
-                        data:'_token = <?php echo csrf_token() ?>',
-                        success:function(data) {
+                    type:'GET',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
 
-                            $("#numero").empty();
-                            $("#full-message").empty()
-                            if(data.ordre)
-                            {
-                                $("#numero").append(data.ordre+1);
-                                sexe = data.sexe;
-                                $("#sexeSaisir").empty();
-                            
-                                    if(sexe=="M")
-                                    {
-                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                    }
-                                    else if(sexe=="F")
-                                    {
-                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                    }
-                                    if( data.type == "titulaire" && data.ordre ==53 )
-                                    {
-                                        $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
-                                    }
-                                    else if(data.type == "supleant" && data.ordre ==50 )
-                                    {
-                                        $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                        $("#numero").empty();
+                        $("#full-message").empty()
+                        if(data.ordre)
+                        {
+                            $("#numero").append(data.ordre+1);
+                            sexe = data.sexe;
+                            $("#sexeSaisir").empty();
+                          
+                                if(sexe=="M")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                }
+                                else if(sexe=="F")
+                                {
+                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                }
+                                if( data.type == "titulaire" && data.ordre ==53 )
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                                }
+                                else if(data.type == "supleant" && data.ordre ==50 )
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
 
-                                    }
+                                }
 
-                                
-                            }
-                            else
-                            {
-                                $("#sexeSaisir").empty();
-                                $("#numero").append("1");
-                            }
-                        
-                        
-                            //$("#localite_id").empty();
+                               
+                        }
+                        else
+                        {
+                            $("#sexeSaisir").empty();
+                            $("#numero").append("1");
+                        }
+                     
+                       
+                        //$("#localite_id").empty();
+                    }
+                });
+                $("#tbody").empty();
+                if(type){
+                    $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           _token: '{!! csrf_token() !!}',
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            type : type
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            var contenu ='';
+                            response.forEach(element => {
+                               
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").append(contenu);
+                             initializeDataTable();
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
                         }
                     });
                 }
-            }
-            else if(scrutin=='propotionnel')
-            {
-                    
-                $.ajax({
-                    url: urlSearch,
-                    method: 'POST',
-                    data: {
-                    _token: '{!! csrf_token() !!}',
-                        liste_id: liste_id,
-                        scrutin: scrutin,
-                       type : type
-                        // add more key-value pairs as needed
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }       
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
+                else{
+                    $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           _token: '{!! csrf_token() !!}',
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            type : type
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            var contenu ='';
+                            response.forEach(element => {
+                               
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                            $("#tbody").append(contenu);
+                             initializeDataTable();
 
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                        // handle the error case
-                    }
-                });
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
+                }
+             
+                }
             }
-               
             if(scrutin=='majoritaire')
             {
                 $(".typeliste").show();
@@ -556,15 +578,11 @@
             $("#typef").val(type);
             $("#departement_idf").val(departement_id);
             console.log(scrutin,type,departement_id);
-            $("#tbody").empty();
-            $("#tbodys").empty();
-            if(scrutin )
+            if(scrutin && type)
             {
                 if(scrutin == "majoritaire")
                 {
                     if(departement_id)
-                    {
-                        if(type)
                     {
                         $.ajax({
                     type:'GET',
@@ -608,10 +626,9 @@
                             }
                           
                             //$("#localite_id").empty();
-                        }
-                    });
                     }
-                   
+                });
+                $("#tbody").empty();
                 $.ajax({
                         url: urlSearch,
                         method: 'POST',
@@ -626,44 +643,28 @@
                         success: function(response) {
                             console.log(response);
                             // do something with the response data
-                            var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }       
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
+                            var contenu ='';
+
+                            response.forEach(element => {
+                               
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                    "<td>"+element.datenaiss+"</td>"+
+                                    "<td>"+element.lieunaiss+"</td>"+
+                                    "<td> <a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    " <a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                          
+                            $("#tbody").append(contenu);
+                            initializeDataTable();
+
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(errorThrown);
@@ -674,53 +675,52 @@
                 }
                 else if(scrutin=='propotionnel')
                 {
-                    if(type)
-                    {
-                        $.ajax({
-                        type:'GET',
-                        url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
-                    //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
-                        data:'_token = <?php echo csrf_token() ?>',
-                        success:function(data) {
+                    
+                    $.ajax({
+                    type:'GET',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
 
-                            console.log(data);
-                            $("#numero").empty();
-                            $("#full-message").empty()
-                            if(data.ordre)
+                        console.log(data);
+                        $("#numero").empty();
+                        $("#full-message").empty()
+                        if(data.ordre)
+                        {
+                            $("#numero").append(data.ordre+1);
+                            sexe = data.sexe; 
+                            $("#sexeSaisir").empty();
+                            if(sexe=="M")
                             {
-                                $("#numero").append(data.ordre+1);
-                                sexe = data.sexe; 
-                                $("#sexeSaisir").empty();
-                                if(sexe=="M")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                }
-                                else if(sexe=="F")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                }
-                                if( data.type == "titulaire" && data.ordre ==53 )
-                                {
-                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
-                                }
-                                else if(data.type == "supleant" && data.ordre ==50 )
-                                {
-                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
-
-                                }
+                                $("#sexeSaisir").append("Sexe à saisi Feminin ")
                             }
-                            else
+                            else if(sexe=="F")
                             {
-                                $("#sexeSaisir").empty();
-
-                                $("#numero").append("1");
+                                $("#sexeSaisir").append("Sexe à saisi Masculin ")
                             }
-        
-                        
-                            //$("#localite_id").empty();
+                            if( data.type == "titulaire" && data.ordre ==53 )
+                            {
+                                $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                            }
+                            else if(data.type == "supleant" && data.ordre ==50 )
+                            {
+                                $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+
+                            }
                         }
-                    });
-                }
+                        else
+                        {
+                            $("#sexeSaisir").empty();
+
+                             $("#numero").append("1");
+                        }
+    
+                    
+                        //$("#localite_id").empty();
+                    }
+                });
+                $("#tbody").empty();
                 $.ajax({
                         url: urlSearch,
                         method: 'POST',
@@ -734,44 +734,27 @@
                         success: function(response) {
                             console.log(response);
                             // do something with the response data
-                            var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }       
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
+                            var contenu ='';
+                            response.forEach(element => {
+                               
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                     "<td>"+element.datenaiss+"</td>"+
+                                     "<td>"+element.lieunaiss+"</td>"+
+                                     "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+                          
+                            $("#tbody").append(contenu);
+                            initializeDataTable();
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(errorThrown);
@@ -800,9 +783,6 @@
             $("#typef").val(type);
             $("#departement_idf").val(departement_id);
             $("#nb").val('');
-            $("#tbody").empty();
-            $("#tbodys").empty();
-
             if(departement_id)
             {
                 $.ajax({
@@ -823,120 +803,99 @@
                 });
             }
             
-            if(scrutin )
+            if(scrutin && type)
             {
                 if(scrutin == "majoritaire")
                 {
                     if(departement_id)
                     {
-                        if(type)
-                        {
-                            $.ajax({
-                                type:'GET',
-                                url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                        $.ajax({
+                    type:'GET',
+                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
-                            //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
-                                data:'_token = <?php echo csrf_token() ?>',
-                                success:function(data) {
-                                
-                                        console.log(data);
-                                        $("#numero").empty();
-                                        $("#full-message").empty()
-                                    if(data.ordre)
-                                        {
-                                            $("#numero").append(data.ordre+1);
-                                            sexe = data.sexe; 
-                                            $("#sexeSaisir").empty();
-                                            if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
-                                            {
-                                                
-                                        
-                                                if(sexe=="M")
-                                                {
-                                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                                }
-                                                else if(sexe=="F")
-                                                {
-                                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                                }
-                                                
-                                            }
-                                            if(data.ordre == data.nb)
-                                            {
-                                                $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            $("#sexeSaisir").empty();
-                                            $("#numero").append("1");
-                                        }
-                                    
-                                        //$("#localite_id").empty();
-                                    }
-                            });
-                        }
+                //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
                     
-                     
-                    $.ajax({
-                            url: urlSearch,
-                            method: 'POST',
-                            data: {
-                            " _token": "{{csrf_token()}}",
-                                liste_id: liste_id,
-                                scrutin: scrutin,
-                                departement_id: departement_id,
-                                // add more key-value pairs as needed
-                            },
-                            success: function(response) {
-                                console.log(response);
-                                // do something with the response data
-                              // do something with the response data
-                            var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
+                            console.log(data);
+                            $("#numero").empty();
+                            $("#full-message").empty()
+                           if(data.ordre)
                             {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
+                                $("#numero").append(data.ordre+1);
+                                sexe = data.sexe; 
+                                $("#sexeSaisir").empty();
+                                if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                {
+                                    
+                               
+                                    if(sexe=="M")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                    }
+                                    
+                                }
+                                if(data.ordre == data.nb)
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                                }
                             }
                             else
                             {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }       
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.log(errorThrown);
-                                // handle the error case
+                                $("#sexeSaisir").empty();
+                                $("#numero").append("1");
                             }
-                        });
+                          
+                            //$("#localite_id").empty();
+                    }
+                });
+                $("#tbody").empty();
+
+                $.ajax({
+                        url: urlSearch,
+                        method: 'POST',
+                        data: {
+                           " _token": "{{csrf_token()}}",
+                            liste_id: liste_id,
+                            scrutin: scrutin,
+                            departement_id: departement_id,
+                            // add more key-value pairs as needed
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // do something with the response data
+                            var contenu ='';
+                            response.forEach(element => {
+                                
+                                contenu = contenu +"<tr><td>"+element.ordre+"</td>"+
+                                    "<td>"+element.prenom+"</td>"+
+                                    "<td>"+element.nom+"</td>"+
+                                    "<td>"+element.numelecteur+"</td>"+
+                                    "<td>"+element.sexe+"</td>"+
+                                    "<td>"+element.profession+"</td>"+
+                                    "<td>"+element.datenaiss+"</td>"+
+                                    "<td>"+element.lieunaiss+"</td>"+
+                                    "<td>"+element.erreur+"</td>"+
+                                    "<td> <a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                    " <a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                    "<a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "</tr>";
+                                    
+                            });
+
+                            $("#tbody").append(contenu);
+                            initializeDataTable();
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            // handle the error case
+                        }
+                    });
                     }
                 }
             

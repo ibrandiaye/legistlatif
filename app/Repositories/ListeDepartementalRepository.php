@@ -95,7 +95,7 @@ class ListeDepartementalRepository extends RessourceRepository{
        }
        public function countByTypeAndListe($type,$liste)
        {
-        return DB::table("liste_nationals")
+        return DB::table("liste_departementals")
         ->where([["liste_id",$liste],["type",$type]])
         ->count();
        }
@@ -112,6 +112,13 @@ class ListeDepartementalRepository extends RessourceRepository{
        public function deleteByListe($id)
        {
             return ListeDepartemental::where("liste_id",$id)->delete();
+       }
+
+       public function supprimerListe($liste,$type,$departement)
+       {
+        return DB::table("liste_departementals")
+        ->where([["liste_id",$liste],["type",$type],['departement_id',$departement]])
+        ->delete();
        }
        
 }
