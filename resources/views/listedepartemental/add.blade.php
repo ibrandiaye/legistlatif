@@ -267,10 +267,10 @@
 @endsection
 @section('script')
     <script>
-    //  url = "http://5.189.166.92/legistlatif/public/";
-      url = "http://127.0.0.1:8000/";
-     // urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
-        urlSearch = "http://127.0.0.1:8000/search/ajax";
+      url = "http://5.189.166.92/legistlatif/public/";
+    //  url = "http://127.0.0.1:8000/";
+     urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
+      //  urlSearch = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
 
           $(document).ready(function () {
