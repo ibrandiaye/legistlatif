@@ -315,5 +315,41 @@ class HomeController extends Controller
        $departements = $this->departementRepository->getOrbyRegion();
        return view("supprimer",compact("departements"));
     }
+    public function recap()
+    {
+    
+        $nbCandidatByListeGroupByDptAndTypes = $this->listeDepartementRepository->countByListeGroupByDepartementAndType(Auth::user()->liste_id);
+        $departements = $this->departementRepository->getOrbyRegion();
+        $tabCandidats = [];
+        $suppleantd = 0;
+        $titulaired = 0;
+        foreach ($departements as $departement) {
+            $data = [
+                'titulaire' => 0,
+                'suppleant' => 0,
+                'departement' => $departement->nom,
+            ];
+    
+            foreach ($nbCandidatByListeGroupByDptAndTypes as $value) {
+                if ($value->departement_id == $departement->id) {
+                    if ($value->type == 'supleant') {
+                        $data['suppleant'] = $value->nb;
+                        $suppleantd = $suppleantd + $value->nb;
+                    } elseif ($value->type == 'titulaire') {
+                        $data['titulaire'] = $value->nb;
+                        $titulaired = $suppleantd + $value->nb;
+                    }
+                }
+            }
+    
+            $tabCandidats[] = $data;
+        }
+        $liste = Auth::user()->liste_id;
+        $nbTitulaireNational = $this->listeNationalRepository->countByTypeAndListe("titulaire", $liste);
+        $nbSupleantNational = $this->listeNationalRepository->countByTypeAndListe("supleant", $liste);
+       
+        return view("recap",compact("nbTitulaireNational","nbSupleantNational","suppleantd",
+    "titulaired","tabCandidats"));
+    }
     
 }

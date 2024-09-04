@@ -47,7 +47,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Nombre de candidat</label>
-                                    <input type="number" name="nb" class="form-control" value="{{$departement->nb}}"   required>
+                                    <input type="number" name="nb" class="form-control" value="{{ old('nb') }}"   required>
                                     </div>
 
                                 </div>

@@ -14,7 +14,7 @@
                     <li class="breadcrumb-item active"><a href="{{ route('liste.index') }}" >LISTE D'ENREGISTREMENT DES LISTES</a></li>
                 </ol>
             </div>
-            <h4 class="page-title">{{Auth::user()->liste->nom}}</h4>
+            <h4 class="page-title">Formulaire enregistrement Liste</h4>
         </div>
     </div>
     <div class="clearfix"></div>
