@@ -337,7 +337,7 @@ class HomeController extends Controller
                         $suppleantd = $suppleantd + $value->nb;
                     } elseif ($value->type == 'titulaire') {
                         $data['titulaire'] = $value->nb;
-                        $titulaired = $suppleantd + $value->nb;
+                        $titulaired = $titulaired + $value->nb;
                     }
                 }
             }

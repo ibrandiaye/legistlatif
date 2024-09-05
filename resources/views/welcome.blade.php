@@ -138,6 +138,11 @@
                                 <i class="mdi mdi-airplay"></i> Supprimer
                             </a>
                             </li>
+                            <li>
+                                <a href="{{route('recap')}}">
+                                <i class="mdi mdi-airplay"></i> Fecapitulatif des candidatures
+                            </a>
+                            </li>
                            {{--  <li>
                                 <a href="{{ route('listedepartemental.index') }}">
                                 <i class="mdi mdi-airplay"></i> Liste Majoritaire

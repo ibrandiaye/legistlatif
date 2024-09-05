@@ -83,6 +83,6 @@ Route::get('/supprimer/liste/{scrutin}/{type}/{departement}', [HomeController::c
 
 Route::get('/supprimer/liste', [HomeController::class,'supprimerVoir'])->name("supprimer.voir")->middleware("auth");
 
-Route::get('/recap', [HomeController::class,'recap'])->name("supprimer.voir")->middleware("auth");
+Route::get('/recap', [HomeController::class,'recap'])->name("recap")->middleware("auth");
 
 require __DIR__.'/auth.php';

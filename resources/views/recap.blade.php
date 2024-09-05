@@ -46,7 +46,7 @@
             <p>------------------</p>
             <p>ELECTIONS LEGISLATIVES DU XX</p>
             <p>………………………………………………………………………………………… (1)</p>
-            <h5>RECAPITULATIF DE CANDIDATURES</h5>
+            <h5>RECAPITULATIF DES CANDIDATURES</h5>
             <p>Départements où la liste se présente </p>
 
         </div>
@@ -54,12 +54,15 @@
 
         </div>
 </div>
-"","","nbTitulaireNational",
-    "nbSupleantNational"
 <div class="row" >
     <div class="col-12">
         <b>1-Sur le territoire national</b>
+       
+        
     </div>
+    @foreach ($tabCandidats as $item)
+       @if($item['titulaire'] > 0 || $item['suppleant'] >0) <div class="col" style="font-size: 13px;">{{$item['departement']}} <b>{{$item['titulaire'] + $item['suppleant']}}</b></div >@endif
+     @endforeach
     <div class="col-12">
         <b>2-A l’extérieur</b>
     </div>
