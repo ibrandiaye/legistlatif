@@ -377,6 +377,8 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
+                                     "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.doublon_externe+"</td>"+
+
                                      "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+

@@ -164,21 +164,20 @@ class ListeDepartementalController extends Controller
                 $firstSave  = $this->listedepartementalRepository->getfirstordreByListe($request->liste_id,$request->type,$request->departement_id);
                 if(!empty($firstSave))
                 {
-                    if($request->nb%2==0)
+                  
+                    if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
                     {
-                        if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
-                        {
-                        // $erreur = $erreur. ' Parite non respecter';
-                        //  $erreurdge = $erreurdge. 'Partite non respecter';
-                            $parite  =  ' Parite non respecter ';
+                    // $erreur = $erreur. ' Parite non respecter';
+                    //  $erreurdge = $erreurdge. 'Partite non respecter';
+                        $parite  =  ' Parite non respecter ';
 
-                            
-                        }
-                        else if(($request->ordre%2!=0 && $firstSave->sexe!=$request->sexe ))
-                        {
-                            $parite  =  ' Parite non respecter ';
-                        }
+                        
                     }
+                    else if(($request->ordre%2!=0 && $firstSave->sexe!=$request->sexe ))
+                    {
+                        $parite  =  ' Parite non respecter ';
+                    }
+    
                 }
            }
            
