@@ -115,6 +115,9 @@ class ListeNationalController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $parite = "";
+        $doublon_externe = "";
+        $doublon_interne = "";
         if($request->extrait_ou_cnis){
           
             $extrait_ou_cni = 'extrait_ou_cnis'.$request->prenom.'_'.$request->nom.'_'.$request->datenaiss.'_'.uniqid() .time().'.'.$request->extrait_ou_cnis->extension();
@@ -140,6 +143,7 @@ class ListeNationalController extends Controller
         ]);
 
         $candidat = $this->listenationalRepository->getById($id);
+        $firstSave  = $this->listenationalRepository->getFirstOrdreByListe($request->liste_id,$request->type);
 
         if($request->type=="titulaire")
         {
@@ -161,47 +165,51 @@ class ListeNationalController extends Controller
                     $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
                     $erreur     = $erreur. 'age minimun non ateint. age : '.$age.' ans';;
                 }
-        
-                if($candidat->ordre > 1)
+                $firstSave  = $this->listenationalRepository->getFirstOrdreByListe($request->liste_id,$request->type);
+
+                if ( $request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 < $request->nb))
                 {
-                    $lastSave  = $this->listenationalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$candidat->ordre-1);
-                    $nextCandidat =null;
-                    if($request->nb > $candidat->ordre)
+                    $firstSave  = $this->listenationalRepository->getfirstordreByListe($request->liste_id,$request->type);
+                  
+                    if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
                     {
-                        $nextCandidat = $this->listenationalRepository->getLastOrdreByListeAndOrdre($request->liste_id,$request->type,$candidat->ordre+1);
-                    }
-        
-                if($request->nb%2==0)
-                {
-                   // dd("pair");
-                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe )
-                    {
-                        $erreur = $erreur. ' Partite non respecter';
-                        $erreurdge = $erreurdge. 'Partite non respecter';
-                    }
-                    if(!empty($nextCandidat) && $nextCandidat->sexe==$request->sexe )
-                    {
-                        $erreur = $erreur. ' Partite non respecter';
-                        $erreurdge = $erreurdge. 'Partite non respecter';
-                    }
-                    
-                }
-                else
-                {
-                    if(!empty($lastSave) && $lastSave->sexe==$request->sexe && $lastSave->ordre+1<$request->nb )
-                    {
-                        $erreur = $erreur. ' Partite non respecter';
-                        $erreurdge = $erreurdge. 'Partite non respecter';
+                    // $erreur = $erreur. ' Parite non respecter';
+                    //  $erreurdge = $erreurdge. 'Partite non respecter';
+                        $parite  =  ' Parite non respecter ';
     
+                        
                     }
-                    if(!empty($nextCandidat) && $nextCandidat->sexe==$request->sexe && $nextCandidat->ordre < $request->nb )
+                    else if(($request->ordre%2!=0 && $firstSave->sexe!=$request->sexe ))
                     {
-                        $erreur = $erreur. ' Partite non respecter';
-                        $erreurdge = $erreurdge. 'Partite non respecter';
+                        $parite  =  ' Parite non respecter ';
+                    }
     
+                }
+        
+                if($candidat->ordre == 1)
+                {
+                    $candidats = $this->listenationalRepository->getAllByListeAndType($candidat->liste_id,$candidat->type);
+                            
+                    foreach ($candidats as $key => $value) {
+                        $pariteAutre = "";
+                        if($value->ordre > 1)
+                        {
+                            if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 < $request->nb))
+                            {
+                                if($firstSave->sexe==$value->sexe && $value->ordre%2==0  )
+                                {
+                                    $pariteAutre  =  ' Parite non respecter ';
+                                }
+                                else if($firstSave->sexe!=$value->sexe && $value->ordre%2!=0  )
+                                {
+                                    $pariteAutre  =  ' Parite non respecter ';
+                                }
+                            }
+                            ListeNational::where("id",$value->id)->update(["parite"=>$pariteAutre]);
+                        }
+
                     }
                 }
-            }
            
           
             $listeNational = $this->listenationalRepository->getByCniOuterListe($request->numcni,$candidat->liste_id);
@@ -211,24 +219,38 @@ class ListeNationalController extends Controller
             if(!empty($listeNational) || !empty($listeDepartemental))
             {
                 //$erreur = $erreur. 'Doublon externe';
-                $erreurdge = $erreurdge. 'Doublon externe ';
+               // $erreurdge = $erreurdge. 'Doublon externe ';
+               $doublon_externe =  ' Doublon externe ';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.'); 
                 if($listeDepartemental)
                 {
                     $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
                     $departement = DB::table("departements")->where("id",$listeDepartemental->departement_id)->first();
-                    $erreurdge = $erreurdge. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
-                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["erreurdge"=>$listeDepartemental->erreurdge." Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
+                    $doublon_externe = $doublon_externe. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
+                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_externe"=>" Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
 
                 }
                 if($listeNational)
                 {
                     $liste = DB::table("listes")->where("id",$listeNational->liste_id)->first();
-                    $erreurdge = $erreurdge. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
-                    ListeNational::where("id",$listeNational->id)->update(["erreurdge"=>$listeNational->erreurdge." Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
+                    $doublon_externe = $doublon_externe. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
+                    ListeNational::where("id",$listeNational->id)->update(["doublon_externe"=>" Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
 
                 }
             }
+            else
+                {
+                    $listeDepartemental = $this->listedepartementalRepository->getAllByCniiOuterListe($candidat->numcni,$candidat->liste_id);
+                    $listeNational = $this->listenationalRepository->getAllByCniOuterListe($candidat->numcni,$candidat->liste_id);
+                    if(count($listeDepartemental)==1)
+                    {
+                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_externe"=>""]); 
+                    }
+                    if(count($listeNational)==1)
+                    {
+                        DB::table("liste_departementals")->where("id",$listeNational[0]->id)->update(["doublon_externe"=>""]); 
+                    }
+                }
             if($candidat->ordre > 1)
                 $mylisteNational = $this->listenationalRepository->getByCniAndListeOuterOrdre($request->numcni,$candidat->liste_id,$candidat->ordre);
             $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$candidat->liste_id);
@@ -236,13 +258,38 @@ class ListeNationalController extends Controller
             
             if(!empty($mylisteNational) || !empty($listeDepartemental))
             {
-                $erreur = $erreur. 'Doublon interne';
-                $erreurdge = $erreurdge. 'Doublon interne ';
+               // $erreur = $erreur. ' Doublon interne';
+               // $erreurdge = $erreurdge. ' Doublon interne ';
+               $doublon_interne = 'Doublon interne';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                if($listeDepartemental)
+                {
+                 ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_interne"=> $doublon_interne]);
+                }
+                if($mylisteNational)
+                {
+                 ListeNational::where("id",$mylisteNational->id)->update(["doublon_interne"=> $doublon_interne]);
+                }
+            }
+            else
+            {
+                $listeDepartemental = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterOrdre($candidat->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
+                $mylisteNational = $this->listenationalRepository->getAllByCniAndListe($candidat->numcni,$request->liste_id);
+
+                if(count($listeDepartemental)==1)
+                {
+                    DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]); 
+                }
+                if(count($listeNational)==1)
+                {
+                    DB::table("liste_departementals")->where("id",$listeNational[0]->id)->update(["doublon_interne"=>""]); 
+                }
+
             }
           // dd("ok");
-            $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
+           // $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
            // dd($erreur);
+           $request->merge(["erreur"=>$erreur,"doublon_interne"=>$doublon_interne,"doublon_externe"=>$doublon_externe,"parite"=>$parite]);
             $this->listenationalRepository->update($id, $request->all());
             //return redirect('listenational');
             return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  

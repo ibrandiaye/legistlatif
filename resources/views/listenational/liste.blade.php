@@ -199,12 +199,13 @@
 @endsection
 @section('script')
     <script>
-    url = "http://5.189.166.92/legistlatif/public/";
+        //url = "http://5.189.166.92/legistlatif/public/";
       //url = "http://127.0.0.1:8000/";
-      urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
-        //urlSearch = "http://127.0.0.1:8000/search/ajax";
+      //url_app+"search/ajax" = "http://5.189.166.92/legistlatif/public/search/ajax";
+        //url_app+"search/ajax" = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
-
+      url_app = '{{ config('app.url_app') }}';
+      url_api = '{{ config('app.url_api') }}';
           $(document).ready(function () {
            
            // setTimeout(, 2000); 
@@ -230,7 +231,7 @@
             {
                     
                 $.ajax({
-                    url: urlSearch,
+                    url: url_app+"search/ajax",
                     method: 'POST',
                     data: {
                     _token: '{!! csrf_token() !!}',
@@ -254,10 +255,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -270,10 +271,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });
@@ -308,7 +309,7 @@
                         
                    
                 $.ajax({
-                        url: urlSearch,
+                        url: url_app+"search/ajax",
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -334,10 +335,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -350,10 +351,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });
@@ -371,7 +372,7 @@
                 {
                    
                 $.ajax({
-                        url: urlSearch,
+                        url: url_app+"search/ajax",
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -396,10 +397,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -412,10 +413,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });

@@ -51,6 +51,19 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where('numcni',$cni)
         ->first();
        }
+       public function getAllByCni($cni){
+        return DB::table("liste_departementals")
+        //->whereNot('liste_id',$liste)
+        ->where('numcni',$cni)
+        ->get();
+       }
+       public function getAllByCniiOuterListe($cni,$liste){
+        return DB::table("liste_departementals")
+        ->whereNot('liste_id',$liste)
+        ->where('numcni',$cni)
+        ->get();
+       }
+
 
         public function getByCniOuterListe($cni,$liste){
         return DB::table("liste_departementals")
@@ -74,6 +87,12 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->whereNot('ordre',$ordre)
         ->first();
        }
+       public function getAllByCniAndListeAndDepartementOuterOrdre($cni,$liste,$departement_id,$ordre){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
+        ->whereNot('ordre',$ordre)
+        ->get();
+       }
        public function getByOrdreAndListe($ordre,$liste,$departement,$type){
         return DB::table("liste_departementals")
         ->where([['ordre',$ordre],["liste_id",$liste],["departement_id",$departement],["type",$type]])
@@ -85,6 +104,20 @@ class ListeDepartementalRepository extends RessourceRepository{
         ['departement_id',$departement]])
         ->orderBy("ordre",'desc')
         ->first();
+       }
+     
+       public function getfirstordreByListe($liste_id,$type,$departement){
+        return DB::table("liste_departementals")
+        ->where([["liste_id",$liste_id],['type',$type],
+        ['departement_id',$departement]])
+        ->first();
+       }
+
+       public function getAllByListeAndTypeAndDepartement($liste_id,$type,$departement){
+        return DB::table("liste_departementals")
+        ->where([["liste_id",$liste_id],['type',$type],
+        ['departement_id',$departement]])
+        ->get();
        }
        
        public function getLastOrdreByListeAndOrdre($liste_id,$type,$departement,$ordre){

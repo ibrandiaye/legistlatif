@@ -169,14 +169,15 @@
 $(document).ready(function () {
            //alert("ibra");
            // setTimeout(, 2000); 
-
+           url_app = '{{ config('app.url_app') }}';
+           url_api = '{{ config('app.url_api') }}';
             $("#btncni").click(function () {
                 var cni = $("#cni").val();
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
             //url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
-            url: 'http://5.189.166.92:7777/api/cartes/get/by/nin?nin='+cni,
+            url: url_api+'cartes/get/by/nin?nin='+cni,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -208,7 +209,7 @@ $(document).ready(function () {
                 $.ajax({
             type:'GET',
           // url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
-           url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+           url: url_api+'cartes/get/by/numelec?numelec='+numelecteur,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {

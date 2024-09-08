@@ -10,7 +10,7 @@ class ListeNational extends Model
     use HasFactory;
     protected $fillable = [
         'nom','prenom','numelecteur','sexe','profession','datenaiss','lieunaiss','liste_id','type','numcni'
-        ,'extrait_ou_cni','casier','etat','ordre',"erreur","erreurdge","domicile","se"
+        ,'extrait_ou_cni','casier','etat','ordre',"erreur","erreurdge","domicile","se","doublon_externe","doublon_interne","parite"
     ];
 
 }

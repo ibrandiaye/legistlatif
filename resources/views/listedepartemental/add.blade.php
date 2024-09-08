@@ -261,16 +261,19 @@
 
                             </div>
 
-            
-            
+                            
+         <input type="hidden" value="{{ config('app.url_app') }}"  id="app_url">
+         <input type="hidden" value="{{ config('app.url_api') }}"  id="url_api">
 
 @endsection
 @section('script')
     <script>
-      url = "http://5.189.166.92/legistlatif/public/";
+        url_app = '{{ config('app.url_app') }}';
+        url_api = '{{ config('app.url_api') }}';
+   //   url = ""+url_app+"";
     //  url = "http://127.0.0.1:8000/";
-     urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
-      //  urlSearch = "http://127.0.0.1:8000/search/ajax";
+    // url_app+"search/ajax" = ""+url_app+"search/ajax";
+      //  url_app+"search/ajax" = "http://127.0.0.1:8000/search/ajax";
       liste_id = {{Auth::user()->liste_id}}
 
           $(document).ready(function () {
@@ -296,7 +299,7 @@
                 $.ajax({
             type:'GET',
         // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
-          url: 'http://5.189.166.92:7777/api/cartes/get/by/nin?nin='+cni,
+          url: url_api+'cartes/get/by/nin?nin='+cni,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -328,7 +331,7 @@
                 $.ajax({
             type:'GET',
          // url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
-         url: 'http://5.189.166.92:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+         url: url_api+'cartes/get/by/numelec?numelec='+numelecteur,
           
             data:'_token = <?php echo csrf_token() ?>',
             success:function(data) {
@@ -354,6 +357,147 @@
         });
             });
             setTimeout($.unblockUI, 1); 
+            var scrutin = '{{old('scrutin')}}';
+            var type =  '{{old('type')}}';
+            var departement_id = '{{old('departement_id')}}';
+            console.log(scrutin,type);
+            $("#scrutinf").val(scrutin);
+            $("#typef").val(type);
+            $("#departement_idf").val(departement_id);
+            $("#tbody").empty();
+           if(scrutin && type)
+            {
+                if(scrutin == "majoritaire")
+                {
+                    if(departement_id)
+                    {
+                        
+                        $.ajax({
+                                url: url_app+"search/ajax",
+                                method: 'POST',
+                                data: {
+                                " _token": "{{csrf_token()}}",
+                                    liste_id: liste_id,
+                                    scrutin: scrutin,
+                                    departement_id: departement_id,
+                                    type: type,
+                                    // add more key-value pairs as needed
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                    // do something with the response data
+                                    var contenut ='';
+                                var contenus ='';
+                                response.forEach(element => {
+                                    if(element.type=="titulaire")
+                                    {
+                                        contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
+                                        "<td>"+element.prenom+"</td>"+
+                                        "<td>"+element.nom+"</td>"+
+                                        "<td>"+element.numelecteur+"</td>"+
+                                        "<td>"+element.sexe+"</td>"+
+                                        "<td>"+element.profession+"</td>"+
+                                        "<td>"+element.datenaiss+"</td>"+
+                                        "<td>"+element.lieunaiss+"</td>"+
+                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                        "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                        "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                        "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                        "</tr>";
+                                    }
+                                    else
+                                    {
+                                        contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
+                                        "<td>"+element.prenom+"</td>"+
+                                        "<td>"+element.nom+"</td>"+
+                                        "<td>"+element.numelecteur+"</td>"+
+                                        "<td>"+element.sexe+"</td>"+
+                                        "<td>"+element.profession+"</td>"+
+                                        "<td>"+element.datenaiss+"</td>"+
+                                        "<td>"+element.lieunaiss+"</td>"+
+                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                        "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                        "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                        "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                        "</tr>";
+                                    }       
+                                });
+                                $("#tbody").append(contenut);
+                                $("#tbodys").append(contenus);
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.log(errorThrown);
+                                    // handle the error case
+                                }
+                            }); 
+                    }
+                }
+                else if(scrutin=='propotionnel')
+            {
+                    
+                $.ajax({
+                    url: url_app+"search/ajax",
+                    method: 'POST',
+                    data: {
+                    _token: '{!! csrf_token() !!}',
+                        liste_id: liste_id,
+                        scrutin: scrutin,
+                       type : type
+                        // add more key-value pairs as needed
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        var contenut ='';
+                        var contenus ='';
+                        response.forEach(element => {
+                            if(element.type=="titulaire")
+                            {
+                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
+                                "<td>"+element.prenom+"</td>"+
+                                "<td>"+element.nom+"</td>"+
+                                "<td>"+element.numelecteur+"</td>"+
+                                "<td>"+element.sexe+"</td>"+
+                                "<td>"+element.profession+"</td>"+
+                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+element.lieunaiss+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "</tr>";
+                            }
+                            else
+                            {
+                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
+                                "<td>"+element.prenom+"</td>"+
+                                "<td>"+element.nom+"</td>"+
+                                "<td>"+element.numelecteur+"</td>"+
+                                "<td>"+element.sexe+"</td>"+
+                                "<td>"+element.profession+"</td>"+
+                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+element.lieunaiss+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "</tr>";
+                            }       
+                        });
+                        $("#tbody").append(contenut);
+                        $("#tbodys").append(contenus);
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                        // handle the error case
+                    }
+                });
+            }
+            }
+            
+               
+          
+            
         });
           $("#scrutin").change(function () {
             var scrutin =  $("#scrutin").children("option:selected").val();
@@ -371,7 +515,7 @@
                     {
                         $.ajax({
                     type:'GET',
-                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                    url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
                     //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
@@ -392,11 +536,24 @@
                                
                                     if(sexe=="M")
                                     {
-                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        if(data.ordre +1%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        }
+                                        else{
+
+                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
                                     }
                                     else if(sexe=="F")
                                     {
-                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        if(data.ordre +1%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
                                     }
                                 }
                                 if(data.ordre == data.nb)
@@ -420,7 +577,7 @@
                 {
                     $.ajax({
                         type:'GET',
-                        url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                        url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
                        //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                         data:'_token = <?php echo csrf_token() ?>',
                         success:function(data) {
@@ -433,13 +590,27 @@
                                 sexe = data.sexe;
                                 $("#sexeSaisir").empty();
                             
-                                    if(sexe=="M")
+                                if(sexe=="M")
                                     {
-                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        if((data.ordre +1)%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin  ")
+                                        }
+                                        else{
+
+                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
                                     }
                                     else if(sexe=="F")
                                     {
-                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        if((data.ordre +1)%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            console.log("fff");
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
                                     }
                                     if( data.type == "titulaire" && data.ordre ==53 )
                                     {
@@ -469,7 +640,7 @@
             {
                     
                 $.ajax({
-                    url: urlSearch,
+                    url: url_app+"search/ajax",
                     method: 'POST',
                     data: {
                     _token: '{!! csrf_token() !!}',
@@ -493,10 +664,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -509,10 +680,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });
@@ -568,7 +739,7 @@
                     {
                         $.ajax({
                     type:'GET',
-                    url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                    url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
@@ -588,11 +759,24 @@
                                
                                     if(sexe=="M")
                                     {
-                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        if(data.ordre +1%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        }
+                                        else{
+
+                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
                                     }
                                     else if(sexe=="F")
                                     {
-                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        if(data.ordre +1%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
                                     }
                                 }
                                 if(data.ordre == data.nb)
@@ -613,7 +797,7 @@
                     }
                    
                 $.ajax({
-                        url: urlSearch,
+                        url: url_app+"search/ajax",
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -639,10 +823,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -655,10 +839,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });
@@ -678,7 +862,7 @@
                     {
                         $.ajax({
                         type:'GET',
-                        url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                        url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
                     //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                         data:'_token = <?php echo csrf_token() ?>',
                         success:function(data) {
@@ -692,13 +876,26 @@
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
                                 if(sexe=="M")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                }
-                                else if(sexe=="F")
-                                {
-                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                }
+                                    {
+                                        if(data.ordre +1%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        }
+                                        else{
+
+                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        if(data.ordre +1%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
+                                    }
                                 if( data.type == "titulaire" && data.ordre ==53 )
                                 {
                                     $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
@@ -722,7 +919,7 @@
                     });
                 }
                 $.ajax({
-                        url: urlSearch,
+                        url: url_app+"search/ajax",
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -747,10 +944,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -763,10 +960,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });
@@ -807,7 +1004,7 @@
             {
                 $.ajax({
                     type:'GET',
-                    url: url+'get/by/departement/'+departement_id,
+                    url: url_app+'get/by/departement/'+departement_id,
 
                 //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                     data:'_token = <?php echo csrf_token() ?>',
@@ -833,7 +1030,7 @@
                         {
                             $.ajax({
                                 type:'GET',
-                                url:url+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                                url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
 
                             //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
                                 data:'_token = <?php echo csrf_token() ?>',
@@ -852,13 +1049,26 @@
                                                 
                                         
                                                 if(sexe=="M")
-                                                {
-                                                    $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                                }
-                                                else if(sexe=="F")
-                                                {
-                                                    $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                                }
+                                    {
+                                        if(data.ordre +1%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        }
+                                        else{
+
+                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        if(data.ordre +1%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
+                                    }
                                                 
                                             }
                                             if(data.ordre == data.nb)
@@ -879,7 +1089,7 @@
                     
                      
                     $.ajax({
-                            url: urlSearch,
+                            url: url_app+"search/ajax",
                             method: 'POST',
                             data: {
                             " _token": "{{csrf_token()}}",
@@ -905,10 +1115,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -921,10 +1131,10 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"</td>"+
-                                "<td> <a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='http://5.189.166.92/legistlatif/public/listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });

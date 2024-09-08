@@ -240,9 +240,11 @@
 @section('script')
     <script>
           $(document).ready(function () {
-            url = "http://5.189.166.92/legistlatif/public/search/ajax";
+         //   url = "http://5.189.166.92/legistlatif/public/search/ajax";
          //  url = "http://127.0.0.1:8000/search/ajax"
            // setTimeout(, 2000); 
+           url_app = '{{ config('app.url_app') }}';
+           url_api = '{{ config('app.url_api') }}';
             $(".departement").hide();
             $(".typeliste").hide();
             $(".scrutin").show();
@@ -268,7 +270,7 @@
                 if(liste_id)
                 {
                     $.ajax({
-                        url: url,
+                        url: url_app+'search/ajax',
                         method: 'POST',
                         data: {
                            _token: '{!! csrf_token() !!}',
@@ -288,10 +290,10 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreur+"</td>"+
-                                    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                    "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
-                                    "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -324,7 +326,7 @@
             if(scrutin=='majoritaire' && type && liste_id)
             {
                 $.ajax({
-                        url: url,
+                        url: url_app+'search/ajax',
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -347,9 +349,9 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                     "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
-                               "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                               "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -365,7 +367,7 @@
             else if(scrutin=='propotionnel' && type && liste_id)
             {
                 $.ajax({
-                        url: url,
+                        url: url_app+'search/ajax',
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -387,10 +389,10 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreur+"</td>"+
-                                    "<td> <a href='listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                    "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
-                                    "<a href='listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });
@@ -416,7 +418,7 @@
             {
                 $(".typeliste").show();
                 $.ajax({
-                        url: url,
+                        url: url_app+'search/ajax',
                         method: 'POST',
                         data: {
                            " _token": "{{csrf_token()}}",
@@ -438,10 +440,10 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreur+"</td>"+
-                                     "<td> <a href='listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                     "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
-                                    "<a href='listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                    "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                     "</tr>";
                                     
                             });

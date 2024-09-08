@@ -51,6 +51,11 @@ class ListeNationalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste]])
         ->first();
        }
+       public function getAllByCniAndListe($cni,$liste){
+        return DB::table("liste_nationals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->get();
+       }
        public function getByCniAndListeOuterOrdre($cni,$liste,$ordre){
         return DB::table("liste_nationals")
         ->where([['numcni',$cni],["liste_id",$liste]])
@@ -63,6 +68,12 @@ class ListeNationalRepository extends RessourceRepository{
         ->where('numcni',$cni)
         ->first();
        }
+       public function getAllByCniOuterListe($cni,$liste){
+        return DB::table("liste_nationals")
+        ->whereNot("liste_id",$liste)
+        ->where('numcni',$cni)
+        ->get();
+       }
        public function getByOrdreAndListe($ordre,$liste,$type){
         return DB::table("liste_nationals")
         ->where([['ordre',$ordre],["liste_id",$liste],["type",$type]])
@@ -72,6 +83,16 @@ class ListeNationalRepository extends RessourceRepository{
         return DB::table("liste_nationals")
         ->where([["liste_id",$liste_id],["type",$type]])
         ->orderBy("ordre",'desc')
+        ->first();
+       }
+       public function getFirstOrdreByListe($liste_id,$type){
+        return DB::table("liste_nationals")
+        ->where([["liste_id",$liste_id],["type",$type]])
+        ->first();
+       }
+       public function getAllByListeAndType($liste_id,$type){
+        return DB::table("liste_nationals")
+        ->where([["liste_id",$liste_id],["type",$type]])
         ->first();
        }
        public function getLastOrdreByListeAndOrdre($liste_id,$type,$ordre){
