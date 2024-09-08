@@ -394,7 +394,7 @@
                                
                                     if(sexe=="M")
                                     {
-                                        if((data.ordre +2)%2==0){
+                                        if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
@@ -404,7 +404,7 @@
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +2)%2==0)
+                                        if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -509,7 +509,7 @@
                             
                                 if(sexe=="M")
                                     {
-                                        if((data.ordre +2)%2==0){
+                                        if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin  ")
                                         }
                                         else{
@@ -519,7 +519,7 @@
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +2)%2==0)
+                                        if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -653,7 +653,7 @@
                                
                                     if(sexe=="M")
                                     {
-                                        if((data.ordre +2)%2==0){
+                                        if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
@@ -663,7 +663,7 @@
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +2)%2==0)
+                                        if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -709,7 +709,7 @@
                             
                                 if(sexe=="M")
                                     {
-                                        if((data.ordre +2)%2==0){
+                                        if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin  ")
                                         }
                                         else{
@@ -719,7 +719,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +2)%2==0)
+                                        if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -876,7 +876,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                
                                     if(sexe=="M")
                                     {
-                                        if((data.ordre +2)%2==0){
+                                        if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
@@ -886,7 +886,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +2)%2==0)
+                                        if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -994,7 +994,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 $("#sexeSaisir").empty();
                                 if(sexe=="M")
                                     {
-                                        if((data.ordre +2)%2==0){
+                                        if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
@@ -1004,7 +1004,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +2)%2==0)
+                                        if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -1167,7 +1167,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         
                                                 if(sexe=="M")
                                                 {
-                                                    if((data.ordre +2)%2==0){
+                                                    if((data.ordre +1)%2==0){
                                                         $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                                     }
                                                     else{
@@ -1177,7 +1177,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                                 }
                                                 else if(sexe=="F")
                                                 {
-                                                    if((data.ordre +2)%2==0)
+                                                    if((data.ordre +1)%2==0)
                                                     {
                                                         $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                                     }
