@@ -371,6 +371,64 @@
                 {
                     if(departement_id)
                     {
+                        $.ajax({
+                    type:'GET',
+                    url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+
+                    //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                            sexe =""
+                            console.log(data);
+                            $("#numero").empty()
+                            $("#sexeSaisir").empty()
+                            $("#full-message").empty()
+                           if(data.ordre)
+                            {
+                                $("#numero").append(data.ordre+1);
+                                sexe = data.sexe; 
+                                $("#sexeSaisir").empty();
+                                if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                {
+                                    
+                               
+                                    if(sexe=="M")
+                                    {
+                                        if((data.ordre +2)%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        }
+                                        else{
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        } 
+                                        
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        if((data.ordre +2)%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
+                                    }
+                                }
+                                if(data.ordre == data.nb)
+                                {
+                                    $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                                }
+                                
+                            }
+                            else
+                            {
+                                $("#sexeSaisir").empty();
+                               
+                                $("#numero").append("1");
+                            }
+                            //$("#localite_id").empty();
+                    }
+                });
                         
                         $.ajax({
                                 url: url_app+"search/ajax",
@@ -434,6 +492,65 @@
                 }
                 else if(scrutin=='propotionnel')
             {
+                $.ajax({
+                        type:'GET',
+                        url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                       //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                        data:'_token = <?php echo csrf_token() ?>',
+                        success:function(data) {
+
+                            $("#numero").empty();
+                            $("#full-message").empty()
+                            if(data.ordre)
+                            {
+                                $("#numero").append(data.ordre+1);
+                                sexe = data.sexe;
+                                $("#sexeSaisir").empty();
+                            
+                                if(sexe=="M")
+                                    {
+                                        if((data.ordre +2)%2==0){
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin  ")
+                                        }
+                                        else{
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        } 
+                                        
+                                    }
+                                    else if(sexe=="F")
+                                    {
+                                        if((data.ordre +2)%2==0)
+                                        {
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        }
+                                        else
+                                        {
+                                            console.log("fff");
+                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        } 
+                                    }
+                                    if( data.type == "titulaire" && data.ordre ==53 )
+                                    {
+                                        $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                                    }
+                                    else if(data.type == "supleant" && data.ordre ==50 )
+                                    {
+                                        $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+
+                                    }
+
+                                
+                            }
+                            else
+                            {
+                                $("#sexeSaisir").empty();
+                                $("#numero").append("1");
+                            }
+                        
+                        
+                            //$("#localite_id").empty();
+                        }
+                    });
                     
                 $.ajax({
                     url: url_app+"search/ajax",
@@ -530,23 +647,23 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                 {
                                     
                                
                                     if(sexe=="M")
                                     {
-                                        if(data.ordre +1%2==0){
+                                        if((data.ordre +2)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
-
-                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        } 
                                         
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if(data.ordre +1%2==0)
+                                        if((data.ordre +2)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -592,17 +709,17 @@
                             
                                 if(sexe=="M")
                                     {
-                                        if((data.ordre +1)%2==0){
+                                        if((data.ordre +2)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin  ")
                                         }
                                         else{
-
-                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+$("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        } 
                                         
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if((data.ordre +1)%2==0)
+                                        if((data.ordre +2)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -753,23 +870,23 @@
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
-                                if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                 {
                                     
                                
                                     if(sexe=="M")
                                     {
-                                        if(data.ordre +1%2==0){
+                                        if((data.ordre +2)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
-
-                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        } 
                                         
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if(data.ordre +1%2==0)
+                                        if((data.ordre +2)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -877,17 +994,17 @@
                                 $("#sexeSaisir").empty();
                                 if(sexe=="M")
                                     {
-                                        if(data.ordre +1%2==0){
+                                        if((data.ordre +2)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
                                         }
                                         else{
-
-                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        } 
                                         
                                     }
                                     else if(sexe=="F")
                                     {
-                                        if(data.ordre +1%2==0)
+                                        if((data.ordre +2)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         }
@@ -1044,31 +1161,31 @@
                                             $("#numero").append(data.ordre+1);
                                             sexe = data.sexe; 
                                             $("#sexeSaisir").empty();
-                                            if((data.ordre +1 < data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                            if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                             {
                                                 
                                         
                                                 if(sexe=="M")
-                                    {
-                                        if(data.ordre +1%2==0){
-                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                        }
-                                        else{
-
-                                        } $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                        
-                                    }
-                                    else if(sexe=="F")
-                                    {
-                                        if(data.ordre +1%2==0)
-                                        {
-                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                        }
-                                        else
-                                        {
-                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                        } 
-                                    }
+                                                {
+                                                    if((data.ordre +2)%2==0){
+                                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                                    }
+                                                    else{
+                                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                                    } 
+                                                    
+                                                }
+                                                else if(sexe=="F")
+                                                {
+                                                    if((data.ordre +2)%2==0)
+                                                    {
+                                                        $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                                    }
+                                                    else
+                                                    {
+                                                        $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                                    } 
+                                                }
                                                 
                                             }
                                             if(data.ordre == data.nb)

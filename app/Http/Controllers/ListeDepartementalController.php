@@ -159,7 +159,7 @@ class ListeDepartementalController extends Controller
                     }
                 }
             }
-           else if ($request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 < $request->nb))
+           else if ($request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 <= $request->nb))
            {
                 $firstSave  = $this->listedepartementalRepository->getfirstordreByListe($request->liste_id,$request->type,$request->departement_id);
                 if(!empty($firstSave))
@@ -277,7 +277,7 @@ class ListeDepartementalController extends Controller
             $firstSave  = $this->listeNationalRepository->getFirstOrdreByListe($request->liste_id,$request->type);
             if(!empty($firstSave))
             {
-                if ( $request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 < $request->nb))
+                if ( $request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 <= $request->nb))
                 {
                   
                     if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
@@ -474,7 +474,7 @@ class ListeDepartementalController extends Controller
 
                     if($candidat->ordre > 1)
                     {
-                        if($request->nb%2==0 || ($request->nb%2!=0 && $candidat->ordre+1 < $request->nb) )
+                        if($request->nb%2==0 || ($request->nb%2!=0 && $candidat->ordre+1 <= $request->nb) )
                         {
                             if($firstSave->sexe==$request->sexe && $candidat->ordre%2==0  )
                             {
@@ -499,13 +499,13 @@ class ListeDepartementalController extends Controller
                             $pariteAutre = "";
                             if($value->ordre > 1)
                             {
-                                if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 < $request->nb))
+                                if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 <= $request->nb))
                                 {
-                                    if($firstSave->sexe==$value->sexe && $value->ordre%2==0  )
+                                    if($request->sexe==$value->sexe && $value->ordre%2==0  )
                                     {
                                         $pariteAutre  =  ' Parite non respecter ';
                                     }
-                                    else if($firstSave->sexe!=$value->sexe && $value->ordre%2!=0  )
+                                    else if($request->sexe!=$value->sexe && $value->ordre%2!=0  )
                                     {
                                         $pariteAutre  =  ' Parite non respecter ';
                                     }
@@ -546,14 +546,14 @@ class ListeDepartementalController extends Controller
                 {
                     $listeDepartemental = $this->listedepartementalRepository->getAllByCniiOuterListe($candidat->numcni,$candidat->liste_id);
                     $listeNational = $this->listeNationalRepository->getAllByCniOuterListe($candidat->numcni,$candidat->liste_id);
-                    if(count($listeDepartemental)==1)
+                    if(count($listeDepartemental)+count($listeNational)==1)
                     {
-                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_externe"=>""]); 
-                    }
-                    if(count($listeNational)==1)
-                    {
-                        DB::table("liste_nationals")->where("id",$listeNational[0]->id)->update(["doublon_externe"=>""]); 
-                    }
+                        if(count($listeDepartemental)==1)
+                            DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_externe"=>""]); 
+                        if(count($listeNational)==1)
+                            DB::table("liste_nationals")->where("id",$listeNational[0]->id)->update(["doublon_externe"=>""]); 
+
+                    }                  
                 }
                 $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterOrdre($request->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                 $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
@@ -577,16 +577,15 @@ class ListeDepartementalController extends Controller
                     $listeDepartemental = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterOrdre($candidat->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                     $mylisteNational = $this->listeNationalRepository->getAllByCniAndListe($candidat->numcni,$request->liste_id);
                   //  dd($listeDepartemental,$mylisteNational);
-                    if(count($listeDepartemental)==1)
+                    if(count($listeDepartemental)+count($mylisteNational)==1)
                     {
                         //dd($listeDepartemental);
-                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]); 
+                        if(count($listeDepartemental)==1)
+                            DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]); 
+                        if(count($mylisteNational)==1)
+                            DB::table("liste_nationals")->where("id",$mylisteNational[0]->id)->update(["doublon_interne"=>""]);
                     }
-                    if(count($mylisteNational)==1)
-                    {
-                        //dd($mylisteNational);
-                        DB::table("liste_nationals")->where("id",$mylisteNational[0]->id)->update(["doublon_interne"=>""]); 
-                    }
+  
 
                 }
              

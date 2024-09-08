@@ -166,42 +166,51 @@ class ListeNationalController extends Controller
                     $erreur     = $erreur. 'age minimun non ateint. age : '.$age.' ans';;
                 }
                 $firstSave  = $this->listenationalRepository->getFirstOrdreByListe($request->liste_id,$request->type);
-
-                if ( $request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 < $request->nb))
+                if($candidat->ordre > 1)
                 {
-                    $firstSave  = $this->listenationalRepository->getfirstordreByListe($request->liste_id,$request->type);
-                  
-                    if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
+                    if ( $request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 <= $request->nb))
                     {
-                    // $erreur = $erreur. ' Parite non respecter';
-                    //  $erreurdge = $erreurdge. 'Partite non respecter';
-                        $parite  =  ' Parite non respecter ';
-    
-                        
+                        $firstSave  = $this->listenationalRepository->getfirstordreByListe($request->liste_id,$request->type);
+                      
+                        if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
+                        {
+                        // $erreur = $erreur. ' Parite non respecter';
+                        //  $erreurdge = $erreurdge. 'Partite non respecter';
+                            $parite  =  ' Parite non respecter ';
+        
+                            
+                        }
+                        else if(($request->ordre%2!=0 && $firstSave->sexe!=$request->sexe ))
+                        {
+                            $parite  =  ' Parite non respecter ';
+                        }
+        
                     }
-                    else if(($request->ordre%2!=0 && $firstSave->sexe!=$request->sexe ))
-                    {
-                        $parite  =  ' Parite non respecter ';
-                    }
-    
                 }
+
+               
         
                 if($candidat->ordre == 1)
                 {
                     $candidats = $this->listenationalRepository->getAllByListeAndType($candidat->liste_id,$candidat->type);
                             
                     foreach ($candidats as $key => $value) {
-                        $pariteAutre = "";
-                        if($value->ordre > 1)
+                       $pariteAutre = "";
+                      
+                        if($value->ordre > 1 )
                         {
-                            if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 < $request->nb))
+                           
+                            if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 <= $request->nb))
                             {
-                                if($firstSave->sexe==$value->sexe && $value->ordre%2==0  )
+                               // dd($value);
+                                if($request->sexe==$value->sexe && $value->ordre%2==0  )
                                 {
+                                  //  dd('pp');
                                     $pariteAutre  =  ' Parite non respecter ';
                                 }
-                                else if($firstSave->sexe!=$value->sexe && $value->ordre%2!=0  )
+                                else if($request->sexe!=$value->sexe && $value->ordre%2!=0  )
                                 {
+                                    //dd('ll');
                                     $pariteAutre  =  ' Parite non respecter ';
                                 }
                             }
@@ -262,11 +271,11 @@ class ListeNationalController extends Controller
                // $erreurdge = $erreurdge. ' Doublon interne ';
                $doublon_interne = 'Doublon interne';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
-                if($listeDepartemental)
+                if(isset($listeDepartemental))
                 {
                  ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_interne"=> $doublon_interne]);
                 }
-                if($mylisteNational)
+                if(isset($mylisteNational))
                 {
                  ListeNational::where("id",$mylisteNational->id)->update(["doublon_interne"=> $doublon_interne]);
                 }

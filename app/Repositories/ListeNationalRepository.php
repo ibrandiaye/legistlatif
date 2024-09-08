@@ -93,7 +93,7 @@ class ListeNationalRepository extends RessourceRepository{
        public function getAllByListeAndType($liste_id,$type){
         return DB::table("liste_nationals")
         ->where([["liste_id",$liste_id],["type",$type]])
-        ->first();
+        ->get();
        }
        public function getLastOrdreByListeAndOrdre($liste_id,$type,$ordre){
         return DB::table("liste_nationals")
