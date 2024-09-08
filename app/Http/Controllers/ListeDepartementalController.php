@@ -443,8 +443,8 @@ class ListeDepartementalController extends Controller
             $firstSave  = $this->listedepartementalRepository->getfirstordreByListe($request->liste_id,$request->type,$request->departement_id);
             
             //si on mondifier le candidat ou le sexe saisi
-            if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
-            {
+         /*    if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
+            { */
                 if($departement->nb == 1)
                 {
                     if($request->type == "titulaire")
@@ -593,10 +593,10 @@ class ListeDepartementalController extends Controller
                $request->merge(["erreur"=>$erreur,"doublon_interne"=>$doublon_interne,"doublon_externe"=>$doublon_externe,"parite"=>$parite]);
                 $this->listedepartementalRepository->update($id, $request->all());
                 return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');      
-            }
+           /*  }
             
             $this->listedepartementalRepository->update($id, $request->all());
-            return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  
+            return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');   */
             
     }
 

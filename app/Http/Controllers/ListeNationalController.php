@@ -154,8 +154,8 @@ class ListeNationalController extends Controller
             $request->merge(["nb"=>50]);
         }
             //dd($candidat->numcni,$request->numcni);
-            if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
-            {
+           /*  if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
+            { */
                 //dd("eee");
                 $erreur     = "";
                 $erreurdge  = "";
@@ -302,13 +302,13 @@ class ListeNationalController extends Controller
             $this->listenationalRepository->update($id, $request->all());
             //return redirect('listenational');
             return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  
-        }
+      /*   }
         else
         {
             $this->listenationalRepository->update($id, $request->all());
             return redirect('tab/1')->with('success', 'Candidat modifier avec succees.');  ;
         }
-
+ */
        /*  */
     }
 
