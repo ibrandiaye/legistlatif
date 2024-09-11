@@ -60,6 +60,15 @@
 
                                         </select>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <label>Territoire</label>
+                                        <select class="form-control" name="is_diaspora" required="">
+                                            <option value="">Selectionner</option>
+                                            <option value="0">National</option>
+                                            <option value="1">Etrangers</option>
+                                        </select>
+                                    </div>
+                                    
 
                                 <div>
                                     <center>

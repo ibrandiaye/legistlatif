@@ -62,6 +62,14 @@
 
                                     </select>
                                 </div>
+                                <div class="col-lg-6">
+                                    <label>Territoire</label>
+                                    <select class="form-control" name="is_diaspora" required="">
+                                        <option value="">Selectionner</option>
+                                        <option value="0"  {{ $departement->is_diaspora == 0 ? 'selected' : ''}}>National</option>
+                                        <option value="1" {{ $departement->is_diaspora == 1  ? 'selected' : ''}}>Etrangers</option>
+                                    </select>
+                                </div>
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> MODIFIER</button>
