@@ -36,7 +36,7 @@
                         <div class="col-9 align-self-center text-right">
                             <div class="m-l-10">
                                 <h5 class="mt-0">{{ $nbTitulaireNational}}</h5>
-                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'proportionnel']) }}"><p class="mb-0 text-muted">Liste Proportionnel Titulaire </p></a> {{--<span class="badge bg-soft-success"><i class="mdi mdi-arrow-up"></i>2.35%</span>--}}
+                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'proportionnel','liste'=>$liste]) }}"><p class="mb-0 text-muted">Liste Proportionnel Titulaire </p></a> {{--<span class="badge bg-soft-success"><i class="mdi mdi-arrow-up"></i>2.35%</span>--}}
                             </div>
                         </div>                                                                                          
                     </div>
@@ -59,7 +59,7 @@
                         <div class="col-9 text-right align-self-center">
                             <div class="m-l-10 ">
                                 <h5 class="mt-0">{{$nbSupleantNational}}</h5>
-                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'proportionnel']) }}"><p class="mb-0 text-muted">Liste Proportionnel Supleant</p></a>
+                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'proportionnel','liste'=>$liste]) }}"><p class="mb-0 text-muted">Liste Proportionnel Supleant</p></a>
                             </div>
                         </div>                                                                                                                
                     </div>
@@ -83,7 +83,7 @@
                         <div class="col-9 align-self-center text-right">
                             <div class="m-l-10 ">
                                 <h5 class="mt-0">{{$nbTitulaireNational + $nbSupleantNational}}</h5>
-                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'proportionnel']) }}"> <p class="mb-0 text-muted">Liste Proportionnel</p></a>
+                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'proportionnel','liste'=>$liste]) }}"> <p class="mb-0 text-muted">Liste Proportionnel</p></a>
                             </div>
                         </div>                                                                
                     </div>
@@ -106,7 +106,7 @@
                         <div class="col-9 align-self-center text-right">
                             <div class="m-l-10">
                                 <h5 class="mt-0">{{ $nbTitulaireDepartemental}}</h5>
-                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'majoritaire']) }}"> <p class="mb-0 text-muted">Liste Majoritaire Titulaire </p></a> {{--<span class="badge bg-soft-success"><i class="mdi mdi-arrow-up"></i>2.35%</span>--}}
+                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'majoritaire','liste'=>$liste]) }}"> <p class="mb-0 text-muted">Liste Majoritaire Titulaire </p></a> {{--<span class="badge bg-soft-success"><i class="mdi mdi-arrow-up"></i>2.35%</span>--}}
                             </div>
                         </div>                                                                                          
                     </div>
@@ -129,7 +129,7 @@
                         <div class="col-9 text-right align-self-center">
                             <div class="m-l-10 ">
                                 <h5 class="mt-0">{{$nbSupleantDepartemental}}</h5>
-                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'majoritaire']) }}"><p class="mb-0 text-muted">Liste Majoritaire Supleant</p></a>
+                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'majoritaire','liste'=>$liste]) }}"><p class="mb-0 text-muted">Liste Majoritaire Supleant</p></a>
                             </div>
                         </div>                                                                                                                
                     </div>
@@ -153,7 +153,7 @@
                         <div class="col-9 align-self-center text-right">
                             <div class="m-l-10 ">
                                 <h5 class="mt-0">{{$nbSupleantDepartemental + $nbTitulaireDepartemental}}</h5>
-                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'majoritaire']) }}"><p class="mb-0 text-muted">Total</p></a>
+                                <a href="{{ route('state.by.scrutin', ['scrutin'=>'majoritaire','liste'=>$liste]) }}"><p class="mb-0 text-muted">Total</p></a>
                             </div>
                         </div>                                                                
                     </div>

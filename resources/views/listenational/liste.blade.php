@@ -13,7 +13,12 @@
                 <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER $listenational</a></li>
                 </ol>
             </div>
-            <h4 class="page-title">{{Auth::user()->liste->nom}}</h4>
+            <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
+                @else
+                {{Auth::user()->liste->nom}}
+                 @endif</h4>
+
+               
         </div>
     </div>
     <div class="clearfix"></div>
@@ -203,7 +208,8 @@
       //url = "http://127.0.0.1:8000/";
       //url_app+"search/ajax" = "http://5.189.166.92/legistlatif/public/search/ajax";
         //url_app+"search/ajax" = "http://127.0.0.1:8000/search/ajax";
-      liste_id = {{Auth::user()->liste_id}}
+        @if(Auth::user()->role=="candidats") liste_id = {{Auth::user()->liste_id}} @else liste_id = {{$liste}} @endif
+
       url_app = '{{ config('app.url_app') }}';
       url_api = '{{ config('app.url_api') }}';
           $(document).ready(function () {
@@ -351,7 +357,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
                                 "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -360,6 +366,7 @@
                         });
                         $("#tbody").append(contenut);
                         $("#tbodys").append(contenus);
+                        console.log("append");
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(errorThrown);
@@ -397,7 +404,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
                                 "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -413,7 +420,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+erreur.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"'listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
                                 "<a href="+url_app+"'declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href="+url_app+"'listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+

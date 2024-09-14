@@ -82,6 +82,7 @@ class ListeDepartementalController extends Controller
         $parite = "";
         $doublon_externe = "";
         $doublon_interne = "";
+       
         $user = Auth::user();
         if($user->role=="candidats")
         {
@@ -106,6 +107,21 @@ class ListeDepartementalController extends Controller
                 $erreur = $erreur. 'age minimun non ateint. age : '.$age.' ans';
 
             }
+            $inListe = "";
+            $url = env("API_URL","http://158.220.124.25:7777/api/");
+            $url  = $url."cartes/get/by/nin?nin=".$request->numcni;
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            $data = json_decode($response, true);
+            if(count($data)<1)
+            {
+                $inListe  = "Pas dans le fichier electorale";
+            }
+        $request->merge(["sur_le_fichier"=>$inListe]);
+       
     
         if($request->scrutin=="majoritaire")
         {
@@ -424,6 +440,20 @@ class ListeDepartementalController extends Controller
                 $erreurdge = $erreurdge. 'age minimun non ateint. age : '.$age.' ans';
                 $erreur = $erreur. 'age minimun non ateint. age : '.$age.' ans';
             }
+            $inListe = "";
+            $url = env("API_URL","http://158.220.124.25:7777/api/");
+            $url  = $url."cartes/get/by/nin?nin=".$request->numcni;
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            $data = json_decode($response, true);
+            if(count($data)<1)
+            {
+                $inListe  = "Pas dans le fichier electorale";
+            }
+            $request->merge(["sur_le_fichier"=>$inListe]);
     
         $this->validate($request, [
                 'nom'               => 'string|required',
@@ -441,7 +471,7 @@ class ListeDepartementalController extends Controller
 
             $departement = $this->departementRepository->getById($request->departement_id);
             $firstSave  = $this->listedepartementalRepository->getfirstordreByListe($request->liste_id,$request->type,$request->departement_id);
-            
+           
             //si on mondifier le candidat ou le sexe saisi
          /*    if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
             { */
@@ -542,8 +572,8 @@ class ListeDepartementalController extends Controller
 
                     }
                 }
-                else
-                {
+              //  else
+              //  {
                     $listeDepartemental = $this->listedepartementalRepository->getAllByCniiOuterListe($candidat->numcni,$candidat->liste_id);
                     $listeNational = $this->listeNationalRepository->getAllByCniOuterListe($candidat->numcni,$candidat->liste_id);
                     if(count($listeDepartemental)+count($listeNational)==1)
@@ -554,7 +584,7 @@ class ListeDepartementalController extends Controller
                             DB::table("liste_nationals")->where("id",$listeNational[0]->id)->update(["doublon_externe"=>""]); 
 
                     }                  
-                }
+               // }
                 $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterOrdre($request->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                 $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
     
@@ -572,8 +602,8 @@ class ListeDepartementalController extends Controller
                         ListeNational::where("id",$mylisteNational->id)->update(["doublon_interne"=> $doublon_interne]);
                     }
                 }
-                else
-                {
+               // else
+               // {
                     $listeDepartemental = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterOrdre($candidat->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                     $mylisteNational = $this->listeNationalRepository->getAllByCniAndListe($candidat->numcni,$request->liste_id);
                   //  dd($listeDepartemental,$mylisteNational);
@@ -587,7 +617,7 @@ class ListeDepartementalController extends Controller
                     }
   
 
-                }
+               // }
              
                // $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
                $request->merge(["erreur"=>$erreur,"doublon_interne"=>$doublon_interne,"doublon_externe"=>$doublon_externe,"parite"=>$parite]);
@@ -766,7 +796,7 @@ class ListeDepartementalController extends Controller
       public function searchAjax(Request $request)
     {
       // return response()->json($request);
-
+     // dd($request);
 
        $query = ListeDepartemental::query();
         if($request->scrutin == 'majoritaire')

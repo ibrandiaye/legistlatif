@@ -141,7 +141,20 @@ class ListeNationalController extends Controller
             'type'              => 'string|required',
             'numcni'            => 'string|required',
         ]);
+        $inListe = "";
+        $url = env("API_URL","http://158.220.124.25:7777/api/");
+        $url  = $url."cartes/get/by/nin?nin=".$request->numcni;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
 
+        $data = json_decode($response, true);
+        if(count($data)<1)
+        {
+            $inListe  = "Pas dans le fichier electorale";
+        }
+    $request->merge(["sur_le_fichier"=>$inListe]);
         $candidat = $this->listenationalRepository->getById($id);
         $firstSave  = $this->listenationalRepository->getFirstOrdreByListe($request->liste_id,$request->type);
 
@@ -280,8 +293,8 @@ class ListeNationalController extends Controller
                  ListeNational::where("id",$mylisteNational->id)->update(["doublon_interne"=> $doublon_interne]);
                 }
             }
-            else
-            {
+          //  else
+          //  {
                 $listeDepartemental = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterOrdre($candidat->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
                 $mylisteNational = $this->listenationalRepository->getAllByCniAndListe($candidat->numcni,$request->liste_id);
 
@@ -289,16 +302,17 @@ class ListeNationalController extends Controller
                 {
                     DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]); 
                 }
-                if(count($listeNational)==1)
+                if(count($mylisteNational)==1)
                 {
-                    DB::table("liste_departementals")->where("id",$listeNational[0]->id)->update(["doublon_interne"=>""]); 
+                    DB::table("liste_departementals")->where("id",$mylisteNational[0]->id)->update(["doublon_interne"=>""]); 
                 }
 
-            }
+          //  }
           // dd("ok");
            // $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
            // dd($erreur);
            $request->merge(["erreur"=>$erreur,"doublon_interne"=>$doublon_interne,"doublon_externe"=>$doublon_externe,"parite"=>$parite]);
+           //dd("ddd");
             $this->listenationalRepository->update($id, $request->all());
             //return redirect('listenational');
             return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  

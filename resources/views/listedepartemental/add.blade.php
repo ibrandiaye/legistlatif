@@ -30,11 +30,12 @@
                         <div class="card-header  text-center"> <span id="sexeSaisir"></span>  &nbsp;&nbsp; Ordre à saisir <h4 id="numero"></h4></div>
                             <div class="card-body">
                                 @if ($errors->any())
-                                    <div class="alert alert-danger">
+                                    <div class="alert alert-danger" >
                                         <ul>
                                             @foreach ($errors->all() as $error)
                                                 <li>{{ $error }}</li>
                                             @endforeach
+                                         
                                         </ul>
                                     </div>
                                 @endif
@@ -43,12 +44,15 @@
                                     <p>{{ $message }}</p>
                                 </div>
                             @endif
+                            <div id="error">
+
+                            </div>
                             <div  id="full-message">
                               
                             </div>
                                 <div class="row">
 
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <label> Scrutin</label>
                                         <select class="form-control" id="scrutin" name="scrutin" required="">
                                             <option value="">Selectionner</option>
@@ -56,7 +60,7 @@
                                             <option value="propotionnel" {{old('scrutin') == 'propotionnel' ? 'selected' : '' }}>Propotionnel</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3 typeliste" >
+                                    <div class="col-lg-2 typeliste" >
                                         <div class="form-group">
                                             <label>Type Liste </label>
                                             <select class="form-control" id="type" name="type" required="">
@@ -66,7 +70,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 departement">
+                                    <div class="col-lg-2 departement">
                                         <label>Departement</label>
                                         <select class="form-control" name="departement_id"  id="departement_id">
                                             <option value="">Selectionner</option>
@@ -76,17 +80,17 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         
                                         <div class="form-group ">
                                             <label>Numéro CNI </label>
-                                            <input type="number" name="numcni" id="cni" class="form-control"  required>
+                                            <input type="text" name="numcni" id="cni" class="form-control"  required>
                                             <span class="input-group-append">
                                                 <button type="button" id="btncni" class="btn  btn-primary"><i class="fa fa-search"></i> Rechercher</button>
                                                 </span>
                                         </div> 
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>Numéro Electeur </label>
                                             <input type="number" name="numelecteur" id="numelecteur"  class="form-control"  required>
@@ -103,20 +107,20 @@
                                             <input type="number" name="ordre"  value="{{ old('ordre') }}" class="form-control"  required>
                                         </div>
                                     </div> --}}
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>Prenom </label>
                                             <input type="text" name="prenom" id="prenom"   class="form-control"  required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>Nom </label>
                                             <input type="text" name="nom" id="nom"   class="form-control"  required>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>Sexe </label>
                                             <select class="form-control" name="sexe" id="sexe" required="">
@@ -126,19 +130,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Profession </label>
-                                            <input type="text" name="profession"    class="form-control"  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>Date de naissance </label>
                                             <input type="date" name="datenaiss" id="datenaiss"   class="form-control"  required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>Lieu de naissance  </label>
                                             <input type="text" name="lieunaiss" id="lieunaiss"   class="form-control"  required>
@@ -168,19 +166,25 @@
                                     </select>
                                    </div>
                                        
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label>Domicile </label>
                                                 <input type="text" name="domicile"    class="form-control"  >
                                             </div>
                                         </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label>Profession </label>
+                                                <input type="text" name="profession"    class="form-control"  required>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <label>Service, Emploi et lieu d’affectation pour les agents de l’Etat </label>
+                                                <label>Service, Emploi et lieu d’affectation  </label> {{-- pour les agents de l’Etat --}}
                                                 <input type="text" name="se"   class="form-control"  >
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                       {{--  <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Une extrait d’acte de naissance datant de moins de six (06) mois ou la photocopie légalisée de la carte d’identité biométrique CEDEAO </label>
                                                 <input type="file" name="extrait_ou_cnis"   class="form-control"  >
@@ -191,28 +195,20 @@
                                                 <label>bulletin n°3 du casier judiciaire datant de moins de trois mois</label>
                                                 <input type="file" name="casiers"  class="form-control"  >
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <input type="hidden" value="{{old('nb')}}" name="nb" id="nb">
+                                    <input type="hidden"  name="present" id="present">
                                 <div>
                                     <center>
                                         <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
                                     </center>
                                 </div>
-                                <?php $candidats = Session::get('candidats') ?  Session::get('candidats') : array(); ?>
+                                <?php /*$candidats = Session::get('candidats') ?  Session::get('candidats') : array();*/ ?> 
                             </form>
                                 <div class="col-lg-12">
                                     
-                                <form action="{{ route('generer.formulaire') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="hidden" name="departement_id"  id="departement_idf">
-                                    <input type="hidden" name="scrutin"  id="scrutinf" required>
-                                    <input type="hidden" name="type"  id="typef" required>
-                                    <br><br>
-                                    <center>
-                                        <button type="submit" class="btn btn-success btn btn-lg "> Imprimer</button>
-                                    </center>
-                                </form>
+                               
                                     <h3>Liste Titulaire</h3>
                                     <table  class="table table-bordered table-responsive-md table-striped text-center">
                                         <thead>
@@ -255,7 +251,16 @@
                     
                                         </tbody>
                                     </table>
-                    
+                                    <form action="{{ route('generer.formulaire') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="departement_id"  id="departement_idf">
+                                        <input type="hidden" name="scrutin"  id="scrutinf" required>
+                                        <input type="hidden" name="type"  id="typef" required>
+                                        <center>
+                                            <button type="submit" class="btn btn-success btn btn-lg "> Imprimer</button>
+                                        </center>
+                                      
+                                    </form>
                                 </div>
                             </div>
 
@@ -295,6 +300,7 @@
             }
             $("#btncni").click(function () {
                 var cni = $("#cni").val();
+                $("#error").empty();
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
@@ -312,10 +318,17 @@
                     $("#sexe").val(data[0].ELEC_SEXE)
                     $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                     $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
+                    $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
+                    
+                    $("#present").val(1);
+
                 }
                 else
                 {
-                    alert("CNI non trouve");
+
+                    $("#present").val(0);
+                    //alert("CNI non trouve");
+                    $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
                 }
                 setTimeout($.unblockUI, 1); 
             },
@@ -327,6 +340,7 @@
 
             $("#btnnumelec").click(function () {
                 var numelecteur = $("#numelecteur").val();
+                $("#error").empty();
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
             type:'GET',
@@ -344,10 +358,15 @@
                     $("#sexe").val(data[0].ELEC_SEXE)
                     $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                     $("#cni").val(data[0].NIN)
+                    $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
+                    $("#present").val(1);
+                  
                 }
                 else
                 {
-                    alert("CNI non trouve");
+                   // alert("CNI non trouve");
+                    $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
+                    $("#present").val(0);
                 }
                 setTimeout($.unblockUI, 1); 
             },
@@ -457,7 +476,7 @@
                                         "<td>"+element.profession+"</td>"+
                                         "<td>"+element.datenaiss+"</td>"+
                                         "<td>"+element.lieunaiss+"</td>"+
-                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                         "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                         "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                         "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -473,7 +492,7 @@
                                         "<td>"+element.profession+"</td>"+
                                         "<td>"+element.datenaiss+"</td>"+
                                         "<td>"+element.lieunaiss+"</td>"+
-                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                         "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                         "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                         "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -577,7 +596,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -593,7 +612,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -713,7 +732,7 @@
                                             $("#sexeSaisir").append("Sexe à saisi Feminin  ")
                                         }
                                         else{
-$("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                         } 
                                         
                                     }
@@ -781,7 +800,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -797,7 +816,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -940,7 +959,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -956,7 +975,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1061,7 +1080,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1077,7 +1096,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1232,7 +1251,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1248,7 +1267,7 @@ $("#sexeSaisir").append("Sexe à saisi Masculin ")
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+

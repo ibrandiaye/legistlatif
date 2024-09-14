@@ -290,7 +290,7 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                     "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
                                     "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -389,7 +389,7 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                     "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
                                     "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -440,7 +440,7 @@
                                     "<td>"+element.profession+"</td>"+
                                      "<td>"+element.datenaiss+"</td>"+
                                      "<td>"+element.lieunaiss+"</td>"+
-                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"</td>"+
+                                     "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                      "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                
                                     "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+

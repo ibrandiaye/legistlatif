@@ -35,10 +35,10 @@ class HomeController extends Controller
             $nbSupleantNational = $this->listeNationalRepository->countByTypeAndListe("supleant", Auth::user()->liste_id);
             $nbTitulaireDepartemental = $this->listeDepartementRepository->countByTypeAndListe("titulaire", Auth::user()->liste_id);
             $nbSupleantDepartemental = $this->listeDepartementRepository->countByTypeAndListe("supleant", Auth::user()->liste_id);
-         
+         $liste  = Auth::user()->liste_id;
         
          
-            return view("home", compact("nbTitulaireNational", "nbSupleantNational", "nbTitulaireDepartemental", "nbSupleantDepartemental"));  
+            return view("home", compact("nbTitulaireNational", "nbSupleantNational", "nbTitulaireDepartemental", "nbSupleantDepartemental","liste"));  
         }
         else if(Auth::user()->role == 'admin')
         {
@@ -47,11 +47,12 @@ class HomeController extends Controller
         }
         
     }
-    public function stateByScrutin($scrution)
+    public function stateByScrutin($scrution,$liste)
     {
+        
         if($scrution=="majoritaire")
         {
-            $nbCandidatByListeGroupByDptAndTypes = $this->listeDepartementRepository->countByListeGroupByDepartementAndType(Auth::user()->liste_id);
+            $nbCandidatByListeGroupByDptAndTypes = $this->listeDepartementRepository->countByListeGroupByDepartementAndType($liste);
             $departements = $this->departementRepository->getOrbyRegion();
             $tabCandidats = [];
         
@@ -74,8 +75,8 @@ class HomeController extends Controller
         
                 $tabCandidats[] = $data;
             }
-            $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",Auth::user()->liste_id);
-        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",Auth::user()->liste_id);
+            $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",$liste);
+        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",$liste);
 /* 
         $listeParDepartementFinal = [];
     
@@ -103,15 +104,15 @@ class HomeController extends Controller
          
         } */
    // "listeParDepartementFinal",
-            return view("listedepartemental.liste", compact(   "tabCandidats","departements"));  
+            return view("listedepartemental.liste", compact(   "tabCandidats","departements","liste"));  
 
         }
         else if($scrution=="proportionnel")
         {
-            $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'supleant');
-            $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,'titulaire');
-            //dd($listenationalTitulaire);
-            return view("listenational.liste", compact("listenationalSuppleant",  "listenationalTitulaire"));  
+            $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType($liste,'supleant');
+            $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType($liste,'titulaire');
+           // dd($listenationalTitulaire);
+            return view("listenational.liste", compact("listenationalSuppleant",  "listenationalTitulaire","liste"));  
 
         }
         else
@@ -170,13 +171,13 @@ class HomeController extends Controller
 
     public function listeAdmin($id)
     {
-        
+            $liste = $id;
             $nbTitulaireNational = $this->listeNationalRepository->countByTypeAndListe("titulaire", $id);
             $nbSupleantNational = $this->listeNationalRepository->countByTypeAndListe("supleant", $id);
             $nbTitulaireDepartemental = $this->listeDepartementRepository->countByTypeAndListe("titulaire", $id);
             $nbSupleantDepartemental = $this->listeDepartementRepository->countByTypeAndListe("supleant", $id);
             $nbCandidatByListeGroupByDptAndTypes = $this->listeDepartementRepository->countByListeGroupByDepartementAndType($id);
-            $departements = $this->departementRepository->getAll();
+            $departements = $this->departementRepository->getOrbyRegion();
         
             $tabCandidats = [];
         
@@ -185,6 +186,7 @@ class HomeController extends Controller
                     'titulaire' => 0,
                     'suppleant' => 0,
                     'departement' => $departement->nom,
+                    'liste' => $id,
                 ];
         
                 foreach ($nbCandidatByListeGroupByDptAndTypes as $value) {
@@ -199,7 +201,7 @@ class HomeController extends Controller
         
                 $tabCandidats[] = $data;
             }
-            return view("home", compact("nbTitulaireNational", "nbSupleantNational", "nbTitulaireDepartemental", "nbSupleantDepartemental", "tabCandidats"));  
+            return view("home", compact("nbTitulaireNational", "nbSupleantNational", "nbTitulaireDepartemental", "nbSupleantDepartemental", "tabCandidats","liste"));  
        
     }
 
@@ -222,8 +224,8 @@ class HomeController extends Controller
    }
     public function searchCandidat(Request $request)
     {
-        $listeNationals = null;
-        $listeDepartementals = null;
+        $listeNationals = [];
+        $listeDepartementals = [];
         $query1 = null;
         $query2 = null;
         ;
@@ -247,7 +249,7 @@ class HomeController extends Controller
             $query1->where("liste_nationals.numelecteur",$request->numelec);
             $query2->where("liste_departementals.numelecteur",$request->numelec);
         }
-        if($request->cni || $request->nin)
+        if($request->cni || $request->numelec)
         {
             $listeNationals       = $query1->get();
             $listeDepartementals  = $query2->get();
@@ -259,23 +261,26 @@ class HomeController extends Controller
     {
         $scrutin = $request->scrutin;
         $type = $request->type;
+       
+            $liste = Auth::user()->liste_id;
+       
         if($request->scrutin == "majoritaire" && isset($request->departement_id) && isset($request->type) )
         {
             
-            $listes                = $this->listeDepartementRepository->getByListeAndType(Auth::user()->liste_id,$request->type,$request->departement_id);
+            $listes                = $this->listeDepartementRepository->getByListeAndType($liste,$request->type,$request->departement_id);
             $departement           = $this->departementRepository->getById($request->departement_id);
           //  dd($listes);
 
         }
         else if($request->scrutin == "majoritaire" && isset($request->departement_id))
         {
-            $listes                = $this->listeDepartementRepository->getByListe(Auth::user()->liste_id,$request->departement_id);
+            $listes                = $this->listeDepartementRepository->getByListe($liste,$request->departement_id);
             $departement           = $this->departementRepository->getById($request->departement_id);
          //   dd($listes);
         }
         else if ($request->scrutin =="propotionnel" && isset($request->type) )
         {
-            $listes                = $this->listeNationalRepository->getByListeAndType(Auth::user()->liste_id,$request->type);
+            $listes                = $this->listeNationalRepository->getByListeAndType($liste,$request->type);
            // dd($listes);
            $departement = null;
         }
@@ -328,6 +333,7 @@ class HomeController extends Controller
                 'titulaire' => 0,
                 'suppleant' => 0,
                 'departement' => $departement->nom,
+                'lieu'  =>$departement->is_diaspora
             ];
     
             foreach ($nbCandidatByListeGroupByDptAndTypes as $value) {
@@ -347,7 +353,7 @@ class HomeController extends Controller
         $liste = Auth::user()->liste_id;
         $nbTitulaireNational = $this->listeNationalRepository->countByTypeAndListe("titulaire", $liste);
         $nbSupleantNational = $this->listeNationalRepository->countByTypeAndListe("supleant", $liste);
-       
+      // dd($tabCandidats);
         return view("recap",compact("nbTitulaireNational","nbSupleantNational","suppleantd",
     "titulaired","tabCandidats"));
     }

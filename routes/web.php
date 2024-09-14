@@ -77,7 +77,7 @@ Route::get('/declaration/{id}/{type}', [HomeController::class,'declarer'])->name
 
 Route::get('/recherche/candidat', [ListeDepartementalController::class,'listeCandidat'])->name("liste.candidat")->middleware("auth");
 
-Route::get('/state/by/{scrutin}', [HomeController::class,'stateByScrutin'])->name("state.by.scrutin")->middleware("auth");
+Route::get('/state/by/{scrutin}/{liste}', [HomeController::class,'stateByScrutin'])->name("state.by.scrutin")->middleware("auth");
 
 Route::get('/supprimer/liste/{scrutin}/{type}/{departement}', [HomeController::class,'supprimerListe'])->name("supprimer.liste")->middleware("auth");
 

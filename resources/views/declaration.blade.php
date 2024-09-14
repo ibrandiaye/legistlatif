@@ -32,7 +32,7 @@
         </div>
         <div class="col-sm-8 text-center">
             <h3>Déclaration INDIVIDUELLE dE CANDIDATURE</h3>
-            <h4>pour les élections législatives du XX</h4>
+            <h4>pour les élections législatives anticipées du 17 novembre 2024</h4>
         </div>
         <div class="col-sm-2">
 
@@ -45,7 +45,7 @@
     </div>
     <div class="col-sm-6 text-center">
         <p><b>@if ($candidat->sexe=="F")Mme, Mlle, @else M. @endif </b>  <b> {{$candidat->prenom}}  {{$candidat->nom}}</b></p>
-        <p>pour les élections législatives du XX</p>
+        <p>pour les élections législatives anticipées du 17 novembre 2024</p>
         <p>A</p>
         <p>Monsieur le Ministre chargé des élections</p>
         <p>OBJET :  <b>Déclaration individuelle de candidature.</b></p>
@@ -68,21 +68,20 @@
         @if ($candidat->sexe=="M") domicilié @else domiciliée @endif à @if ($candidat->domicile) <b>{{$candidat->domicile}}</b> @else ______________ @endif sexe  <b> @if ($candidat->sexe=="M") homme @else femme @endif </b>exerçant la profession de <b>{{$candidat->profession}}</b>
          
         @if ($candidat->sexe=="M") inscrit @else inscrite @endif  sur la liste électorale de _____________________ sous le n°{{$candidat->numelecteur}}
+        déclare être @if ($candidat->sexe=="M") candidat @else candidate @endif  aux élections législatives anticipées qui auront lieu le 17 novembre 2024 .
         
-        déclare être  @if ($candidat->sexe=="M") candidat @else candidate @endif  aux élections législatives qui auront lieu le  XX.
+    </p>
         
+       <p> @if ($candidat->sexe=="M") Investi @else Investie @endif  par le parti politique, la coalition de partis politiques </p>
         
-        @if ($candidat->sexe=="M") Investi @else Investie @endif  par le parti politique, la coalition de partis politiques </p>
-        
-            ___________________________________________________________________________________
-
+       <h5><b>{{$liste->nom}} </b></h5>
 
            <p> je figure en qualité de <b> {{$liste->nom}} </b>         sur : </p>
             
          @if ($type=="majoritaire")
          <p>le numero <b>{{ $candidat->ordre}}</b> la liste du Département de <b>{{$departement->nom}}</b> pour le scrutin majoritaire  ({{$candidat->type}}) </p>
          @else
-         <p>le numero <b>{{ $candidat->ordre}}  </b>     la liste nationale, pour le scrutin proportionne ({{$candidat->type}}) l </p>
+         <p>le numero <b>{{ $candidat->ordre}}  </b>     la liste nationale, pour le scrutin proportionnel ({{$candidat->type}})  </p>
 
          @endif   
          @if ($liste->type=="partie_ou_coalition")
@@ -111,13 +110,14 @@
     <div class="col-sm-2">
     
     </div>
-    <div class="col-sm-8">
-        Fait à  _____________le__________________
+    <div class="col-sm-4">
+      
             
         
     </div>
-    <div class="col-sm-2">
-        Signature
+    <div class="col-sm-6">
+        <center>Fait à  _____________le__________________<br><br><br>
+       Signature</center>
     </div>
 </div>
 
