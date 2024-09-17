@@ -227,6 +227,7 @@ class ListeDepartementalController extends Controller
             {
                // $erreur = $erreur. ' Doublon interne';
                // $erreurdge = $erreurdge. ' Doublon interne ';
+               return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
                $doublon_interne = 'Doublon interne';
                if($listeDepartemental)
                {
@@ -349,6 +350,7 @@ class ListeDepartementalController extends Controller
               //  $erreur = $erreur. 'Doublon interne';
                // $erreurdge = $erreurdge. 'Doublon interne ';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
                 $doublon_interne = 'Doublon interne';
                 if($listeDepartemental)
                 {
@@ -590,6 +592,7 @@ class ListeDepartementalController extends Controller
     
                 if(!empty($listeDepartemental) || !empty($mylisteNational))
                 {
+                    return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
                    // $erreur = $erreur. ' Doublon interne';
                    $doublon_interne = ' Doublon interne';
                     //$erreurdge = $erreurdge. ' Doublon interne ';

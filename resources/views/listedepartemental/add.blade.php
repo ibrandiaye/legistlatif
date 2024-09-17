@@ -169,7 +169,7 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label>Domicile </label>
-                                                <input type="text" name="domicile"    class="form-control"  >
+                                                <input type="text" name="domicile" id="domicile"   class="form-control"  >
                                             </div>
                                         </div>
                                         <div class="col-lg-2">
@@ -201,8 +201,28 @@
                                     <input type="hidden"  name="present" id="present">
                                 <div>
                                     <center>
-                                        <button type="submit" class="btn btn-success btn btn-lg "> ENREGISTRER</button>
+                                        <button  type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#myModal"> ENREGISTRER</button>
                                     </center>
+                                     <!-- sample modal content -->
+                                     <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title mt-0" id="myModalLabel">Confirmation</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h6 class="mt-0" id="validation_modal"></h6>
+                                                   
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Fermer</button>
+                                                    <button type="Submit" class="btn btn-primary waves-effect waves-light">Valider</button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
                                 </div>
                                 <?php /*$candidats = Session::get('candidats') ?  Session::get('candidats') : array();*/ ?> 
                             </form>
@@ -279,9 +299,11 @@
     //  url = "http://127.0.0.1:8000/";
     // url_app+"search/ajax" = ""+url_app+"search/ajax";
       //  url_app+"search/ajax" = "http://127.0.0.1:8000/search/ajax";
+      var veriParite = ""
       liste_id = {{Auth::user()->liste_id}}
-
-          $(document).ready(function () {
+        sexe =""
+        $(document).ready(function () 
+        {
            
            // setTimeout(, 2000); 
             $(".departement").hide();
@@ -299,93 +321,367 @@
                 $(".typeliste").show();
             }
             $("#btncni").click(function () {
+                var scrutin = $("#scrutin").val();;
+                var type =  $("#type").val();;
+                var departement_id = $("#departement_id").val();
                 var cni = $("#cni").val();
                 $("#error").empty();
+                $("#validation_modal").empty();
+                sexeSaisi ="";
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
-            type:'GET',
-        // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
-          url: url_api+'cartes/get/by/nin?nin='+cni,
+                type:'GET',
+                // url:'http://127.0.0.1:7777/api/cartes/get/by/nin?nin='+cni,
+                url: url_api+'cartes/get/by/nin?nin='+cni,
           
-            data:'_token = <?php echo csrf_token() ?>',
-            success:function(data) {
-                console.log(data,data.length);
-                if(data.length >=1)
-                {
-                    console.log(data[0].ELEC_PRENOM)
-                    $("#prenom").val(data[0].ELEC_PRENOM)
-                    $("#nom").val(data[0].ELEC_NOM)
-                    $("#sexe").val(data[0].ELEC_SEXE)
-                    $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
-                    $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
-                    $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
-                    
-                    $("#present").val(1);
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                        console.log(data,data.length);
+                        if(data.length >=1)
+                        {
+                            console.log(data[0].ELEC_DATE_NAISSANCE)
+                            $("#prenom").val(data[0].ELEC_PRENOM)
+                            $("#nom").val(data[0].ELEC_NOM)
+                            $("#sexe").val(data[0].ELEC_SEXE)
+                            sexeSaisi = data[0].ELEC_SEXE;
+                            console.log("sexe saisi",sexeSaisi)
+                            $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
+                            $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
+                            $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
+                            $("#domicile").val(data[0].COMMUNE)
+                            const givenDate = new Date(convertirDate( data[0].ELEC_DATE_NAISSANCE));
+                            const today = new Date();
+                            // Calcul de la différence en millisecondes
+                            const differenceInMilliseconds = today.getTime() - givenDate.getTime();
+                            const differenceInYears = differenceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+                            console.log(differenceInYears)
+                            if(differenceInYears< 25)
+                            {
+                                $("#error").append(" <div  class='alert alert-danger'> age minimun non ateint. age :"+differenceInYears+" ans</div>");
+                            }
+                            $("#present").val(1);
+                            $("#validation_modal").append("Voulez-vous enregistrer  "+data[0].ELEC_PRENOM+" "+data[0].ELEC_NOM+"  "+data[0].NIN+"?");
 
-                }
-                else
+                        }
+                        else
+                        {
+                            $("#validation_modal").empty();
+                            $("#present").val(0);
+                            //alert("CNI non trouve");
+                            $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
+                        }
+                        setTimeout($.unblockUI, 1); 
+                    },
+                    error:function(){
+                        setTimeout($.unblockUI, 1); 
+                    }
+                });
+               
+                if(scrutin=='propotionnel')
                 {
-
-                    $("#present").val(0);
-                    //alert("CNI non trouve");
-                    $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
-                }
-                setTimeout($.unblockUI, 1); 
-            },
-            error:function(){
-                setTimeout($.unblockUI, 1); 
-            }
-        });
-            });
-
-            $("#btnnumelec").click(function () {
-                var numelecteur = $("#numelecteur").val();
-                $("#error").empty();
-                $.blockUI({ message: "<p>Patienter</p>" }); 
-                $.ajax({
-            type:'GET',
-         // url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
-         url: url_api+'cartes/get/by/numelec?numelec='+numelecteur,
-          
-            data:'_token = <?php echo csrf_token() ?>',
-            success:function(data) {
-                console.log(data,data.length);
-                if(data.length >=1)
-                {
-                    console.log(data[0].ELEC_PRENOM)
-                    $("#prenom").val(data[0].ELEC_PRENOM)
-                    $("#nom").val(data[0].ELEC_NOM)
-                    $("#sexe").val(data[0].ELEC_SEXE)
-                    $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
-                    $("#cni").val(data[0].NIN)
-                    $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
-                    $("#present").val(1);
+                    $.ajax({
+                    type:'GET',
+                    url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                        console.log(data)
+                        if(data.ordre)
+                        {
+                            sexe = data.sexe;                        
+                            if(sexe=="M")
+                                {
+                                    if((data.ordre +1)%2==0)
+                                    {
+                                        if(sexeSaisi=="M")
+                                        {
+                                            console.log(1)
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(sexeSaisi=="F")
+                                        {
+                                            console.log(2)
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    } 
+                                    
+                                }
+                                else if(sexe=="F")
+                                {
+                                    if((data.ordre +1)%2==0)
+                                    {
+                                        if(sexeSaisi=="F")
+                                        {
+                                            console.log(3)
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(sexeSaisi=="M")
+                                        {
+                                            console.log(4)
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    } 
+                                }
+                            
+                            }
+                        }
+                    });
                   
                 }
-                else
+                if(scrutin == "majoritaire")
                 {
-                   // alert("CNI non trouve");
-                    $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
-                    $("#present").val(0);
-                }
-                setTimeout($.unblockUI, 1); 
-            },
-            error:function(){
-                setTimeout($.unblockUI, 1); 
-            }
-        });
+                    if(departement_id)
+                    {
+                            $.ajax({
+                        type:'GET',
+                        url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                        data:'_token = <?php echo csrf_token() ?>',
+                        success:function(data) {
+                                sexe =""
+                                console.log(data);
+                            if(data.ordre)
+                                {
+                                    sexe = data.sexe; 
+                                
+                                    if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                    {
+                                    
+                                
+                                        if(sexe=="M")
+                                        {
+                                            if((data.ordre +1)%2==0){
+                                                if(sexeSaisi=="M")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            }
+                                            else{
+                                                if(sexeSaisi=="F")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            } 
+                                            
+                                        }
+                                        else if(sexe=="F")
+                                        {
+                                            if((data.ordre +1)%2==0)
+                                            {
+                                                if(sexeSaisi=="F")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            }
+                                            else
+                                            {
+                                                if(sexeSaisi=="M")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            } 
+                                        }
+                                    }
+                                   
+                                }
+                                
+                            }
+                        });
+                    }
+                }              
+                
+                
             });
-            setTimeout($.unblockUI, 1); 
-            var scrutin = '{{old('scrutin')}}';
-            var type =  '{{old('type')}}';
-            var departement_id = '{{old('departement_id')}}';
-            console.log(scrutin,type);
-            $("#scrutinf").val(scrutin);
-            $("#typef").val(type);
-            $("#departement_idf").val(departement_id);
-            $("#tbody").empty();
-           if(scrutin && type)
+
+            $("#btnnumelec").click(function () 
             {
+                var numelecteur = $("#numelecteur").val();
+                var scrutin = $("#scrutin").val();;
+                var type =  $("#type").val();;
+                var departement_id = $("#departement_id").val();;
+                $("#validation_modal").empty();
+                sexeSaisi = ""
+                $.blockUI({ message: "<p>Patienter</p>" }); 
+                $.ajax({
+                    type:'GET',
+                    // url:'http://127.0.0.1:7777/api/cartes/get/by/numelec?numelec='+numelecteur,
+                    url: url_api+'cartes/get/by/numelec?numelec='+numelecteur,
+            
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                    console.log(data,data.length);
+                    if(data.length >=1)
+                    {
+                        console.log(data[0].ELEC_PRENOM)
+                        $("#prenom").val(data[0].ELEC_PRENOM)
+                        $("#nom").val(data[0].ELEC_NOM)
+                        $("#sexe").val(data[0].ELEC_SEXE)
+                        $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
+                        $("#cni").val(data[0].NIN)
+                        $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
+                        $("#domicile").val(data[0].COMMUNE)
+                        $("#present").val(1);
+                        sexeSaisi = data[0].ELEC_SEXE;
+                        $("#validation_modal").append("Voulez-vous enregistrer "+data[0].ELEC_PRENOM+" "+data[0].ELEC_NOM+"  Numero NIN"+data[0].NIN+"?");
+                        const givenDate = new Date(convertirDate( data[0].ELEC_DATE_NAISSANCE));
+                        const today = new Date();
+                        // Calcul de la différence en millisecondes
+                        sexeSaisi = $("#sexe").val()
+                        const differenceInMilliseconds = today.getTime() - givenDate.getTime();
+                        const differenceInYears = differenceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+                        console.log(differenceInYears)
+                        if(differenceInYears< 25)
+                        {
+                            $("#error").append(" <div  class='alert alert-danger'> age minimun non ateint. age :"+differenceInYears+" ans</div>");
+                        }
+                    
+                    }
+                    else
+                    {
+                        $("#validation_modal").empty();
+                    // alert("CNI non trouve");
+                        $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
+                        $("#present").val(0);
+                    }
+                    setTimeout($.unblockUI, 1); 
+                    },
+                    error:function(){
+                        setTimeout($.unblockUI, 1); 
+                    }
+                });
+                if(scrutin=='propotionnel')
+                {
+                    $.ajax({
+                    type:'GET',
+                    url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                    data:'_token = <?php echo csrf_token() ?>',
+                    success:function(data) {
+                        if(data.ordre)
+                        {
+                            sexe = data.sexe;                        
+                            if(sexe=="M")
+                                {
+                                    if((data.ordre +1)%2==0){
+                                        if(sexeSaisi=="M")
+                                        {
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    }
+                                    else{
+                                        if(sexeSaisi=="F")
+                                        {
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    } 
+                                    
+                                }
+                                else if(sexe=="F")
+                                {
+                                    if((data.ordre +1)%2==0)
+                                    {
+                                        if(sexeSaisi=="F")
+                                        {
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(sexeSaisi=="M")
+                                        {
+                                            $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                        }
+                                    } 
+                                }
+                               
+                            }
+                        }
+                    });
+                  
+                }
+                if(scrutin == "majoritaire")
+                {
+                    if(departement_id)
+                    {
+                            $.ajax({
+                        type:'GET',
+                        url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+departement_id+'/',
+                        data:'_token = <?php echo csrf_token() ?>',
+                        success:function(data) {
+                                sexe =""
+                                console.log(data);
+                            if(data.ordre)
+                                {
+                                    sexe = data.sexe; 
+                                
+                                    if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
+                                    {
+                                    
+                                
+                                        if(sexe=="M")
+                                        {
+                                            if((data.ordre +1)%2==0){
+                                                if(sexeSaisi=="M")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            }
+                                            else{
+                                                if(sexeSaisi=="F")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            } 
+                                            
+                                        }
+                                        else if(sexe=="F")
+                                        {
+                                            if((data.ordre +1)%2==0)
+                                            {
+                                                if(sexeSaisi=="F")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            }
+                                            else
+                                            {
+                                                if(sexeSaisi=="M")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            
+                                            } 
+                                        }
+                                    }
+                                   
+                                }
+                                
+                            }
+                        });
+                    }
+                }
+            });
+                setTimeout($.unblockUI, 1); 
+                var scrutin = '{{old('scrutin')}}';
+                var type =  '{{old('type')}}';
+                var departement_id = '{{old('departement_id')}}';
+                console.log(scrutin,type);
+                $("#scrutinf").val(scrutin);
+                $("#typef").val(type);
+                $("#departement_idf").val(departement_id);
+                $("#tbody").empty();
+                if(scrutin && type)
+                {
                 if(scrutin == "majoritaire")
                 {
                     if(departement_id)
@@ -402,22 +698,25 @@
                             $("#numero").empty()
                             $("#sexeSaisir").empty()
                             $("#full-message").empty()
-                           if(data.ordre)
+                        if(data.ordre)
                             {
                                 $("#numero").append(data.ordre+1);
                                 sexe = data.sexe; 
                                 $("#sexeSaisir").empty();
+                            
                                 if((data.ordre +2 <= data.nb &&  data.nb%2!=0 ) || data.nb%2==0)
                                 {
-                                    
-                               
+                                
+                            
                                     if(sexe=="M")
                                     {
                                         if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        
                                         }
                                         else{
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
                                         } 
                                         
                                     }
@@ -426,10 +725,12 @@
                                         if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                        
                                         }
                                         else
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                        
                                         } 
                                     }
                                 }
@@ -442,7 +743,7 @@
                             else
                             {
                                 $("#sexeSaisir").empty();
-                               
+                            
                                 $("#numero").append("1");
                             }
                             //$("#localite_id").empty();
@@ -507,134 +808,149 @@
                                     // handle the error case
                                 }
                             }); 
-                    }
-                }
-                else if(scrutin=='propotionnel')
-            {
-                $.ajax({
-                        type:'GET',
-                        url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
-                       //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
-                        data:'_token = <?php echo csrf_token() ?>',
-                        success:function(data) {
-
-                            $("#numero").empty();
-                            $("#full-message").empty()
-                            if(data.ordre)
-                            {
-                                $("#numero").append(data.ordre+1);
-                                sexe = data.sexe;
-                                $("#sexeSaisir").empty();
-                            
-                                if(sexe=="M")
-                                    {
-                                        if((data.ordre +1)%2==0){
-                                            $("#sexeSaisir").append("Sexe à saisi Feminin  ")
-                                        }
-                                        else{
-                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                        } 
-                                        
-                                    }
-                                    else if(sexe=="F")
-                                    {
-                                        if((data.ordre +1)%2==0)
-                                        {
-                                            $("#sexeSaisir").append("Sexe à saisi Masculin ")
-                                        }
-                                        else
-                                        {
-                                            console.log("fff");
-                                            $("#sexeSaisir").append("Sexe à saisi Feminin ")
-                                        } 
-                                    }
-                                    if( data.type == "titulaire" && data.ordre ==53 )
-                                    {
-                                        $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
-                                    }
-                                    else if(data.type == "supleant" && data.ordre ==50 )
-                                    {
-                                        $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
-
-                                    }
-
-                                
-                            }
-                            else
-                            {
-                                $("#sexeSaisir").empty();
-                                $("#numero").append("1");
-                            }
-                        
-                        
-                            //$("#localite_id").empty();
                         }
-                    });
-                    
-                $.ajax({
-                    url: url_app+"search/ajax",
-                    method: 'POST',
-                    data: {
-                    _token: '{!! csrf_token() !!}',
-                        liste_id: liste_id,
-                        scrutin: scrutin,
-                       type : type
-                        // add more key-value pairs as needed
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
-                                "</tr>";
-                            }       
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                        // handle the error case
                     }
-                });
-            }
-            }
-            
+                    else if(scrutin=='propotionnel')
+                    {
+                        //alert("ibra")
+                        $.ajax({
+                            type:'GET',
+                            url:url_app+'last/save/by/liste/'+scrutin+'/'+type+'/'+0+'/',
+                        //   url:'http://vmi435145.contaboserver.net:9000/pays/by/juridiction/'+juridiction_id,
+                            data:'_token = <?php echo csrf_token() ?>',
+                            success:function(data) {
+
+                                $("#numero").empty();
+                                $("#full-message").empty()
+                                if(data.ordre)
+                                {
+                                    $("#numero").append(data.ordre+1);
+                                    sexe = data.sexe;
+                                    $("#sexeSaisir").empty();
+                                
+                                    if(sexe=="M")
+                                        {
+                                            if((data.ordre +1)%2==0){
+                                                $("#sexeSaisir").append("Sexe à saisi Feminin  ")
+                                                if(sexeSaisi=="M")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            }
+                                            else{
+                                                $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                                if(sexeSaisi=="F")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            } 
+                                            
+                                        }
+                                        else if(sexe=="F")
+                                        {
+                                            if((data.ordre +1)%2==0)
+                                            {
+                                                $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                                if(sexeSaisi=="F")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            }
+                                            else
+                                            {
+                                                console.log("fff");
+                                                $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                                if(sexeSaisi=="M")
+                                                {
+                                                    $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                                }
+                                            } 
+                                        }
+                                        if( data.type == "titulaire" && data.ordre ==53 )
+                                        {
+                                            $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+                                        }
+                                        else if(data.type == "supleant" && data.ordre ==50 )
+                                        {
+                                            $("#full-message").append(" <div class='alert alert-danger'>Vous avez atteind le nombre de candidat requis</div> ");
+
+                                        }
+
+                                    
+                                }
+                                else
+                                {
+                                    $("#sexeSaisir").empty();
+                                    $("#numero").append("1");
+                                }
+                            
+                            
+                                //$("#localite_id").empty();
+                            }
+                        });
+                    
+                        $.ajax({
+                            url: url_app+"search/ajax",
+                            method: 'POST',
+                            data: {
+                            _token: '{!! csrf_token() !!}',
+                                liste_id: liste_id,
+                                scrutin: scrutin,
+                            type : type
+                                // add more key-value pairs as needed
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                var contenut ='';
+                                var contenus ='';
+                                response.forEach(element => {
+                                    if(element.type=="titulaire")
+                                    {
+                                        contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
+                                        "<td>"+element.prenom+"</td>"+
+                                        "<td>"+element.nom+"</td>"+
+                                        "<td>"+element.numelecteur+"</td>"+
+                                        "<td>"+element.sexe+"</td>"+
+                                        "<td>"+element.profession+"</td>"+
+                                        "<td>"+element.datenaiss+"</td>"+
+                                        "<td>"+element.lieunaiss+"</td>"+
+                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                        "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                        "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                        "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                        "</tr>";
+                                    }
+                                    else
+                                    {
+                                        contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
+                                        "<td>"+element.prenom+"</td>"+
+                                        "<td>"+element.nom+"</td>"+
+                                        "<td>"+element.numelecteur+"</td>"+
+                                        "<td>"+element.sexe+"</td>"+
+                                        "<td>"+element.profession+"</td>"+
+                                        "<td>"+element.datenaiss+"</td>"+
+                                        "<td>"+element.lieunaiss+"</td>"+
+                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                        "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
+                                        "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                        "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                        "</tr>";
+                                    }       
+                                });
+                                $("#tbody").append(contenut);
+                                $("#tbodys").append(contenus);
+
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.log(errorThrown);
+                                // handle the error case
+                            }
+                        });
+                    }
+                } 
                
-          
             
-        });
+            });
           $("#scrutin").change(function () {
             var scrutin =  $("#scrutin").children("option:selected").val();
             var type =  $("#type").children("option:selected").val();
@@ -859,12 +1175,14 @@
             var scrutin =  $("#scrutin").children("option:selected").val();
             var type =  $("#type").children("option:selected").val();
             var departement_id =  $("#departement_id").children("option:selected").val();
+            var sexeSaisi   = $("#sexe").val()
             $("#scrutinf").val(scrutin);
             $("#typef").val(type);
             $("#departement_idf").val(departement_id);
             console.log(scrutin,type,departement_id);
             $("#tbody").empty();
             $("#tbodys").empty();
+            //aler("ibra");
             if(scrutin )
             {
                 if(scrutin == "majoritaire")
@@ -897,9 +1215,17 @@
                                     {
                                         if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                            if(sexeSaisi=="M")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         }
                                         else{
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            if(sexeSaisi=="F")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         } 
                                         
                                     }
@@ -908,10 +1234,18 @@
                                         if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            if(sexeSaisi=="F")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         }
                                         else
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                            if(sexeSaisi=="F")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         } 
                                     }
                                 }
@@ -1015,9 +1349,17 @@
                                     {
                                         if((data.ordre +1)%2==0){
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                            if(sexeSaisi=="M")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         }
                                         else{
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            if(sexeSaisi=="F")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         } 
                                         
                                     }
@@ -1026,10 +1368,18 @@
                                         if((data.ordre +1)%2==0)
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Masculin ")
+                                            if(sexeSaisi=="F")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         }
                                         else
                                         {
                                             $("#sexeSaisir").append("Sexe à saisi Feminin ")
+                                            if(sexeSaisi=="M")
+                                            {
+                                                $("#error").append(" <div  class='alert alert-danger'> Probleme de Parite</div>"); 
+                                            }
                                         } 
                                     }
                                 if( data.type == "titulaire" && data.ordre ==53 )

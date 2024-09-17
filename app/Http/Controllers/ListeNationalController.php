@@ -282,6 +282,7 @@ class ListeNationalController extends Controller
             {
                // $erreur = $erreur. ' Doublon interne';
                // $erreurdge = $erreurdge. ' Doublon interne ';
+               return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
                $doublon_interne = 'Doublon interne';
                 //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
                 if(isset($listeDepartemental))
