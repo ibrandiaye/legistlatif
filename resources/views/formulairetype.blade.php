@@ -41,8 +41,8 @@
         
         </div>
         <div class="col-sm-8 text-center">
-            <h3>FORMULAIRE</h3>
-            <h4>POUR LE SCRUTIN PROPORTIONNEL</h4>
+            <h4>FORMULAIRE</h4>
+            <h5>POUR LE SCRUTIN PROPORTIONNEL</h5>
 
         </div>
         <div class="col-sm-2">
@@ -51,7 +51,7 @@
 </div>
 <div class="row " >
     <div class="col text-center">
-        <h4>ELECTIONS LEGISLATIVES DU XX xx 2024</h4>
+        <h5>Elections législatives anticipées du 17 novembre 2024</h5>
 
     </div>
 </div>
@@ -63,7 +63,7 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h4>{{Auth::user()->liste->nom}}</h4>
+        <h5>{{Auth::user()->liste->nom}}</h5>
     </div>
     <div class="col-sm-2">
 
@@ -78,11 +78,9 @@
 <div class="row text-center" >
     <div class="col text-center">
         @if($type=="titulaire")
-            <h4>TITULAIRE</h4>
-            <p>Soixante (60) candidats</p>
+            <h5>TITULAIRE : Soixante (53) candidats</h5>
         @else
-        <h4>SUPPLEANTS</h4>
-        <p>Soixante (52) candidats</p>
+        <h5>SUPPLEANTS : Soixante (20) candidats</h5>
         @endif
     </div>
     
@@ -137,24 +135,10 @@
 @endif
 @if($scrutin=="majoritaire")
 
-      <!--  jQuery  -->
-      <div class="row">
-        <div class="col-sm-2">
-        
-        </div>
-        <div class="col-sm-8 text-center">
-            <h3>FORMULAIRE</h3>
-            <h4>POUR LE SCRUTIN MAJORITAIRE DEPARTEMENTAL</h4>
-            
-
-        </div>
-        <div class="col-sm-2">
-
-        </div>
-</div>
+    
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>ELECTIONS LEGISLATIVES DU XX xx 2024</h4>
+        <h5>Elections législatives anticipées du 17 novembre 2024</h5>
 
     </div>
 </div>
@@ -163,18 +147,7 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h4>{{Auth::user()->liste->nom}}</h4>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <h4>SCRUTIN MAJORITAIRE</h4>
+        <h5>{{Auth::user()->liste->nom}}</h5>
     </div>
     <div class="col-sm-2">
 
@@ -185,8 +158,19 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h4>DEPARTEMENT DE {{ $departement->nom }}
-        </h4>
+        <h5>SCRUTIN MAJORITAIRE</h5>
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+    
+    </div>
+    <div class="col-sm-8 text-center">
+        <h5>DEPARTEMENT DE {{ $departement->nom }}
+        </h5>
     </div>
     <div class="col-sm-2">
 
@@ -194,8 +178,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>TItulaire</h4>
-        <p>{{$departement->nb}} candidats</p>
+        <h5>TItulaire : {{$departement->nb}} candidats</h5>
     </div>
    
 </div>
@@ -252,8 +235,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>Suppleant</h4>
-        <p>{{$departement->nb}} candidats</p>
+        <h5>Suppleant : {{$departement->nb}} candidats</h5>
     </div>
    
 </div>

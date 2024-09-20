@@ -51,7 +51,7 @@
                               
                             </div>
                                 <div class="row">
-
+                                    <input type="hidden" id="commune" name="commune">
                                     <div class="col-lg-2">
                                         <label> Scrutin</label>
                                         <select class="form-control" id="scrutin" name="scrutin" required="">
@@ -348,7 +348,7 @@
                             $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                             $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
                             $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
-                           // $("#domicile").val(data[0].COMMUNE)
+                            $("#commune").val(data[0].COMMUNE)
                             const givenDate = new Date(convertirDate( data[0].ELEC_DATE_NAISSANCE));
                             const today = new Date();
                             // Calcul de la différence en millisecondes
@@ -527,7 +527,7 @@
                         $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                         $("#cni").val(data[0].NIN)
                         $("#lieunaiss").val(data[0].ELEC_LIEU_NAISSANCE)
-                        //$("#domicile").val(data[0].COMMUNE)
+                        $("#commune").val(data[0].COMMUNE)
                         $("#present").val(1);
                         sexeSaisi = data[0].ELEC_SEXE;
                         $("#validation_modal").append("Voulez-vous enregistrer "+data[0].ELEC_PRENOM+" "+data[0].ELEC_NOM+"  Numero NIN"+data[0].NIN+"?");

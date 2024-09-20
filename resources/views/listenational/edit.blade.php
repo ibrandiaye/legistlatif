@@ -45,6 +45,8 @@
                                     {{--    </ div>
                                     </div> --}}
                                     <div class="col-lg-3">
+                                        <input type="hidden" id="commune" name="commune" value="{{$listenational->commune }}">
+
                                         <div class="form-group">
                                             <label>Numéro CNI </label>
                                             <input type="number" name="numcni" id="cni"  value="{{$listenational->numcni }}" class="form-control"  required>
@@ -191,6 +193,7 @@ $(document).ready(function () {
                     $("#sexe").val(data[0].ELEC_SEXE)
                     $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                     $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
+                    $("#commune").val(data[0].COMMUNE)
                 }
                 else
                 {
@@ -221,7 +224,9 @@ $(document).ready(function () {
                     $("#nom").val(data[0].ELEC_NOM)
                     $("#sexe").val(data[0].ELEC_SEXE)
                     $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
-                    $("#cni").val(data[0].NIN)                }
+                    $("#cni").val(data[0].NIN)  
+                    $("#commune").val(data[0].COMMUNE)
+                }
                 else
                 {
                     alert("CNI non trouve");

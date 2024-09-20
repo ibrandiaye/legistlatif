@@ -592,10 +592,10 @@ class ListeDepartementalController extends Controller
     
                 if(!empty($listeDepartemental) || !empty($mylisteNational))
                 {
-                    return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
-                   // $erreur = $erreur. ' Doublon interne';
+                   // return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
+                 //   $erreur = $erreur. ' Doublon interne';
                    $doublon_interne = ' Doublon interne';
-                    //$erreurdge = $erreurdge. ' Doublon interne ';
+                    $erreurdge = $erreurdge. ' Doublon interne ';
                     if($listeDepartemental)
                     {
                      ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_interne"=> $doublon_interne]);

@@ -39,6 +39,7 @@
                                 @endif
                                 <div class="row">
                                 <div class="col-lg-3">
+                                    <input type="hidden" id="commune" name="commune" value="{{$listedepartemental->commune }}">
                                     <div class="form-group">
                                         <label>Numéro CNI </label>
                                         <input type="text" name="numcni" id="cni"  value="{{$listedepartemental->numcni }}" class="form-control"  required>
@@ -216,6 +217,7 @@ $(document).ready(function () {
                     $("#sexe").val(data[0].ELEC_SEXE)
                     $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                     $("#numelecteur").val(data[0].ELEC_NUM_ELECTEUR)
+                    $("#commune").val(data[0].COMMUNE)
                 }
                 else
                 {
@@ -247,6 +249,7 @@ $(document).ready(function () {
                     $("#sexe").val(data[0].ELEC_SEXE)
                     $("#datenaiss").val(convertirDate(data[0].ELEC_DATE_NAISSANCE))
                     $("#cni").val(data[0].NIN)
+                    $("#commune").val(data[0].COMMUNE)
                 }
                 else
                 {
