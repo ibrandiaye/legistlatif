@@ -473,7 +473,7 @@ class ListeDepartementalController extends Controller
 
             $departement = $this->departementRepository->getById($request->departement_id);
             $firstSave  = $this->listedepartementalRepository->getfirstordreByListe($request->liste_id,$request->type,$request->departement_id);
-           
+            $request->merge(["nb"=>$departement->nb]);
             //si on mondifier le candidat ou le sexe saisi
          /*    if($candidat->numcni!=$request->numcni || $candidat->sexe!=$request->sexe)
             { */
@@ -506,7 +506,7 @@ class ListeDepartementalController extends Controller
 
                     if($candidat->ordre > 1)
                     {
-                        if($request->nb%2==0 || ($request->nb%2!=0 && $candidat->ordre+1 <= $request->nb) )
+                        if($departement->nb%2==0 || ($departement->nb%2!=0 && $candidat->ordre+1 <= $departement->nb) )
                         {
                             if($firstSave->sexe==$request->sexe && $candidat->ordre%2==0  )
                             {
@@ -531,7 +531,7 @@ class ListeDepartementalController extends Controller
                             $pariteAutre = "";
                             if($value->ordre > 1)
                             {
-                                if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 <= $request->nb))
+                                if($departement->nb%2==0 || ($departement->nb%2!=0 && $value->ordre+1 <= $departement->nb))
                                 {
                                     if($request->sexe==$value->sexe && $value->ordre%2==0  )
                                     {
@@ -625,7 +625,16 @@ class ListeDepartementalController extends Controller
                // $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
                $request->merge(["erreur"=>$erreur,"doublon_interne"=>$doublon_interne,"doublon_externe"=>$doublon_externe,"parite"=>$parite]);
                 $this->listedepartementalRepository->update($id, $request->all());
-                return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');      
+                if(Auth::user()->role=='candidats')
+                {
+                    return redirect('tab/1')->with('success', 'Candidat modifier avec succès.'); 
+                }
+                else if(Auth::user()->role=='admin')
+                {
+                    return redirect('listedepartemental')->with('success', 'Candidat modifier avec succès.'); 
+                    
+                }
+                    
            /*  }
             
             $this->listedepartementalRepository->update($id, $request->all());

@@ -138,7 +138,7 @@
 
                                         </select>
                                     </div>
-                                    <div style="display: none;">
+                                  {{--   <div style="display: none;">
                                         <label> Liste</label>
                                         <select class="form-control"  name="liste" required="">
                                             <option value="">Selectionner</option>
@@ -147,7 +147,7 @@
                                                 @endforeach
     
                                         </select>
-                                       </div>
+                                       </div> --}}
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Domicile </label>

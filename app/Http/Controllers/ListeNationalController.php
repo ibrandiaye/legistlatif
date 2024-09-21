@@ -316,7 +316,16 @@ class ListeNationalController extends Controller
            //dd("ddd");
             $this->listenationalRepository->update($id, $request->all());
             //return redirect('listenational');
-            return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  
+            //return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  
+            if(Auth::user()->role=='candidats')
+            {
+                return redirect('tab/1')->with('success', 'Candidat modifier avec succès.'); 
+            }
+            else if(Auth::user()->role=='admin')
+            {
+                return redirect('listedepartemental')->with('success', 'Candidat modifier avec succès.'); 
+                
+            }
       /*   }
         else
         {

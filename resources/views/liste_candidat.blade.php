@@ -13,7 +13,10 @@
                                 <li class="breadcrumb-item active"><a href="{{ route('listedepartemental.create') }}">ENREGISTRER $listedepartemental</a></li>
                                 </ol>
                             </div>
-                            <h4 class="page-title">{{Auth::user()->liste->nom}}</h4>
+                            <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
+                                @else
+                                {{Auth::user()->liste->nom}}
+                                 @endif</h4>
                         </div>
                     </div>
                     <div class="clearfix"></div>
