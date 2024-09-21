@@ -60,7 +60,7 @@
                             <td>{{ $listenational->numelecteur }}</td>
                             <td>{{ $listenational->sexe }}</td>
                             <td>{{ $listenational->profession }}</td>
-                            <td>{{ $listenational->datenaiss }}</td>
+                            <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}td>
                             <td>{{ $listenational->lieunaiss }}</td>
                             <td>
                                 <a href="{{ route('listenational.show', $listenational->id) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i></a>

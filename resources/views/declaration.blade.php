@@ -48,7 +48,7 @@
     
     </div>
     <div class="col-sm-6 text-center">
-        <p><b>@if ($candidat->sexe=="F")Mme, Mlle, @else M. @endif </b>  <b> {{$candidat->prenom}}  {{$candidat->nom}}</b></p>
+        <p><b>@if ($candidat->sexe=="F")Mme @else M. @endif </b>  <b> {{$candidat->prenom}}  {{$candidat->nom}}</b></p>
         <p>pour les élections législatives anticipées du 17 novembre 2024</p>
         <p>A</p>
         <p>Monsieur le Ministre chargé des élections</p>
@@ -69,7 +69,7 @@
 
         @if ($candidat->sexe=="M") Né @else Née @endif le <b>{{$candidat->datenaiss}}</b> à <b>{{$candidat->lieunaiss}}</b>, @if ($candidat->sexe=="M") fils @else fille @endif de ________________ et de _________________________
         
-        @if ($candidat->sexe=="M") domicilié @else domiciliée @endif à @if ($candidat->domicile) <b>{{$candidat->domicile}}</b> @else ______________ @endif sexe  <b> @if ($candidat->sexe=="M") homme @else femme @endif </b>exerçant la profession de <b>{{$candidat->profession}}</b>
+        @if ($candidat->sexe=="M") domicilié @else domiciliée @endif à @if ($candidat->domicile) <b>{{$candidat->domicile}}</b> @else ______________ @endif sexe  <b> @if ($candidat->sexe=="M") masculin @else feminin @endif </b>exerçant la profession de <b>{{$candidat->profession}}</b>
          
         @if ($candidat->sexe=="M") inscrit @else inscrite @endif  sur la liste électorale de @if(!empty($candidat->commune)) {{$candidat->commune}} @else _____________________ @endif sous le n°{{$candidat->numelecteur}}
         déclare être @if ($candidat->sexe=="M") candidat @else candidate @endif  aux élections législatives anticipées qui auront lieu le 17 novembre 2024 .

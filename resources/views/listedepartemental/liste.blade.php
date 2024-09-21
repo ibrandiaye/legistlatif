@@ -10,7 +10,7 @@
 
                 <ol class="breadcrumb hide-phone p-0 m-0">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER $listenational</a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER listenational</a></li>
                 </ol>
             </div>
             <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
@@ -156,7 +156,7 @@
                                     <td>{{ $titulaire['data']->numelecteur }}</td>
                                     <td>{{ $titulaire['data']->sexe }}</td>
                                     <td>{{ $titulaire['data']->profession }}</td>
-                                    <td>{{ $titulaire['data']->datenaiss }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}</td>
                                     <td>{{ $titulaire['data']->lieunaiss }}</td>
                                     <td class="text-danger">{{ $titulaire['data']->erreur }}</td>
                                     <td> <a href="{{ route('declaration',["id"=>$titulaire['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
@@ -205,7 +205,7 @@
                         <td>{{ $supleant['data']->numelecteur }}</td>
                         <td>{{ $supleant['data']->sexe }}</td>
                         <td>{{ $supleant['data']->profession }}</td>
-                        <td>{{ $supleant['data']->datenaiss }}</td>
+                        <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }}</td>
                         <td>{{ $supleant['data']->lieunaiss }}</td>
                         <td class="text-danger">{{ $supleant['data']->erreur }}</td>
                         <td> <a href="{{ route('declaration',["id"=> $supleant['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>

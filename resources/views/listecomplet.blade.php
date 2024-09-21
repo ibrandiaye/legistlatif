@@ -10,7 +10,7 @@
 
                 <ol class="breadcrumb hide-phone p-0 m-0">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER $listenational</a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER listenational</a></li>
                 </ol>
             </div>
             <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
@@ -146,7 +146,7 @@
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
                                         <td>{{ $listenational->profession }}</td>
-                                        <td>{{ $listenational->datenaiss }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}</td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }} <br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}</td>
                                         <td>
@@ -186,7 +186,7 @@
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
                                         <td>{{ $listenational->profession }}</td>
-                                        <td>{{ $listenational->datenaiss }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }}<br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}</td>
                                     <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
@@ -238,7 +238,7 @@
                                     <td>{{ $titulaire['data']->numelecteur }}</td>
                                     <td>{{ $titulaire['data']->sexe }}</td>
                                     <td>{{ $titulaire['data']->profession }}</td>
-                                    <td>{{ $titulaire['data']->datenaiss }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($titulaire['data']->datenaiss)) }}</td>
                                     <td>{{ $titulaire['data']->lieunaiss }}</td>
                                     <td class="text-danger">{{ $titulaire['data']->erreur }} <br>{{ $titulaire['data']->parite }}<br> {{ $titulaire['data']->doublon_interne }}</td>
                                     <td> <a href="{{ route('declaration',["id"=>$titulaire['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
@@ -287,7 +287,7 @@
                         <td>{{ $supleant['data']->numelecteur }}</td>
                         <td>{{ $supleant['data']->sexe }}</td>
                         <td>{{ $supleant['data']->profession }}</td>
-                        <td>{{ $supleant['data']->datenaiss }}</td>
+                        <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }}</td>
                         <td>{{ $supleant['data']->lieunaiss }}</td>
                         <td class="text-danger">{{ $supleant['data']->erreur }} <br>{{ $supleant['data']->parite }}<br> {{ $supleant['data']->doublon_interne }}</td>
                         <td> <a href="{{ route('declaration',["id"=> $supleant['data']->id,'type'=>'majoritaire']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>
@@ -476,9 +476,9 @@
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -492,9 +492,9 @@
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });
@@ -627,9 +627,9 @@
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }
                             else
@@ -643,9 +643,9 @@
                                 "<td>"+element.datenaiss+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
+                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
+                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
                                 "</tr>";
                             }       
                         });

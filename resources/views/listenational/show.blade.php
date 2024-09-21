@@ -42,7 +42,7 @@
                     <h6 class="card-title">Ordre : {{ $listenational->ordre }}</h6>
                     <h6 class="card-title">Prenom :{{ $listenational->prenom }} </h6>
                     <h6 class="card-title">Nom : {{ $listenational->nom }}</h6>
-                    <h6 class="card-title">Date Naissance : {{ $listenational->datenaiss }}</h6>
+                    <h6 class="card-title">Date Naissance : {{ date('d-m-Y', strtotime($listenational->datenaiss)) }}h6>
                     <h6 class="card-title">Lieu de Naissance :{{ $listenational->lieunaiss }} </h6>
                     <h6 class="card-title">Sexe : {{ $listenational->sexe }}</h6>
                     <h6 class="card-title">Profession : {{ $listenational->profession }}</h6>

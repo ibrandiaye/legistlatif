@@ -326,7 +326,7 @@
                             <td>{{ $titulaire['data']->ordre }}</td>
                             <td>{{ $titulaire['data']->prenom }}</td>
                             <td>{{ $titulaire['data']->nom }}</td>
-                            <td>{{ $titulaire['data']->datenaiss }} à {{ $titulaire['data']->lieunaiss }}</td>
+                            <td>{{ date('d-m-Y', strtotime($titulaire['data']->datenaiss)) }} à {{ $titulaire['data']->lieunaiss }}</td>
                             <td>{{ $titulaire['data']->sexe }}</td>
                             <td>{{ $titulaire['data']->profession }}</td>
                             <td>{{ $titulaire['data']->domicile }}</td>
@@ -382,7 +382,7 @@
                             <td>{{ $supleant['data']->ordre }}</td>
                             <td>{{ $supleant['data']->prenom }}</td>
                             <td>{{ $supleant['data']->nom }}</td>
-                            <td>{{ $supleant['data']->datenaiss }} à {{ $supleant['data']->lieunaiss }}</td>
+                            <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }} à {{ $supleant['data']->lieunaiss }}</td>
                             <td>{{ $supleant['data']->sexe }}</td>
                             <td>{{ $supleant['data']->profession }}</td>
                             <td>{{ $supleant['data']->domicile }}</td>

@@ -10,7 +10,7 @@
 
                 <ol class="breadcrumb hide-phone p-0 m-0">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER $listenational</a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('listenational.create') }}">ENREGISTRER listenational</a></li>
                 </ol>
             </div>
             <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
@@ -141,7 +141,7 @@
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
                                         <td>{{ $listenational->profession }}</td>
-                                        <td>{{ $listenational->datenaiss }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }}</td>
                                         <td>
@@ -181,7 +181,7 @@
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
                                         <td>{{ $listenational->profession }}</td>
-                                        <td>{{ $listenational->datenaiss }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }}</td>
                                     <td> <a href="{{ route('declaration',["id"=>$listenational->id,'type'=>'propotionnel']) }}" role="button" class="btn btn-warning"><i class="fas fa-file"></i></a>

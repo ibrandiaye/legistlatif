@@ -65,7 +65,7 @@
                             <td>{{ $listenational->numelecteur }}</td>
                             <td>{{ $listenational->sexe }}</td>
                             <td>{{ $listenational->profession }}</td>
-                            <td>{{ $listenational->datenaiss }}</td>
+                            <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}td>
                             <td>{{ $listenational->lieunaiss }}</td>
                             <td  class="text-danger">{{ $listenational->erreurdge }}</td>
 
