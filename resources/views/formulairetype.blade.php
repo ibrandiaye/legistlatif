@@ -42,7 +42,7 @@
         </div>
         <div class="col-sm-8 text-center">
             <h4>FORMULAIRE</h4>
-            <h5>POUR LE SCRUTIN PROPORTIONNEL</h5>
+            <h6>POUR LE SCRUTIN PROPORTIONNEL</h6>
 
         </div>
         <div class="col-sm-2">
@@ -51,7 +51,7 @@
 </div>
 <div class="row " >
     <div class="col text-center">
-        <h5>Elections législatives anticipées du 17 novembre 2024</h5>
+        <h6>Elections législatives anticipées du 17 novembre 2024</h6>
 
     </div>
 </div>
@@ -63,7 +63,7 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h5>{{Auth::user()->liste->nom}}</h5>
+        <h6>{{Auth::user()->liste->nom}}</h6>
     </div>
     <div class="col-sm-2">
 
@@ -78,9 +78,9 @@
 <div class="row text-center" >
     <div class="col text-center">
         @if($type=="titulaire")
-            <h5>TITULAIRE : Soixante (53) candidats</h5>
+            <p>TITULAIRE : Soixante (53) candidats</p>
         @else
-        <h5>SUPPLEANTS : Soixante (20) candidats</h5>
+        <p>SUPPLEANTS : Soixante (20) candidats</p>
         @endif
     </div>
     
@@ -138,7 +138,7 @@
     
 <div class="row text-center" >
     <div class="col text-center">
-        <h5>Elections législatives anticipées du 17 novembre 2024</h5>
+        <h6>Elections législatives anticipées du 17 novembre 2024</h6>
 
     </div>
 </div>
@@ -147,18 +147,7 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h5>{{Auth::user()->liste->nom}}</h5>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <h5>SCRUTIN MAJORITAIRE</h5>
+        <h6>{{Auth::user()->liste->nom}}</h6>
     </div>
     <div class="col-sm-2">
 
@@ -169,8 +158,19 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h5>DEPARTEMENT DE {{ $departement->nom }}
-        </h5>
+        <h6>SCRUTIN MAJORITAIRE</h6>
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+    
+    </div>
+    <div class="col-sm-8 text-center">
+        <h6>DEPARTEMENT DE {{ $departement->nom }}
+        </h6>
     </div>
     <div class="col-sm-2">
 
@@ -178,7 +178,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h5>TItulaire : {{$departement->nb}} candidats</h5>
+        <p>TItulaire : {{$departement->nb}} candidats</p>
     </div>
    
 </div>
@@ -211,7 +211,7 @@
                             <td>{{ $liste->ordre }}</td>
                             <td>{{ $liste->prenom }}</td>
                             <td>{{ $liste->nom }}</td>
-                            <td>{{ $liste->datenaiss }} à {{ $liste->lieunaiss }}</td>
+                            <td>{{ date('d-m-Y', strtotime($liste->datenaiss )) }} à {{ $liste->lieunaiss }}</td>
                             <td>{{ $liste->sexe }}</td>
                             <td>{{ $liste->profession }}</td>
                             <td>{{ $liste->domicile }}</td>
@@ -235,7 +235,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h5>Suppleant : {{$departement->nb}} candidats</h5>
+        <h6>Suppleant : {{$departement->nb}} candidats</h6>
     </div>
    
 </div>
@@ -268,7 +268,7 @@
                             <td>{{ $liste->ordre }}</td>
                             <td>{{ $liste->prenom }}</td>
                             <td>{{ $liste->nom }}</td>
-                            <td>{{ $liste->datenaiss }} à {{ $liste->lieunaiss }}</td>
+                            <td>{{ date('d-m-Y', strtotime($liste->datenaiss )) }} à {{ $liste->lieunaiss }}</td>
                             <td>{{ $liste->sexe }}</td>
                             <td>{{ $liste->profession }}</td>
                             <td>{{ $liste->domicile }}</td>

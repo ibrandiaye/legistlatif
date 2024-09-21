@@ -22,10 +22,14 @@
                     <img src="{{ asset('images/logo_n-removebg-preview.png') }}" style="height: 150px;">
                 </a>
             </div>
+            <p>Système de gestion des dépôts de candidature<br>
+            Pour les élections législatives anticipées du 17 novembre 2024</p>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
+            
+            <div><p style="color: red;font-weight: bold;">L'utilisation de cette plateforme ne se substitue en aucun cas au dépôt physique des dossiers prévu par l'article L 176 du code électoral.</p></div>
         </div>
     </body>
 </html>

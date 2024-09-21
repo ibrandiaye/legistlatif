@@ -67,7 +67,7 @@
     
     <p>Je soussigné <b>{{$candidat->prenom}}  {{$candidat->nom}}</b>
 
-        @if ($candidat->sexe=="M") Né @else Née @endif le <b>{{$candidat->datenaiss}}</b> à <b>{{$candidat->lieunaiss}}</b>, @if ($candidat->sexe=="M") fils @else fille @endif de ________________ et de _________________________
+        @if ($candidat->sexe=="M") Né @else Née @endif le <b>{{ date('d-m-Y', strtotime($candidat->datenaiss )) }}</b> à <b>{{$candidat->lieunaiss}}</b>, @if ($candidat->sexe=="M") fils @else fille @endif de ________________ et de _________________________
         
         @if ($candidat->sexe=="M") domicilié @else domiciliée @endif à @if ($candidat->domicile) <b>{{$candidat->domicile}}</b> @else ______________ @endif sexe  <b> @if ($candidat->sexe=="M") masculin @else feminin @endif </b>exerçant la profession de <b>{{$candidat->profession}}</b>
          

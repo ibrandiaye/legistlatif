@@ -95,14 +95,16 @@
     @endforeach
     <div class="col-12">
         <div class="row">
+            <div class="col-12">
             <b>2-A l’extérieur</b>
+            </div>
             @foreach ($tabCandidats as $item)
             @if($item['lieu']==1)
                     @if($item['titulaire'] > 0 || $item['suppleant'] >0) 
-                        <div class="row">
-                            <div class="col-md-4" style="font-size: 20px;">{{$item['departement']}} <b>{{$item['titulaire'] + $item['suppleant']}}</b></div >
+                       
+                            <div class="col" style="font-size: 13px;">{{$item['departement']}} <b>{{$item['titulaire'] + $item['suppleant']}}</b></div >
 
-                        </div>
+                        
                     @endif
                 @endif
              @endforeach

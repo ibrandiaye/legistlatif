@@ -140,7 +140,7 @@
                             </li>
                             <li>
                                 <a href="{{route('recap')}}">
-                                <i class="mdi mdi-airplay"></i> Fecapitulatif des candidatures
+                                <i class="mdi mdi-airplay"></i> Recapitulatif des candidatures
                             </a>
                             </li>
                            {{--  <li>
@@ -440,6 +440,7 @@
 
         <!-- Datatable init js -->
         <script src="{{asset('pages/datatables.init.js') }}"></script>
+        <script src="{{asset('js/myjs.js') }}"></script>
         @yield("script")
 
         <!-- App js -->

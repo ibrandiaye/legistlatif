@@ -118,7 +118,7 @@ class ListeDepartementalController extends Controller
             $data = json_decode($response, true);
             if(count($data)<1)
             {
-                $inListe  = "Pas dans le fichier electorale";
+                $inListe  = "Personne non identifier";
             }
         $request->merge(["sur_le_fichier"=>$inListe]);
        
@@ -247,7 +247,7 @@ class ListeDepartementalController extends Controller
                // $request->merge(["erreur"=>$erreur,"erreurdge"=>$erreurdge]);
                 $listedepartementals = $this->listedepartementalRepository->store($request->all());
                 $candidats  = $this->listedepartementalRepository->getByListeAndType($user->liste_id,$request->type,$request->departement_id);
-                return redirect()->back()->with(['success'=>'Candidat enregistré avec succ-s.','candidats'=>$candidats])->withInput();  
+                return redirect()->back()->with(['success'=>'Candidat enregistré avec succès.','candidats'=>$candidats])->withInput();  
             
            
 
@@ -453,7 +453,7 @@ class ListeDepartementalController extends Controller
             $data = json_decode($response, true);
             if(count($data)<1)
             {
-                $inListe  = "Pas dans le fichier electorale";
+                $inListe  = "Personne non identifier";
             }
             $request->merge(["sur_le_fichier"=>$inListe]);
     

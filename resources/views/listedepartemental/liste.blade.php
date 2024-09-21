@@ -369,7 +369,7 @@
                                 "<td>"+element.numelecteur+"</td>"+
                                 "<td>"+element.sexe+"</td>"+
                                 "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"listenational/"+element.id+" role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
@@ -385,7 +385,7 @@
                                 "<td>"+element.numelecteur+"</td>"+
                                 "<td>"+element.sexe+"</td>"+
                                 "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"listenational/"+element.id+" role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
@@ -431,7 +431,7 @@
                                 "<td>"+element.numelecteur+"</td>"+
                                 "<td>"+element.sexe+"</td>"+
                                 "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"listenational/"+element.id+" role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
@@ -447,7 +447,7 @@
                                 "<td>"+element.numelecteur+"</td>"+
                                 "<td>"+element.sexe+"</td>"+
                                 "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"listenational/"+element.id+" role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
@@ -520,7 +520,7 @@
                                 "<td>"+element.numelecteur+"</td>"+
                                 "<td>"+element.sexe+"</td>"+
                                 "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"listenational/"+element.id+" role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
@@ -536,7 +536,7 @@
                                 "<td>"+element.numelecteur+"</td>"+
                                 "<td>"+element.sexe+"</td>"+
                                 "<td>"+element.profession+"</td>"+
-                                "<td>"+element.datenaiss+"</td>"+
+                                "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
                                 "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href="+url_app+"listenational/"+element.id+" role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+

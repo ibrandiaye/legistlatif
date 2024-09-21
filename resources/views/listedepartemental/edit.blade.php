@@ -160,7 +160,7 @@
                                             <input type="text" name="se"   value="{{ $listedepartemental->se }}" class="form-control"  >
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                   {{--  <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Une extrait d’acte de naissance datant de moins de six (06) mois ou la photocopie légalisée de la carte d’identité biométrique CEDEAO </label>
                                             <input type="file" name="extrait_ou_cnis"  value="{{ old('extrait_ou_cni') }}" class="form-control"  >
@@ -171,7 +171,7 @@
                                             <label>bulletin n°3 du casier judiciaire datant de moins de trois mois</label>
                                             <input type="file" name="casiers"  value="{{ old('casier') }}" class="form-control"  >
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                                 <div>

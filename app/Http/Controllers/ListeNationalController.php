@@ -152,7 +152,7 @@ class ListeNationalController extends Controller
         $data = json_decode($response, true);
         if(count($data)<1)
         {
-            $inListe  = "Pas dans le fichier electorale";
+            $inListe  = "Personne non identifier";
         }
     $request->merge(["sur_le_fichier"=>$inListe]);
         $candidat = $this->listenationalRepository->getById($id);
