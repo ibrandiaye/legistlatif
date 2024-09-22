@@ -587,10 +587,11 @@ class ListeDepartementalController extends Controller
 
                     }                  
                // }
-                $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterOrdre($request->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
+                $listeDepartemental = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterOrdre($request->numcni,$request->liste_id,$request->departement_id,$candidat->ordre,$request->type);
                 $mylisteNational = $this->listeNationalRepository->getByCniAndListe($request->numcni,$request->liste_id);
-    
-                if(!empty($listeDepartemental) || !empty($mylisteNational))
+                $doublonOuterDepartement = $this->listedepartementalRepository->getByCniAndListeOuterDepartement($request->numcni,$request->liste_id,$request->departement_id);
+                $doublonOuterType       = $this->listedepartementalRepository->getByCniAndListeAndDepartementOuterType($request->numcni,$request->liste_id,$request->type,$request->departement_id);
+                if(!empty($listeDepartemental) || !empty($mylisteNational) || !empty($doublonOuterDepartement) || !empty($doublonOuterType))
                 {
                    // return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
                  //   $erreur = $erreur. ' Doublon interne';
@@ -598,26 +599,45 @@ class ListeDepartementalController extends Controller
                     $erreurdge = $erreurdge. ' Doublon interne ';
                     if($listeDepartemental)
                     {
-                     ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_interne"=> $doublon_interne]);
+                        ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_interne"=> $doublon_interne]);
                     }
                     if($mylisteNational)
                     {
                         ListeNational::where("id",$mylisteNational->id)->update(["doublon_interne"=> $doublon_interne]);
                     }
-                }
-               // else
-               // {
-                    $listeDepartemental = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterOrdre($candidat->numcni,$request->liste_id,$request->departement_id,$candidat->ordre);
-                    $mylisteNational = $this->listeNationalRepository->getAllByCniAndListe($candidat->numcni,$request->liste_id);
-                  //  dd($listeDepartemental,$mylisteNational);
-                    if(count($listeDepartemental)+count($mylisteNational)==1)
+                    if(!empty($doublonOuterDepartement))
                     {
-                        //dd($listeDepartemental);
+                        DB::table("liste_departementals")->where("id",$doublonOuterDepartement->id)->update(["doublon_interne"=>$doublon_interne]); 
+                    }
+                    if(!empty($doublonOuterType))
+                    {
+                        DB::table("liste_departementals")->where("id",$doublonOuterType->id)->update(["doublon_interne"=>$doublon_interne]);
+                    }
+                }
+                if($request->numcni != $candidat->numcni)
+                {
+                    //dd('ok');
+                    $doublonOuterDepartement = $this->listedepartementalRepository->getAllByCniAndListeOuterDepartement($candidat->numcni,$request->liste_id,$candidat->departement_id);
+                    $doublonOuterType       = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterType($candidat->numcni,$request->liste_id,$request->type,$request->departement_id);
+                    $listeDepartemental = $this->listedepartementalRepository->getAllByCniAndListeAndDepartementOuterOrdre($candidat->numcni,$request->liste_id,$request->departement_id,$candidat->ordre,$request->type);
+                    $mylisteNational = $this->listeNationalRepository->getAllByCniAndListe($candidat->numcni,$request->liste_id);
+                   // dd($doublonOuterDepartement,$doublonOuterType,$listeDepartemental,$mylisteNational);
+                    if(count($listeDepartemental)+count($mylisteNational)+count($doublonOuterDepartement)+count($doublonOuterType)==1 )
+                    {
                         if(count($listeDepartemental)==1)
                             DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]); 
                         if(count($mylisteNational)==1)
                             DB::table("liste_nationals")->where("id",$mylisteNational[0]->id)->update(["doublon_interne"=>""]);
+                        if(count($doublonOuterDepartement)==1)
+                            DB::table("liste_departementals")->where("id",$doublonOuterDepartement[0]->id)->update(["doublon_interne"=>""]); 
+                        if(count($doublonOuterType)==1)
+                            DB::table("liste_departementals")->where("id",$doublonOuterType[0]->id)->update(["doublon_interne"=>""]); 
                     }
+
+                }
+               // else
+               // {
+                    
   
 
                // }

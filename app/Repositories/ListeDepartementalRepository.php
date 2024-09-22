@@ -76,21 +76,51 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste]])
         ->first();
        }
+       public function getALLByCniAndListe($cni,$liste){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->get();
+       }
        public function getByCniAndListeAndDepartement($cni,$liste,$departement_id){
         return DB::table("liste_departementals")
         ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
         ->first();
        }
-       public function getByCniAndListeAndDepartementOuterOrdre($cni,$liste,$departement_id,$ordre){
+       public function getByCniAndListeAndDepartementOuterOrdre($cni,$liste,$departement_id,$ordre,$type){
         return DB::table("liste_departementals")
-        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
+        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ],["type",$type]])
         ->whereNot('ordre',$ordre)
         ->first();
        }
-       public function getAllByCniAndListeAndDepartementOuterOrdre($cni,$liste,$departement_id,$ordre){
+       public function getAllByCniAndListeAndDepartementOuterOrdre($cni,$liste,$departement_id,$ordre,$type){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ],["type",$type]])
+        ->whereNot('ordre',$ordre)
+        ->get();
+       } 
+       public function getByCniAndListeOuterDepartement($cni,$liste,$departement_id){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->whereNot('departement_id',$departement_id)
+       // ->whereNot('ordre',$ordre)
+        ->first();
+       }
+       public function getByCniAndListeAndDepartementOuterType($cni,$liste,$type,$departement_id){
         return DB::table("liste_departementals")
         ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
-        ->whereNot('ordre',$ordre)
+       ->whereNot('type',$type)
+        ->first();
+       }
+       public function getAllByCniAndListeOuterDepartement($cni,$liste,$departement_id){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+       ->whereNot('departement_id',$departement_id)
+        ->get();
+       }
+       public function getAllByCniAndListeAndDepartementOuterType($cni,$liste,$type,$departement_id){
+        return DB::table("liste_departementals")
+        ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ]])
+       ->whereNot('type',$type)
         ->get();
        }
        public function getByOrdreAndListe($ordre,$liste,$departement,$type){

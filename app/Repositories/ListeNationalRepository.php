@@ -56,11 +56,30 @@ class ListeNationalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste]])
         ->get();
        }
-       public function getByCniAndListeOuterOrdre($cni,$liste,$ordre){
+       public function getByCniAndListeOuterOrdre($cni,$liste,$ordre,$type){
         return DB::table("liste_nationals")
-        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->where([['numcni',$cni],["liste_id",$liste],["type",$type]])
         ->whereNot("ordre",$ordre)
         ->first();
+       }
+       public function getAllByCniAndListeOuterOrdre($cni,$liste,$ordre,$type){
+        return DB::table("liste_nationals")
+        ->where([['numcni',$cni],["liste_id",$liste],["type",$type]])
+        ->whereNot("ordre",$ordre)
+        ->get();
+       }
+
+       public function getByCniAndListeOuterType($cni,$liste,$type){
+        return DB::table("liste_nationals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->whereNot("type",$type)
+        ->first();
+       }
+       public function getAllByCniAndListeOuterType($cni,$liste,$type){
+        return DB::table("liste_nationals")
+        ->where([['numcni',$cni],["liste_id",$liste]])
+        ->whereNot("type",$type)
+        ->get();
        }
        public function getByCniOuterListe($cni,$liste){
         return DB::table("liste_nationals")
