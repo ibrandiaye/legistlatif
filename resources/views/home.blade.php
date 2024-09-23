@@ -10,7 +10,6 @@
 
                     <ol class="breadcrumb hide-phone p-0 m-0">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                    <li class="breadcrumb-item active"><a href="{{ route('user.create') }}">ENREGISTRER user</a></li>
                     </ol>
                 </div>
                      @if(Auth::user()->role=="admin") DGE
@@ -22,8 +21,22 @@
         <div class="clearfix"></div>
     </div>
 
-
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        <p>{{ $message }}</p>
+    </div>
+@endif
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif  
     <div class="row">
+
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">

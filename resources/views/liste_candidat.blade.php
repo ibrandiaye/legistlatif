@@ -10,7 +10,6 @@
 
                                 <ol class="breadcrumb hide-phone p-0 m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                                <li class="breadcrumb-item active"><a href="{{ route('listedepartemental.create') }}">ENREGISTRER $listedepartemental</a></li>
                                 </ol>
                             </div>
                             <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
@@ -133,7 +132,7 @@
                {{--  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalform2">
                     importer
                 </button> --}}
-                <table id="datatable-buttons" class="table table-bordered table-responsive-md table-striped text-center datatable-buttons">
+                <table id="" class="table table-bordered table-responsive-md    table-striped text-center ">
                     <thead>
                         <tr>
                             <th>#</th>

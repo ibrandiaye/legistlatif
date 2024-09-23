@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Repositories\ListeRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -52,9 +53,16 @@ class UserController extends Controller
         'name' => 'required',
         'email' => 'required|email',
         'role' => 'required|string',
-        'password' => 'required|string|min:8|confirmed',
+        'password' => 'required|string|min:8|confirmed|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*?&]/',
+
         //'g-recaptcha-response' => 'required|captcha',
-    ]);
+        ], [
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            'password.regex' => 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.',
+        ]);
+   
         //$users = $this->userRepository->store($request->all());
         User::create([
             'name' => $request['name'],
@@ -101,8 +109,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $this->userRepository->update($id, $request->all());
-        return redirect('user');
+        if(Auth::user()->role=="admin")
+            return redirect('user');
+        else
+            return redirect()->back()->with('success', 'Candidat modifier avec succès.'); 
     }
 
     /**
@@ -119,13 +131,36 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $this->validate($request, [
-            'id' => 'required',
-            'password' => 'required|string|min:8|confirmed',
-            //'g-recaptcha-response' => 'required|captcha',
-        ]);
-        User::where("id",$request->id)->update(["password"=>Hash::make($request['password'])]);
-        return redirect('user');
+        $this->validate($request, 
+        [
+                'password' => 'required|string|min:8|confirmed|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*?&]/',
+            ], 
+            messages: [
+                'password.required' => 'Le mot de passe est obligatoire.',
+                'password.min' => 'Le mot de passe doit contenir au moins :min caractères.',
+                'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+                'password.regex' => 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.',
+            ]);
+        if(Auth::user()->role=="admin")
+        {
+            User::where("id",$request->id)->update(["password"=>Hash::make($request['password'])]);
+            return redirect(to: 'user');
+
+        }
+            
+        else if(Auth::user()->role=="candidats")
+        {
+            User::where("id",Auth::user()->id)->update(["password"=>Hash::make($request['password'])]);
+            return redirect('modifier/motdepasse')->with('success', 'Candidat modifier avec succès.'); 
+        }
+
 
     }
+
+    public function modifierMotDePasse()
+    {
+        
+        return view("user.edit-password");
+    }
+    
 }

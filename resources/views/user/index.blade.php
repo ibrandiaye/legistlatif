@@ -10,7 +10,7 @@
 
                                 <ol class="breadcrumb hide-phone p-0 m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                                <li class="breadcrumb-item active"><a href="{{ route('user.create') }}">ENREGISTRER user</a></li>
+                                
                                 </ol>
                             </div>
                              @if(Auth::user()->role=="admin") DGE

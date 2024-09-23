@@ -10,7 +10,7 @@
 
                     <ol class="breadcrumb hide-phone p-0 m-0">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                    <li class="breadcrumb-item active"><a href="{{ route('user.create') }}">ENREGISTRER user</a></li>
+                    
                     </ol>
                 </div>
                     <h4 class="page-title">{{Auth::user()->liste->nom}}</h4>
@@ -19,7 +19,11 @@
         <div class="clearfix"></div>
     </div>
 
-
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        <p>{{ $message }}</p>
+    </div>
+    @endif
     <div class="row">
         @foreach (liste as $item)
         <div class="col-lg-3">

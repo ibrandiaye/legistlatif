@@ -10,9 +10,7 @@
             <div class="btn-group float-right">
 
                         <ol class="breadcrumb hide-phone p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
-                        <li class="breadcrumb-item active"><a href="{{ route('listedepartemental.index') }}" >LISTE D'ENREGISTREMENT DES listedepartementals</a></li>
-
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li> 
                         </ol>
                     </div>
                      @if(Auth::user()->role=="admin") DGE
@@ -357,7 +355,7 @@
                             console.log(differenceInYears)
                             if(differenceInYears< 25)
                             {
-                                $("#error").append(" <div  class='alert alert-danger'> age minimun non ateint. age :"+differenceInYears+" ans</div>");
+                                $("#error").append(" <div  class='alert alert-danger'> age minimun non ateint. age :"+parseInt(differenceInYears)+" ans</div>");
                             }
                             $("#present").val(1);
                             $("#validation_modal").append("Voulez-vous enregistrer  "+data[0].ELEC_PRENOM+" "+data[0].ELEC_NOM+"  "+data[0].NIN+"?");
@@ -540,7 +538,7 @@
                         console.log(differenceInYears)
                         if(differenceInYears< 25)
                         {
-                            $("#error").append(" <div  class='alert alert-danger'> age minimun non ateint. age :"+differenceInYears+" ans</div>");
+                            $("#error").append(" <div  class='alert alert-danger'> age minimun non ateint. age :"+parseInt(differenceInYears)+" ans</div>");
                         }
                     
                     }

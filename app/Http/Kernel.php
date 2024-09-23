@@ -24,6 +24,7 @@ class Kernel extends HttpKernel
      //   \App\Http\Middleware\Admin::class,
         'cors'=>\App\Http\Middleware\Cors::class
 
+
     ];
 
     /**
@@ -68,7 +69,15 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' =>  \App\Http\Middleware\Admin::class,
-        'cors'=>\App\Http\Middleware\Cors::class
+        'cors'=>\App\Http\Middleware\Cors::class,
+       
 
     ];
+
+    protected $routeMiddleware = [
+        'checkMaxSessions' => \App\Http\Middleware\CheckMaxSessions::class,
+       
+    ];
+    
 }
+
