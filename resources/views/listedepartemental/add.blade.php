@@ -506,6 +506,7 @@
                 var type =  $("#type").val();;
                 var departement_id = $("#departement_id").val();;
                 $("#validation_modal").empty();
+                $("#error").empty();
                 sexeSaisi = ""
                 $.blockUI({ message: "<p>Patienter</p>" }); 
                 $.ajax({
