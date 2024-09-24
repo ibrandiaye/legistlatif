@@ -56,28 +56,8 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>Nom du parti, de la coalition de partis politiques ou de l’entité indépendante</p>
-    </div>
-    <div class="col-sm-2">
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>TITRE (éventuellement)  </p>
-    </div>
-    <div class="col-sm-2">
 
-    </div>
-</div>
 <div class="row">
     <div class="col-sm-2">
     
@@ -98,7 +78,7 @@
 <div class="row text-center" >
     <div class="col text-center">
         <h4>I- TITULAIRE</h4>
-        <p>Soixante (60) candidats</p>
+        <p>Cinquante trois (53) candidats</p>
     </div>
     
 </div>
@@ -155,7 +135,7 @@
 <div class="row text-center" >
     <div class="col text-center">
         <h4>II- SUPPLEANTS</h4>
-        <p>Soixante (52) candidats</p>
+        <p> Cinquante (50) candidats</p>
     </div>
   
 </div>
@@ -235,28 +215,7 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>Nom du parti, de la coalition de partis politiques ou de l’entité indépendante</p>
-    </div>
-    <div class="col-sm-2">
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <p>TITRE (éventuellement)  </p>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
 <div class="row">
     <div class="col-sm-2">
     

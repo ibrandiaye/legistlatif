@@ -283,7 +283,7 @@ class ListeDepartementalController extends Controller
                 $request->merge(["ordre"=>$lastSave->ordre+1]);
 
             }
-            if(!empty($lastSave) && 54<$lastSave->ordre+1  && $request->type=="titulaire")
+            if(!empty($lastSave) && 53<$lastSave->ordre+1  && $request->type=="titulaire")
             {
                 return redirect()->back()->with('error', 'Nombre de candidat autorisé dépassé.');  
             }

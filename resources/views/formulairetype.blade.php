@@ -78,9 +78,9 @@
 <div class="row text-center" >
     <div class="col text-center">
         @if($type=="titulaire")
-            <p>TITULAIRE : Soixante (53) candidats</p>
+            <p>TITULAIRE : Cinquante trois (53) candidats</p>
         @else
-        <p>SUPPLEANTS : Soixante (20) candidats</p>
+        <p>SUPPLEANTS : Cinquante (50) candidats</p>
         @endif
     </div>
     
