@@ -366,7 +366,7 @@
                             $("#validation_modal").empty();
                             $("#present").val(0);
                             //alert("CNI non trouve");
-                            $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
+                            $("#error").append(" <div  class='alert alert-danger'> Personne non identifier</div>");
                         }
                         setTimeout($.unblockUI, 1); 
                     },
@@ -546,7 +546,7 @@
                     {
                         $("#validation_modal").empty();
                     // alert("CNI non trouve");
-                        $("#error").append(" <div  class='alert alert-danger'> Personne non présent sur les listes des éléctorales</div>");
+                        $("#error").append(" <div  class='alert alert-danger'> Personne non identifier</div>");
                         $("#present").val(0);
                     }
                     setTimeout($.unblockUI, 1); 
@@ -775,7 +775,7 @@
                                         "<td>"+element.profession+"</td>"+
                                         "<td>"+formatDate(element.datenaiss)+"</td>"+
                                         "<td>"+element.lieunaiss+"</td>"+
-                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                        "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                         "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                         "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                         "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -791,7 +791,7 @@
                                         "<td>"+element.profession+"</td>"+
                                         "<td>"+formatDate(element.datenaiss)+"</td>"+
                                         "<td>"+element.lieunaiss+"</td>"+
-                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                        "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                         "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                         "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                         "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -912,7 +912,7 @@
                                         "<td>"+element.profession+"</td>"+
                                         "<td>"+formatDate(element.datenaiss)+"</td>"+
                                         "<td>"+element.lieunaiss+"</td>"+
-                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                        "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                         "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                         "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                         "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -928,7 +928,7 @@
                                         "<td>"+element.profession+"</td>"+
                                         "<td>"+formatDate(element.datenaiss)+"</td>"+
                                         "<td>"+element.lieunaiss+"</td>"+
-                                        "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                        "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                         "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                         "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                         "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1114,7 +1114,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1130,7 +1130,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1291,7 +1291,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1307,7 +1307,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1428,7 +1428,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1444,7 +1444,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1599,7 +1599,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
@@ -1615,7 +1615,7 @@
                                 "<td>"+element.profession+"</td>"+
                                 "<td>"+formatDate(element.datenaiss)+"</td>"+
                                 "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
+                                "<td class='text-danger'>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
                                 "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-warning'><i class='fas fa-eye'></i></a>"+
                                 "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-warning'><i class='fas fa-file'></i></a>"+
                                 "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-primary'><i class='fas fa-edit'></i></a></td>"+
