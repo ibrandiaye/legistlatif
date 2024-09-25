@@ -20,7 +20,7 @@ class CheckMaxSessions
                 ->count();
         
             // Limite à 2 sessions maximum
-            if ($activeSessions >= 2) {
+            if ($activeSessions >= 1) {
                 // Option 1 : déconnecter les sessions les plus anciennes
                 DB::table('sessions')
                     ->where('user_id', $userId)
