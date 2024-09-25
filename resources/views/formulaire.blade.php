@@ -51,7 +51,7 @@
 </div>
 <div class="row " >
     <div class="col text-center">
-        <h4>ELECTIONS LEGISLATIVES DU 31 juillet 2024</h4>
+        <h4>>Elections législatives anticipées du 17 novembre 2024</h4>
 
     </div>
 </div>
@@ -210,7 +210,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>ELECTIONS LEGISLATIVES DU 31 juillet 2024</h4>
+        <h4>>Elections législatives anticipées du 17 novembre 2024</h4>
 
     </div>
 </div>
@@ -266,7 +266,7 @@
         <table  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Date de Naissance</th>
@@ -322,7 +322,7 @@
         <table  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Date de Naissance</th>
