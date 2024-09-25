@@ -35,7 +35,7 @@
         
         </div>
         <div class="col-sm-8 text-center">
-            <h3>Déclaration INDIVIDUELLE dE CANDIDATURE</h3>
+            <h3>Déclaration INDIVIDUELLE DE CANDIDATURE</h3>
             <h4>pour les élections législatives anticipées du 17 novembre 2024</h4>
         </div>
         <div class="col-sm-2">
