@@ -22,18 +22,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',[HomeController::class,'home'])->name("home")->middleware(['auth', 'checkMaxSessions']);
-Route::resource('region', RegionController::class)->middleware(['auth', 'admin']);
-Route::resource('departement', DepartementController::class)->middleware(['auth', 'admin']);
-Route::resource('liste', ListeController::class)->middleware(['auth', 'admin']);
+Route::resource('region', RegionController::class)->middleware(['auth', 'admin', 'checkMaxSessions']);
+Route::resource('departement', DepartementController::class)->middleware(['auth', 'admin', 'checkMaxSessions']);
+Route::resource('liste', ListeController::class)->middleware(['auth', 'admin', 'checkMaxSessions']);
 Route::resource('listenational', ListeNationalController::class)->middleware(['auth', 'checkMaxSessions']);
 Route::resource('listedepartemental', ListeDepartementalController::class)->middleware( ['auth', 'checkMaxSessions']);
 Route::resource('user', UserController::class)->middleware(['auth', 'admin']);
 Route::get('/modifier/motdepasse',[UserController::class,'modifierMotDePasse'])->name("modifier.motdepasse")->middleware(['auth', 'checkMaxSessions']);
 
 
-Route::post('/importer/region',[RegionController::class,'importExcel'])->name("importer.region")->middleware(['auth', 'admin']);
+Route::post('/importer/region',[RegionController::class,'importExcel'])->name("importer.region")->middleware(['auth', 'admin', 'checkMaxSessions']);
 
-Route::post('/importer/departement',[DepartementController::class,'importExcel'])->name("importer.departement")->middleware(['auth', 'admin']);
+Route::post('/importer/departement',[DepartementController::class,'importExcel'])->name("importer.departement")->middleware(['auth', 'admin', 'checkMaxSessions']);
 
 
 Route::post('/importer/listeNational',[ListeNationalController::class,'importExcel'])->name("importer.listenational")->middleware(['auth', 'checkMaxSessions']);
@@ -42,22 +42,22 @@ Route::post('/importer/listedepartemental',[ListeDepartementalController::class,
 
 Route::post('/search/listenational',[ListeNationalController::class,'search'])->name("search.listenational")->middleware(['auth', 'checkMaxSessions']);
 
-Route::post('/search/listedepartemental',[ListeDepartementalController::class,'search'])->name("search.listedepartemental")->middleware(['auth', 'checkMaxSessions']);
+Route::post('/search/listedepartemental',[ListeDepartementalController::class,'search'])->name("search.listedepartemental")->middleware(['auth', 'checkMaxSessions', 'checkMaxSessions']);
 
-Route::get('/listedepartemental/changer/etat/{id}',[ListeDepartementalController::class,'changerEtat'])->name("changer.etat.listedepartemental")->middleware(["auth",'admin']);
+Route::get('/listedepartemental/changer/etat/{id}',[ListeDepartementalController::class,'changerEtat'])->name("changer.etat.listedepartemental")->middleware(["auth",'admin', 'checkMaxSessions']);
 
-Route::get('/listenationnal/changer/etat/{id}',[ListeNationalController::class,'changerEtat'])->name("changer.etat.listenational")->middleware(["auth",'admin']);
+Route::get('/listenationnal/changer/etat/{id}',[ListeNationalController::class,'changerEtat'])->name("changer.etat.listenational")->middleware(["auth",'admin', 'checkMaxSessions']);
 
-Route::get('/tab/{type}',[HomeController::class,'liste'])->name("liste.tableau")->middleware(["auth"]);
+Route::get('/tab/{type}',[HomeController::class,'liste'])->name("liste.tableau")->middleware(["auth", 'checkMaxSessions']);
 
-Route::get('/liste/admin/{id}',[HomeController::class,'listeAdmin'])->name("liste.admin")->middleware(["auth"]);
+Route::get('/liste/admin/{id}',[HomeController::class,'listeAdmin'])->name("liste.admin")->middleware(["auth", 'checkMaxSessions']);
 Route::get('/last/save/by/liste/{scrutin}/{type}/{departement_id}',[ListeDepartementalController::class,'getLasTCandidatByListe'])->name("last.save.by.liste");
 
-Route::post('/search/ajax',[ListeDepartementalController::class,'searchAjax'])->name("search.ajax")->middleware(["auth"]);
+Route::post('/search/ajax',[ListeDepartementalController::class,'searchAjax'])->name("search.ajax")->middleware(["auth", 'checkMaxSessions']);
 
 Route::post('/update/password',[UserController::class,'updatePassword'])->name("user.password.update")->middleware(["auth","checkMaxSessions"]);
 
-Route::post('/search/candidat',[HomeController::class,'searchCandidat'])->name("search.candidat")->middleware(["auth","admin"]);
+Route::post('/search/candidat',[HomeController::class,'searchCandidat'])->name("search.candidat")->middleware(["auth","admin", 'checkMaxSessions']);
 
 Route::post('/formulaire',[HomeController::class,'formulaire'])->name("generer.formulaire")->middleware(['auth', 'checkMaxSessions']);
 
