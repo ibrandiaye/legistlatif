@@ -50,12 +50,13 @@
                             <td>{{ $liste->nom }}</td>
                             <td>{{ $liste->type }}</td>
                             <td>
+                                <a href="{{ route('generer.formulaire.admin', $liste->id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer formulaire</a>
                                 <a href="{{ route('liste.edit', $liste->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                 {!! Form::open(['method' => 'DELETE', 'route'=>['liste.destroy', $liste->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Supprimer les candidats</button>
                                 {!! Form::close() !!}
 
-
+                                
 
                             </td>
 

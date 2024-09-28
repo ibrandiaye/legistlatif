@@ -63,7 +63,7 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h4>{{Auth::user()->liste->nom}}</h4>
+        <h4>{{$liste->nom}}</h4>
     </div>
     <div class="col-sm-2">
 
@@ -221,7 +221,7 @@
     
     </div>
     <div class="col-sm-8 text-center">
-        <h4>{{Auth::user()->liste->nom}}</h4>
+        <h4>{{$liste->nom}}</h4>
     </div>
     <div class="col-sm-2">
 

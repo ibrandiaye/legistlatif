@@ -357,5 +357,44 @@ class HomeController extends Controller
         return view("recap",compact("nbTitulaireNational","nbSupleantNational","suppleantd",
     "titulaired","tabCandidats"));
     }
+    public function genererFormulaire($liste)
+    {
+        $departements                       = $this->departementRepository->getOrbyRegion();
+        $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType($liste,'supleant');
+        $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType($liste,'titulaire');
+        $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",$liste);
+        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",$liste);
+        $liste                              = DB::table("listes")->where("id",$liste)->first();
+        $listeParDepartementFinal = [];
     
+        foreach ($departements as $departement) {
+            $titulaire = [];
+            $supleant = [];
+    
+            foreach ($listeDepartementaleTitulaires as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $titulaire[] = ["data" => $listeDepartementale];
+                }
+            }
+            foreach ($listeDepartementaleSupleants as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $supleant[] = ["data" => $listeDepartementale];
+                }
+            }
+    
+            if(!empty($titulaire) || !empty($supleant))
+            {
+                $listeParDepartementFinal[$departement->nom]["titulaire"] = $titulaire;
+                $listeParDepartementFinal[$departement->nom]["supleant"] = $supleant;
+                $listeParDepartementFinal[$departement->nom]["nombre"] = $departement->nb;
+            }
+         
+        }
+    
+       //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
+      
+        return view("formulaire-admin",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+
+    
+    }
 }

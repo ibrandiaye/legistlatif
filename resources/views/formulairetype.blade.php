@@ -94,7 +94,7 @@
         <table  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Date de Naissance</th>
@@ -290,6 +290,7 @@
 
     </div>
 </div>
+<div class="page-break"></div>
 @endif
 
 

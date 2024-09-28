@@ -61,6 +61,9 @@ Route::post('/search/candidat',[HomeController::class,'searchCandidat'])->name("
 
 Route::post('/formulaire',[HomeController::class,'formulaire'])->name("generer.formulaire")->middleware(['auth', 'checkMaxSessions']);
 
+Route::get('/generer/formulaire/{liste}',[HomeController::class,'genererFormulaire'])->name("generer.formulaire.admin")->middleware(['auth','admin', 'checkMaxSessions']);
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
