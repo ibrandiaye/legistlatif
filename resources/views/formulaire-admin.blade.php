@@ -94,6 +94,7 @@
                     <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
+                    <th>Num Electeur</th>
                     <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
@@ -110,6 +111,7 @@
                             <td>{{ $listenational->ordre }}</td>
                             <td>{{ $listenational->prenom }}</td>
                             <td>{{ $listenational->nom }}</td>
+                            <td>{{ $listenational->numelecteur }}</td>
                             <td>{{ $listenational->datenaiss }} à {{ $listenational->lieunaiss }}</td>
                             <td>{{ $listenational->sexe }}</td>
                             <td>{{ $listenational->profession }}</td>
@@ -151,6 +153,7 @@
                     <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
+                    <th>Num Electeur</th>
                     <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
@@ -167,6 +170,7 @@
                             <td>{{$listenational->ordre }}</td>
                             <td>{{$listenational->prenom }}</td>
                             <td>{{$listenational->nom }}</td>
+                            <td>{{ $listenational->numelecteur }}</td>
                             <td>{{$listenational->datenaiss }} à {{$listenational->lieunaiss }}</td>
                             <td>{{$listenational->sexe }}</td>
                             <td>{{$listenational->profession }}</td>
@@ -269,6 +273,7 @@
                     <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
+                    <th>Num Electeur</th>
                     <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
@@ -285,6 +290,7 @@
                             <td>{{ $titulaire['data']->ordre }}</td>
                             <td>{{ $titulaire['data']->prenom }}</td>
                             <td>{{ $titulaire['data']->nom }}</td>
+                            <td>{{ $titulaire['data']->numelecteur }}</td>
                             <td>{{ date('d-m-Y', strtotime($titulaire['data']->datenaiss)) }} à {{ $titulaire['data']->lieunaiss }}</td>
                             <td>{{ $titulaire['data']->sexe }}</td>
                             <td>{{ $titulaire['data']->profession }}</td>
@@ -325,6 +331,7 @@
                     <th>ordre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
+                    <th>Num Electeur</th>
                     <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
@@ -341,6 +348,7 @@
                             <td>{{ $supleant['data']->ordre }}</td>
                             <td>{{ $supleant['data']->prenom }}</td>
                             <td>{{ $supleant['data']->nom }}</td>
+                            <td>{{  $supleant['data']->numelecteur }}</td>
                             <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }} à {{ $supleant['data']->lieunaiss }}</td>
                             <td>{{ $supleant['data']->sexe }}</td>
                             <td>{{ $supleant['data']->profession }}</td>
