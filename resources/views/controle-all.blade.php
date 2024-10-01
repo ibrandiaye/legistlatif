@@ -186,7 +186,7 @@
                                         <td>{{ $listenational->profession }}</td>
                                         <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}</td>
                                         <td>{{ $listenational->lieunaiss }}</td>
-                                        <td class="text-danger">{{ $listenational->erreur }} <br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}</td>
+                                        <td class="text-danger">{{ $listenational->erreur }} <br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}<br>{{ $listenational->doublon_externe }} <br>	{{ $listenational->sur_le_fichier }}</td>
                                             <td> <a href="{{ route('valider.national',["id"=>$listenational->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
                                                 <a href="{{ route('listenational.edit', $listenational->id) }}" data-toggle="modal" data-target="#listenational{{$listenational->id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i></a>
 
@@ -267,7 +267,7 @@
 
                                         <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}<td>
                                         <td>{{ $listenational->lieunaiss }}</td>
-                                        <td class="text-danger">{{ $listenational->erreur }}<br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}</td>
+                                        <td class="text-danger">{{ $listenational->erreur }}<br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}<br>{{ $listenational->doublon_externe }} <br>	{{ $listenational->sur_le_fichier }}</td>
                                     <td> <a href="{{ route('valider.national',["id"=>$listenational->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
                                         <button href="" role="button" class="btn btn-danger" data-toggle="modal" data-target="#listenationals{{$listenational->id}}"><i class="fas fa-ban"></i></button>
                                         </a>
@@ -360,7 +360,7 @@
                                     <td>{{ $titulaire['data']->profession }}</td>
                                     <td>{{ date('d-m-Y', strtotime($titulaire['data']->datenaiss)) }}</td>
                                     <td>{{ $titulaire['data']->lieunaiss }}</td>
-                                    <td class="text-danger">{{ $titulaire['data']->erreur }} <br>{{ $titulaire['data']->parite }}<br> {{ $titulaire['data']->doublon_interne }}</td>
+                                    <td class="text-danger">{{ $titulaire['data']->erreur }} <br>{{ $titulaire['data']->parite }}<br> {{ $titulaire['data']->doublon_interne }}<br>{{ $titulaire['data']->doublon_externe }} <br>	{{ $titulaire['data']->sur_le_fichier }}</td>
                                     <td> <a href="{{ route('valider.departemental',["id"=>$titulaire['data']->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
                                         <button href="{{ route('listedepartemental.edit', $titulaire['data']->id) }}" role="button" class="btn btn-danger" data-toggle="modal" data-target="#listedepartemental{{ $titulaire['data']->id}}"><i class="fas fa-ban"></i></button>
                                         <div id="listedepartemental{{ $titulaire['data']->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -447,7 +447,7 @@
                         <td>{{ $supleant['data']->profession }}</td>
                         <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }}</td>
                         <td>{{ $supleant['data']->lieunaiss }}</td>
-                        <td class="text-danger">{{ $supleant['data']->erreur }} <br>{{ $supleant['data']->parite }}<br> {{ $supleant['data']->doublon_interne }}</td>
+                        <td class="text-danger">{{ $supleant['data']->erreur }} <br>{{ $supleant['data']->parite }}<br> {{ $supleant['data']->doublon_interne }}<br>{{ $supleant['data']->doublon_externe }} <br>	{{ $supleant['data']->sur_le_fichier }}</td>
                         <td><a href="{{ route('valider.departemental',["id"=>$supleant['data']->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
                             <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#listedepartemental{{ $supleant['data']->id}}"><i class="fas fa-ban"></i></button>
                             <div id="listedepartemental{{ $supleant['data']->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
