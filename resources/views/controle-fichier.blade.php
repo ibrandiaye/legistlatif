@@ -64,6 +64,14 @@
     </div>
     <div class="col-sm-8 text-center">
         <h4>{{$liste->nom}}</h4>
+        <br>
+        <p>  @if ($liste->verif==0)
+                <span class="badge badge-boxed  badge-info"> Non verifier</span>
+                @elseif($liste->etat==0)
+                <span class="badge badge-boxed  badge-danger"> Rejeter </span> Commentaire : {{$liste->commentaire}}
+                @else
+                <span class="badge badge-boxed  badge-success"> Valider</span>
+                @endif</p>
     </div>
     <div class="col-sm-2">
 
