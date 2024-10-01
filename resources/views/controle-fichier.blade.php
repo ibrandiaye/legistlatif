@@ -38,7 +38,7 @@
 
 <div class="row">
         <div class="col-sm-2">
-        
+
         </div>
         <div class="col-sm-8 text-center">
             <h3>FORMULAIRE</h3>
@@ -60,7 +60,7 @@
 
 <div class="row">
     <div class="col-sm-2">
-    
+
     </div>
     <div class="col-sm-8 text-center">
         <h4>{{$liste->nom}}</h4>
@@ -80,11 +80,11 @@
         <h4>I- TITULAIRE</h4>
         <p>Cinquante trois (53) candidats</p>
     </div>
-    
+
 </div>
 <div class="row">
     <div class="col-sm-1">
-    
+
     </div>
     <div class="col-sm-10">
 
@@ -104,10 +104,10 @@
                 </tr>
             </thead>
             <tbody>
-            
+
                 @foreach ($listenationalTitulaire as $listenational)
                 @if($listenational->type=='titulaire')
-                    
+
                         <tr>
                             <td>{{ $listenational->ordre }}</td>
                             <td>{{ $listenational->prenom }}</td>
@@ -117,7 +117,6 @@
                             <td>{{ $listenational->sexe }}</td>
                             <td>{{ $listenational->profession }}</td>
                             <td>{{ $listenational->domicile }}</td>
-                            <td>{{ $listenational->se }}</td>
                             <td>
                                 @if ($listenational->verif==0)
                                     <span class="badge badge-boxed  badge-info"> Non verifer</span>
@@ -125,21 +124,21 @@
                                 <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                 @else
                                 <span class="badge badge-boxed  badge-success"> Valider</span>
-                                @endif 
-                             </td>   
+                                @endif
+                             </td>
                              <td>{{$listenational->commentaire}}</td>
 
 
                         </tr>
                         @endif
-                    @endforeach        
-               
-                    
+                    @endforeach
+
+
             </tbody>
-                
+
         </table>
-  
-            
+
+
     </div>
     <div class="col-sm-1">
 
@@ -150,11 +149,11 @@
         <h4>II- SUPPLEANTS</h4>
         <p> Cinquante (50) candidats</p>
     </div>
-  
+
 </div>
 <div class="row">
     <div class="col-sm-1">
-    
+
     </div>
     <div class="col-sm-10">
 
@@ -174,10 +173,10 @@
                 </tr>
             </thead>
             <tbody>
-            
+
                 @foreach ($listenationalSuppleant as $listenational)
                             @if($listenational->type=='supleant')
-                    
+
                         <tr>
                             <td>{{$listenational->ordre }}</td>
                             <td>{{$listenational->prenom }}</td>
@@ -187,7 +186,7 @@
                             <td>{{$listenational->sexe }}</td>
                             <td>{{$listenational->profession }}</td>
                             <td>{{$listenational->domicile }}</td>
-                            <td>{{$listenational->se }}</td>
+
                             <td>
                                 @if ($listenational->verif==0)
                                     <span class="badge badge-boxed  badge-info"> Non verifer</span>
@@ -195,21 +194,21 @@
                                 <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                 @else
                                 <span class="badge badge-boxed  badge-success"> Valider</span>
-                                @endif 
-                             </td>   
+                                @endif
+                             </td>
                              <td>{{$listenational->commentaire}}</td>
 
 
                         </tr>
                         @endif
-                    
-                    @endforeach        
-               
+
+                    @endforeach
+
             </tbody>
-                
+
         </table>
-  
-            
+
+
     </div>
     <div class="col-sm-1">
 
@@ -222,12 +221,12 @@
 
       <div class="row">
         <div class="col-sm-2">
-        
+
         </div>
         <div class="col-sm-8 text-center">
             <h3>FORMULAIRE</h3>
             <h4>POUR LE SCRUTIN MAJORITAIRE DEPARTEMENTAL</h4>
-            
+
 
         </div>
         <div class="col-sm-2">
@@ -244,7 +243,7 @@
 
 <div class="row">
     <div class="col-sm-2">
-    
+
     </div>
     <div class="col-sm-8 text-center">
         <h4>{{$liste->nom}}</h4>
@@ -255,7 +254,7 @@
 </div>
 <div class="row">
     <div class="col-sm-2">
-    
+
     </div>
     <div class="col-sm-8 text-center">
         <h4>SCRUTIN MAJORITAIRE</h4>
@@ -266,7 +265,7 @@
 </div>
 <div class="row">
     <div class="col-sm-2">
-    
+
     </div>
     <div class="col-sm-8 text-center">
         <h4>DEPARTEMENT DE {{ $departement }}
@@ -281,11 +280,11 @@
         <h4>I- TITULAIRE</h4>
         <p>{{$categories['nombre']}} candidats</p>
     </div>
-   
+
 </div>
 <div class="row">
     <div class="col-sm-1">
-    
+
     </div>
     <div class="col-sm-10">
 
@@ -305,10 +304,10 @@
                 </tr>
             </thead>
             <tbody>
-            
+
                 @if(!empty($categories['titulaire']))
                     @foreach($categories['titulaire'] as $titulaire)
-                    
+
                         <tr>
                             <td>{{ $titulaire['data']->ordre }}</td>
                             <td>{{ $titulaire['data']->prenom }}</td>
@@ -318,7 +317,7 @@
                             <td>{{ $titulaire['data']->sexe }}</td>
                             <td>{{ $titulaire['data']->profession }}</td>
                             <td>{{ $titulaire['data']->domicile }}</td>
-                            <td>{{ $titulaire['data']->se }}</td>
+
                             <td>
                                 @if ($titulaire['data']->verif==0)
                                     <span class="badge badge-boxed  badge-info"> Non verifer</span>
@@ -326,20 +325,20 @@
                                 <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                 @else
                                 <span class="badge badge-boxed  badge-success"> Valider</span>
-                                @endif 
-                             </td>   
+                                @endif
+                             </td>
                              <td>{{$titulaire['data']->commentaire}}</td>
 
 
                         </tr>
-                    @endforeach        
+                    @endforeach
                 @endif
-                    
+
             </tbody>
-                
+
         </table>
-  
-            
+
+
     </div>
     <div class="col-sm-1">
 
@@ -350,11 +349,11 @@
         <h4>II- SUPPLEANTS</h4>
         <p>{{$categories['nombre']}} candidats</p>
     </div>
-   
+
 </div>
 <div class="row">
     <div class="col-sm-1">
-    
+
     </div>
     <div class="col-sm-10">
 
@@ -374,10 +373,10 @@
                 </tr>
             </thead>
             <tbody>
-            
+
                 @if(!empty($categories['supleant']))
                     @foreach($categories['supleant'] as $supleant)
-                    
+
                         <tr>
                             <td>{{ $supleant['data']->ordre }}</td>
                             <td>{{ $supleant['data']->prenom }}</td>
@@ -387,7 +386,7 @@
                             <td>{{ $supleant['data']->sexe }}</td>
                             <td>{{ $supleant['data']->profession }}</td>
                             <td>{{ $supleant['data']->domicile }}</td>
-                            <td>{{ $supleant['data']->se }}</td>
+                            <td>
                             @if ($supleant['data']->verif==0)
                             <span class="badge badge-boxed  badge-info"> Non verifer</span>
                             @elseif($supleant['data']->etat==0)
@@ -398,14 +397,14 @@
                             <td>{{$supleant['data']->commentaire}}</td>
 
                         </tr>
-                    @endforeach        
+                    @endforeach
                 @endif
-                    
+
             </tbody>
-                
+
         </table>
-  
-            
+
+
     </div>
     <div class="col-sm-1">
 

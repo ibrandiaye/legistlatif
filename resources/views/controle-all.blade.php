@@ -115,7 +115,7 @@
         </div> --}}
     </div>
     <div id="defaut">
-        <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>2]) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i> Voir Tous </a>
+        <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>1]) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i> Voir Non Verifier  </a>
         <a href="{{ route('controle.fichier', $id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
         <a href="{{ route('valider.liste',["id"=>$id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i> Valider la liste</a>
         <a href="" data-toggle="modal" data-target="#liste{{$id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i> Rejeter la liste</a>
@@ -176,7 +176,7 @@
                             </thead>
                             <tbody>
                             @foreach ($listenationalTitulaire as $listenational)
-                                @if($listenational->type=='titulaire' && $listenational->verif==0)
+                                @if($listenational->type=='titulaire' )
                                     <tr>
                                         <td>{{ $listenational->ordre }}</td>
                                         <td>{{ $listenational->prenom }}</td>
@@ -257,7 +257,7 @@
                             </thead>
                             <tbody>
                             @foreach ($listenationalSuppleant as $listenational)
-                                @if($listenational->type=='supleant' && $listenational->verif==0)
+                                @if($listenational->type=='supleant' )
                                     <tr>
                                         <td>{{ $listenational->ordre }}</td>
                                         <td>{{ $listenational->prenom }}</td>
@@ -350,7 +350,7 @@
 
 
                         @foreach($categories['titulaire'] as $titulaire)
-                            @if( $titulaire['data']->verif==0)
+
                                 <tr>
                                     <td>{{ $titulaire['data']->ordre }}</td>
                                     <td>{{ $titulaire['data']->prenom }}</td>
@@ -402,7 +402,7 @@
                                      </td>
                                      <td>{{$titulaire['data']->commentaire}}</td>
                                 </tr>
-                            @endif
+
                         @endforeach
 
 
@@ -437,7 +437,7 @@
 
             @foreach($categories['supleant'] as $supleant)
 
-            @if( $supleant['data']->verif==0)
+
                     <tr>
                         <td>{{ $supleant['data']->ordre }}</td>
                         <td>{{ $supleant['data']->prenom }}</td>
@@ -487,7 +487,7 @@
                         @endif </td>
                         <td>{{$supleant['data']->commentaire}}</td>
                     </tr>
-                @endif
+
             @endforeach
 
 
@@ -505,358 +505,3 @@
 
 
 @endsection
-{{-- @section('script')
-    <script>
-     //url = "http://5.189.166.92/legistlatif/public/";
-    //  url = "http://127.0.0.1:8000/";
-      //urlSearch = "http://5.189.166.92/legistlatif/public/search/ajax";
-       // urlSearch = "http://127.0.0.1:8000/search/ajax";
-      liste_id = {{$id}}
-      url_app = '{{ config('app.url_app') }}';
-      url_api = '{{ config('app.url_api') }}';
-          $(document).ready(function () {
-
-           // setTimeout(, 2000);
-            $(".departement").hide();
-            $(".typeliste").hide();
-            $("#search").hide();
-
-            scrutin = '{{old('scrutin')}}';
-
-            if(scrutin == "majoritaire")
-            {
-                $(".departement").show();
-                $(".typeliste").show();
-            }
-            if(scrutin == "propotionnel")
-            {
-                $(".typeliste").show();
-            }
-
-        });
-          $("#scrutin").change(function () {
-            var scrutin =  $("#scrutin").children("option:selected").val();
-            var type =  $("#type").children("option:selected").val();
-            var departement_id =  $("#departement_id").children("option:selected").val();
-            $("#scrutinf").val(scrutin);
-            $("#typef").val(type);
-            $("#departement_idf").val(departement_id);
-            $("#tbody").empty();
-            $("#search").show();
-            $("#defaut").hide();
-         if(scrutin=='propotionnel')
-            {
-
-                $.ajax({
-                    url: url_app+'search/ajax',
-                    method: 'POST',
-                    data: {
-                    _token: '{!! csrf_token() !!}',
-                        liste_id: liste_id,
-                        scrutin: scrutin,
-                       type : type
-                        // add more key-value pairs as needed
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                        // handle the error case
-                    }
-                });
-            }
-
-            if(scrutin=='majoritaire')
-            {
-                $(".typeliste").show();
-                $(".departement").show();
-                $('#departement_id').attr('required', true);
-            }
-            else if(scrutin=='propotionnel')
-            {
-                $(".departement").hide();
-                $(".typeliste").show();
-                $('#departement_id').removeAttr('required');
-            }
-            else
-            {
-                $(".departement").hide();
-                $(".typeliste").hide();
-                $('#departement_id').attr('required', true);
-
-            }
-          });
-          $("#type").change(function () {
-
-            var scrutin =  $("#scrutin").children("option:selected").val();
-            var type =  $("#type").children("option:selected").val();
-            var departement_id =  $("#departement_id").children("option:selected").val();
-            $("#tbody").empty();
-            $("#tbodys").empty();
-            if(scrutin )
-            {
-                if(scrutin == "majoritaire")
-                {
-                    if(departement_id)
-                    {
-
-
-                $.ajax({
-                        url: url_app+'search/ajax',
-                        method: 'POST',
-                        data: {
-                           " _token": "{{csrf_token()}}",
-                            liste_id: liste_id,
-                            scrutin: scrutin,
-                            departement_id: departement_id,
-                            type: type,
-                            // add more key-value pairs as needed
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            // do something with the response data
-                            var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown);
-                            // handle the error case
-                        }
-                    });
-                    }
-                }
-                else if(scrutin=='propotionnel')
-                {
-
-                $.ajax({
-                        url: url_app+'search/ajax',
-                        method: 'POST',
-                        data: {
-                           " _token": "{{csrf_token()}}",
-                            liste_id: liste_id,
-                            scrutin: scrutin,
-                            type:type,
-                            // add more key-value pairs as needed
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            // do something with the response data
-                            var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listenational/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/propotionnel' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listenational/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown);
-                            // handle the error case
-                        }
-                    });
-                }
-            }
-          });
-
-          function convertirDate(dateStr) {
-            // Séparer la date en jour, mois et année
-            const [jour, mois, annee] = dateStr.split('/');
-
-            // Formater la date en "yyyy-mm-jj"
-            const dateFormatee = `${annee}-${mois}-${jour}`;
-            return dateFormatee;
-        }
-
-
-        $("#departement_id").change(function () {
-            var departement_id =  $("#departement_id").children("option:selected").val();
-            var scrutin =  $("#scrutin").children("option:selected").val();
-            var type =  $("#type").children("option:selected").val();
-            $("#tbody").empty();
-            $("#tbodys").empty();
-
-
-            if(scrutin )
-            {
-                if(scrutin == "majoritaire")
-                {
-                    if(departement_id)
-                    {
-
-
-
-                    $.ajax({
-                            url: url_app+'search/ajax',
-                            method: 'POST',
-                            data: {
-                            " _token": "{{csrf_token()}}",
-                                liste_id: liste_id,
-                                scrutin: scrutin,
-                                departement_id: departement_id,
-                                // add more key-value pairs as needed
-                            },
-                            success: function(response) {
-                                console.log(response);
-                                // do something with the response data
-                              // do something with the response data
-                            var contenut ='';
-                        var contenus ='';
-                        response.forEach(element => {
-                            if(element.type=="titulaire")
-                            {
-                                contenut = contenut +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                            else
-                            {
-                                contenus = contenus +"<tr><td>"+element.ordre+"</td>"+
-                                "<td>"+element.prenom+"</td>"+
-                                "<td>"+element.nom+"</td>"+
-                                "<td>"+element.numelecteur+"</td>"+
-                                "<td>"+element.sexe+"</td>"+
-                                "<td>"+element.profession+"</td>"+
-                                "<td>"+formatDate(element.datenaiss)+"</td>"+
-                                "<td>"+element.lieunaiss+"</td>"+
-                                "<td>"+element.erreur+"<br>" + element.parite+"<br>"+element.doublon_interne+"<br>"+element.sur_le_fichier+"</td>"+
-                                "<td> <a href='"+url_app+"listedepartemental/"+element.id+"' role='button' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-                                "<a href='"+url_app+"declaration/"+element.id+"/majoritaire' role='button' class='btn btn-success'><i class='fas fa-check'></i></a>"+
-                                "<a href='"+url_app+"listedepartemental/"+element.id+"/edit' role='button' class='btn btn-danger'><i class='fas fa-ban'></i></a></td>"+
-                                "</tr>";
-                            }
-                        });
-                        $("#tbody").append(contenut);
-                        $("#tbodys").append(contenus);
-
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.log(errorThrown);
-                                // handle the error case
-                            }
-                        });
-                    }
-                }
-
-            }
-
-        });
-    </script>
-@endsection
- --}}
