@@ -41,7 +41,7 @@ class ListeNationalController extends Controller
         {
             $listenationals = $this->listenationalRepository->getByListe(Auth::user()->liste_id);
             $listes       = [];
-        }       
+        }
 
         return view('listenational.index',compact('listenationals','listes'));
     }
@@ -119,11 +119,11 @@ class ListeNationalController extends Controller
         $doublon_externe = "";
         $doublon_interne = "";
         if($request->extrait_ou_cnis){
-          
+
             $extrait_ou_cni = 'extrait_ou_cnis'.$request->prenom.'_'.$request->nom.'_'.$request->datenaiss.'_'.uniqid() .time().'.'.$request->extrait_ou_cnis->extension();
             $request->extrait_ou_cnis->move('extrait_ou_cnis/', $extrait_ou_cni);
             $request->merge(['extrait_ou_cni'=>$extrait_ou_cni]);
-    
+
         }
         if($request->casiers){
             $casier =  'casier_judiciare'.$request->prenom.'_'.$request->nom.'_'.$request->datenaiss.'_'.uniqid() .time().'.'.$request->casiers->extension();
@@ -184,35 +184,35 @@ class ListeNationalController extends Controller
                     if ( $request->nb%2==0 || ($request->nb%2!=0 && $request->ordre+1 <= $request->nb))
                     {
                         $firstSave  = $this->listenationalRepository->getfirstordreByListe($request->liste_id,$request->type);
-                      
+
                         if($request->ordre%2==0 && $firstSave->sexe==$request->sexe )
                         {
                         // $erreur = $erreur. ' Parite non respecter';
                         //  $erreurdge = $erreurdge. 'Partite non respecter';
                             $parite  =  ' Parite non respecter ';
-        
-                            
+
+
                         }
                         else if(($request->ordre%2!=0 && $firstSave->sexe!=$request->sexe ))
                         {
                             $parite  =  ' Parite non respecter ';
                         }
-        
+
                     }
                 }
 
-               
-        
+
+
                 if($candidat->ordre == 1)
                 {
                     $candidats = $this->listenationalRepository->getAllByListeAndType($candidat->liste_id,$candidat->type);
-                            
+
                     foreach ($candidats as $key => $value) {
                        $pariteAutre = "";
-                      
+
                         if($value->ordre > 1 )
                         {
-                           
+
                             if($request->nb%2==0 || ($request->nb%2!=0 && $value->ordre+1 <= $request->nb))
                             {
                                // dd($value);
@@ -232,17 +232,17 @@ class ListeNationalController extends Controller
 
                     }
                 }
-           
-          
+
+
             $listeNational = $this->listenationalRepository->getByCniOuterListe($request->numcni,$candidat->liste_id);
             $listeDepartemental = $this->listedepartementalRepository->getByCniOuterListe($request->numcni,$candidat->liste_id);
-           
+
             if(!empty($listeNational) || !empty($listeDepartemental))
             {
                 //$erreur = $erreur. 'Doublon externe';
                // $erreurdge = $erreurdge. 'Doublon externe ';
                $doublon_externe =  ' Doublon externe ';
-                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.'); 
+                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');
                 if($listeDepartemental)
                 {
                     $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
@@ -265,11 +265,11 @@ class ListeNationalController extends Controller
                     $listeNational = $this->listenationalRepository->getAllByCniOuterListe($candidat->numcni,$candidat->liste_id);
                     if(count($listeDepartemental)==1)
                     {
-                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_externe"=>""]); 
+                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_externe"=>""]);
                     }
                     if(count($listeNational)==1)
                     {
-                        DB::table("liste_departementals")->where("id",$listeNational[0]->id)->update(["doublon_externe"=>""]); 
+                        DB::table("liste_departementals")->where("id",$listeNational[0]->id)->update(["doublon_externe"=>""]);
                     }
                 }
            // if($candidat->ordre > 1)
@@ -277,14 +277,14 @@ class ListeNationalController extends Controller
             $listeDepartemental = $this->listedepartementalRepository->getByCniAndListe($request->numcni,$candidat->liste_id);
             $getByCniAndListeOuterType = $this->listenationalRepository->getByCniAndListeOuterType($request->numcni,$candidat->liste_id,$request->type);
 
-            
+
             if(!empty($mylisteNational) || !empty($listeDepartemental) || !empty($getByCniAndListeOuterType))
             {
                //$erreur = $erreur. ' Doublon interne';
                $erreurdge = $erreurdge. ' Doublon interne ';
-               //return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();  
+               //return redirect()->back()->with('error', 'Candidat déja saisi.')->withInput();
                $doublon_interne = 'Doublon interne';
-                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');  
+                //return redirect()->back()->with('error', 'Le candidat est déja inscrit dans une autre liste.');
                 if(!empty($listeDepartemental))
                 {
                  ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_interne"=> $doublon_interne]);
@@ -311,20 +311,20 @@ class ListeNationalController extends Controller
                 {
                     if(count($listeDepartemental)==1)
                     {
-                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]); 
+                        DB::table("liste_departementals")->where("id",$listeDepartemental[0]->id)->update(["doublon_interne"=>""]);
                     }
                     if(count($mylisteNational)==1)
                     {
-                        DB::table("liste_nationals")->where("id",$mylisteNational[0]->id)->update(["doublon_interne"=>""]); 
+                        DB::table("liste_nationals")->where("id",$mylisteNational[0]->id)->update(["doublon_interne"=>""]);
                     }
                     if(count($getByCniAndListeOuterType)==1)
                     {
-                        DB::table("liste_nationals")->where("id",$getByCniAndListeOuterType[0]->id)->update(["doublon_interne"=>""]); 
+                        DB::table("liste_nationals")->where("id",$getByCniAndListeOuterType[0]->id)->update(["doublon_interne"=>""]);
                     }
                 }
 
             }
-                
+
 
           //  }
           // dd("ok");
@@ -334,15 +334,15 @@ class ListeNationalController extends Controller
            //dd("ddd");
             $this->listenationalRepository->update($id, $request->all());
             //return redirect('listenational');
-            //return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');  
+            //return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');
             if(Auth::user()->role=='candidats')
             {
-                return redirect('tab/1')->with('success', 'Candidat modifier avec succès.'); 
+                return redirect('tab/1')->with('success', 'Candidat modifier avec succès.');
             }
             else if(Auth::user()->role=='admin')
             {
-                return redirect('listedepartemental')->with('success', 'Candidat modifier avec succès.'); 
-                
+                return redirect('listedepartemental')->with('success', 'Candidat modifier avec succès.');
+
             }
       /*   }
         else
@@ -381,11 +381,11 @@ class ListeNationalController extends Controller
               }
               else if($request->liste_id){
                   $listenationals = $this->listenationalRepository->getByListe($request->liste_id);
-      
+
               }
               else if($request->type){
                   $listenationals = $this->listenationalRepository->getByType($request->type);
-      
+
               }
         }
         else
@@ -394,13 +394,13 @@ class ListeNationalController extends Controller
                 $listenationals = $this->listenationalRepository->getByListeAndType(Auth::user()->liste_id ,$request->type);
               }
         }
-       
+
         return view('listenational.index',compact('listenationals','listes'));
 
     }
     public function importExcel(Request $request)
     {
-         
+
         $this->validate($request, [
             'file' => 'bail|required|file|mimes:xlsx'
         ]);
@@ -427,7 +427,7 @@ class ListeNationalController extends Controller
                     "prenom"=>$listenational["PRENOM"],
                     "numelecteur"=>$listenational["NUMERO_ELECTEUR"],
                     "sexe"=>$listenational["SEXE"],
-                    "Profession"=>$listenational["PROFESSION"],    
+                    "Profession"=>$listenational["PROFESSION"],
                     "datenaiss"=>$listenational["DATE_NAISSANCE"],
                     "lieunaiss"=>$listenational["LIEU_NAISSANCE"],
                     "type"=>$request->type,
@@ -451,8 +451,8 @@ class ListeNationalController extends Controller
     }
     public function valider(Request $request)
     {
-        ListeNational::where("id",$request->id)->update(["etat"=>1,'verif'=>1]);
+        ListeNational::where("id",$request->id)->update(["etat"=>1,'verif'=>1,"commentaire"=>""]);
         return redirect()->back();
     }
-   
+
 }

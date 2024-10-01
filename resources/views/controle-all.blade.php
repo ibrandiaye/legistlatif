@@ -264,7 +264,7 @@
                                         <td>{{ $listenational->nom }}</td>
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
-                                        <td>{{ $listenational->profession }}</td>
+
                                         <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}<td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }}<br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}</td>
@@ -461,7 +461,7 @@
                                             @csrf
                                         <div class="modal-body">
 
-                                                <input type="hidden" value="{{$listenational->id}}" name="id">
+                                                <input type="hidden" value="{{$supleant['data']->id}}" name="id">
                                             <div class="form-group">
                                                 <label>Commentaire  </label>
                                                 <textarea type="text" name="commentaire"  class="form-control"  required></textarea>

@@ -121,7 +121,7 @@
         <a href="" data-toggle="modal" data-target="#liste{{$id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i> Rejeter la liste</a>
 
         <div id="liste{{$id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog">about:blank#blocked
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title mt-0" id="myModalLabel">Rejet Liste : {{$liste->nom}} </h5>
@@ -264,7 +264,7 @@
                                         <td>{{ $listenational->nom }}</td>
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
-                                        <td>{{ $listenational->profession }}</td>
+
                                         <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}<td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }}<br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}</td>
@@ -461,7 +461,7 @@
                                             @csrf
                                         <div class="modal-body">
 
-                                                <input type="hidden" value="{{$listenational->id}}" name="id">
+                                                <input type="hidden" value="{{$supleant['data']->id}}" name="id">
                                             <div class="form-group">
                                                 <label>Commentaire  </label>
                                                 <textarea type="text" name="commentaire"  class="form-control"  required></textarea>

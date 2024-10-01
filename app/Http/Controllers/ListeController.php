@@ -51,7 +51,7 @@ class ListeController extends Controller
      */
     public function store(Request $request)
     {
-        
+
        /* $request->validate([
             'pabddprpas' => 'file|mimes:docx,pdf,doc,xls,xlsx ',
             'lms' => 'file|mimes:docx,pdf,doc,xls,xlsx',
@@ -64,7 +64,7 @@ class ListeController extends Controller
 
         ]);*/
         //
-       
+
         $listes = $this->listeRepository->store($request->all());
         return redirect('liste');
 
@@ -118,7 +118,7 @@ class ListeController extends Controller
         $this->listeDepartementalRepository->deleteByListe($id);
         $this->listeNationalRepository->deleteByListe($id);
       //  $this->listeRepository->destroy($id);
-       
+
 
         return redirect('liste');
     }
@@ -128,7 +128,7 @@ class ListeController extends Controller
         $liste_departementals = DB::table('liste_departementals')->where([["liste_id",$request->id],["verif",0]])->first();
         if(!empty($liste_nationals) or !empty($liste_departementals))
         {
-            return redirect()->back()->with('error', 'Il existe des candidats non verifier.');  
+            return redirect()->back()->with('error', 'Il existe des candidats non verifier.');
         }
         Liste::where("id",$request->id)->update(["etat"=>0,"commentaire"=>$request->commentaire,'verif'=>1]);
         return redirect()->back();
@@ -139,9 +139,9 @@ class ListeController extends Controller
         $liste_departementals = DB::table('liste_departementals')->where([["liste_id",$request->id],["verif",0]])->first();
         if(!empty($liste_nationals) or !empty($liste_departementals))
         {
-            return redirect()->back()->with('error', 'Il existe des candidats non verifier.');  
-        }   
-        Liste::where("id",$request->id)->update(["etat"=>1,'verif'=>1]);
+            return redirect()->back()->with('error', 'Il existe des candidats non verifier.');
+        }
+        Liste::where("id",$request->id)->update(["etat"=>1,'verif'=>1,"commentaire"=>""]);
         return redirect()->back();
     }
 
