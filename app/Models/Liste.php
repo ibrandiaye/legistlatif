@@ -9,14 +9,14 @@ class Liste extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom',"type"
+        'nom',"type","etat","verif","commentaire"
     ];
-    public function validationDepartemental()
+   /*  public function validationDepartemental()
     {
         return $this->hasOne(ValidationDepartemental::class);
     }
     public function validationNational()
     {
         return $this->hasOne(ValidationNational::class);
-    }
+    } */
 }

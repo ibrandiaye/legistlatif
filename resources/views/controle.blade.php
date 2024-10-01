@@ -12,10 +12,13 @@
                 <li class="breadcrumb-item"><a href="{{ route('home') }}" >ACCUEIL</a></li>
                 </ol>
             </div>
-            <h4 class="page-title"> @if(Auth::user()->role=="admin") DGE
+            <h4 class="page-title"> {{$liste->nom }} :   @if ($liste->verif==0)
+                <span class="badge badge-boxed  badge-info"> Non verifier</span>
+                @elseif($liste->etat==0)
+                <span class="badge badge-boxed  badge-danger"> Rejeter </span> Commentaire : {{$liste->commentaire}}
                 @else
-                {{Auth::user()->liste->nom}}
-                 @endif</h4>
+                <span class="badge badge-boxed  badge-success"> Valider</span>
+                @endif </h4>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -113,7 +116,37 @@
     </div>
     <div id="defaut">
         <a href="{{ route('controle.fichier', $id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
+        <a href="{{ route('valider.liste',["id"=>$id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i> Valider la liste</a>
+        <a href="" data-toggle="modal" data-target="#liste{{$id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i> Rejeter la liste</a>
 
+        <div id="liste{{$id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myModalLabel">Rejet Liste : {{$liste->nom}} </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <form action="{{ route('rejeter.liste') }}" method="POST" >
+                    @csrf
+                <div class="modal-body">
+                    
+                        <input type="hidden" value="{{$id}}" name="id">
+                    <div class="form-group">
+                        <label>Commentaire </label>
+                        <textarea type="text" name="commentaire"  class="form-control"  required></textarea>
+                    </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Fermer</button>
+                    <button type="Submit" class="btn btn-primary waves-effect waves-light">Enregistrer</button>
+                </div>
+            </form>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+   
         <div class="col-12">
             <div class="card ">
                 <div class="card-header">LISTE PROPORTIONNEL</div>
@@ -177,7 +210,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Fermer</button>
-                                                    <button type="Submit" class="btn btn-primary waves-effect waves-light">Valider</button>
+                                                    <button type="Submit" class="btn btn-primary waves-effect waves-light">Enregistrer</button>
                                                 </div>
                                             </form>
 
@@ -187,9 +220,9 @@
                                             </td>
                                      <td>
                                        @if ($listenational->verif==0)
-                                           <span class="badge badge-boxed  badge-info"> Non verifer</span>
+                                           <span class="badge badge-boxed  badge-info"> Non verifier</span>
                                        @elseif($listenational->etat==0)
-                                       <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                                       <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                        @else
                                        <span class="badge badge-boxed  badge-success"> Valider</span>
                                        @endif 
@@ -259,7 +292,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Fermer</button>
-                                                    <button type="Submit" class="btn btn-primary waves-effect waves-light">Valider</button>
+                                                    <button type="Submit" class="btn btn-primary waves-effect waves-light">Enregistrer</button>
                                                 </div>
                                             </form>
                                             </div><!-- /.modal-content -->
@@ -268,9 +301,9 @@
                                     </td>
                                     <td>
                                         @if ($listenational->verif==0)
-                                            <span class="badge badge-boxed  badge-info"> Non verifer</span>
+                                            <span class="badge badge-boxed  badge-info"> Non verifier</span>
                                         @elseif($listenational->etat==0)
-                                        <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                                        <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                         @else
                                         <span class="badge badge-boxed  badge-success"> Valider</span>
                                         @endif 
@@ -350,7 +383,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Fermer</button>
-                                                        <button type="Submit" class="btn btn-primary waves-effect waves-light">Valider</button>
+                                                        <button type="Submit" class="btn btn-primary waves-effect waves-light">Enregistrer</button>
                                                     </div>
                                                 </form>
                                                 </div><!-- /.modal-content -->
@@ -359,9 +392,9 @@
                                     </td>
                                     <td>
                                         @if ($titulaire['data']->verif==0)
-                                            <span class="badge badge-boxed  badge-info"> Non verifer</span>
+                                            <span class="badge badge-boxed  badge-info"> Non verifier</span>
                                         @elseif($titulaire['data']->etat==0)
-                                        <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                                        <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                         @else
                                         <span class="badge badge-boxed  badge-success"> Valider</span>
                                         @endif 
@@ -436,7 +469,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Fermer</button>
-                                            <button type="Submit" class="btn btn-primary waves-effect waves-light">Valider</button>
+                                            <button type="Submit" class="btn btn-primary waves-effect waves-light">Enregistrer</button>
                                         </div>
                                     </form>
                                     </div><!-- /.modal-content -->
@@ -444,9 +477,9 @@
                             </div><!-- /.modal -->
                         </td>
                      <td>   @if ($supleant['data']->verif==0)
-                        <span class="badge badge-boxed  badge-info"> Non verifer</span>
+                        <span class="badge badge-boxed  badge-info"> Non verifier</span>
                         @elseif($supleant['data']->etat==0)
-                        <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                        <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                         @else
                         <span class="badge badge-boxed  badge-success"> Valider</span>
                         @endif </td>

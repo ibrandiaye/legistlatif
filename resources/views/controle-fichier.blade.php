@@ -122,7 +122,7 @@
                                 @if ($listenational->verif==0)
                                     <span class="badge badge-boxed  badge-info"> Non verifer</span>
                                 @elseif($listenational->etat==0)
-                                <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                                <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                 @else
                                 <span class="badge badge-boxed  badge-success"> Valider</span>
                                 @endif 
@@ -192,7 +192,7 @@
                                 @if ($listenational->verif==0)
                                     <span class="badge badge-boxed  badge-info"> Non verifer</span>
                                 @elseif($listenational->etat==0)
-                                <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                                <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                 @else
                                 <span class="badge badge-boxed  badge-success"> Valider</span>
                                 @endif 
@@ -323,7 +323,7 @@
                                 @if ($titulaire['data']->verif==0)
                                     <span class="badge badge-boxed  badge-info"> Non verifer</span>
                                 @elseif($titulaire['data']->etat==0)
-                                <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                                <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                                 @else
                                 <span class="badge badge-boxed  badge-success"> Valider</span>
                                 @endif 
@@ -391,7 +391,7 @@
                             @if ($supleant['data']->verif==0)
                             <span class="badge badge-boxed  badge-info"> Non verifer</span>
                             @elseif($supleant['data']->etat==0)
-                            <span class="badge badge-boxed  badge-danger"> Non rejeter</span>
+                            <span class="badge badge-boxed  badge-danger"> Rejeter</span>
                             @else
                             <span class="badge badge-boxed  badge-success"> Valider</span>
                             @endif </td>

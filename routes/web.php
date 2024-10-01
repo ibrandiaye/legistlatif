@@ -70,6 +70,9 @@ Route::get('/valider/national/{id}',[ListeNationalController::class,'valider'])-
 Route::post('/rejeter/departemental',[ListeDepartementalController::class,'rejeter'])->name("rejeter.departemental")->middleware(["auth","admin", 'checkMaxSessions']);
 Route::get('/valider/departemental/{id}',[ListeDepartementalController::class,'valider'])->name("valider.departemental")->middleware(["auth","admin", 'checkMaxSessions']);
 
+Route::post('/rejeter/liste',[ListeController::class,'rejeter'])->name("rejeter.liste")->middleware(["auth","admin", 'checkMaxSessions']);
+Route::get('/valider/liste/{id}',[ListeController::class,'valider'])->name("valider.liste")->middleware(["auth","admin", 'checkMaxSessions']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

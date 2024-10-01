@@ -432,8 +432,9 @@ class HomeController extends Controller
         }
     
        //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
+       $liste = $this->listeRepository->getById($id);
     
-        return view("controle",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements')); // Vous pouvez retourner le résultat final si besoin
+        return view("controle",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
 
     
     }

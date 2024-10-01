@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Liste;
 use App\Repositories\ListeDepartementalRepository;
 use App\Repositories\ListeNationalRepository;
 use App\Repositories\ListeRepository;
+use DB;
 use Illuminate\Http\Request;
 
 class ListeController extends Controller
@@ -119,6 +121,28 @@ class ListeController extends Controller
        
 
         return redirect('liste');
+    }
+    public function rejeter(Request $request)
+    {
+        $liste_nationals = DB::table('liste_nationals')->where([["liste_id",$request->id],["verif",0]])->first();
+        $liste_departementals = DB::table('liste_departementals')->where([["liste_id",$request->id],["verif",0]])->first();
+        if(!empty($liste_nationals) or !empty($liste_departementals))
+        {
+            return redirect()->back()->with('error', 'Il existe des candidats non verifier.');  
+        }
+        Liste::where("id",$request->id)->update(["etat"=>0,"commentaire"=>$request->commentaire,'verif'=>1]);
+        return redirect()->back();
+    }
+    public function valider(Request $request)
+    {
+        $liste_nationals = DB::table('liste_nationals')->where([["liste_id",$request->id],["verif",0]])->first();
+        $liste_departementals = DB::table('liste_departementals')->where([["liste_id",$request->id],["verif",0]])->first();
+        if(!empty($liste_nationals) or !empty($liste_departementals))
+        {
+            return redirect()->back()->with('error', 'Il existe des candidats non verifier.');  
+        }   
+        Liste::where("id",$request->id)->update(["etat"=>1,'verif'=>1]);
+        return redirect()->back();
     }
 
 }
