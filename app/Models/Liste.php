@@ -11,4 +11,12 @@ class Liste extends Model
     protected $fillable = [
         'nom',"type"
     ];
+    public function validationDepartemental()
+    {
+        return $this->hasOne(ValidationDepartemental::class);
+    }
+    public function validationNational()
+    {
+        return $this->hasOne(ValidationNational::class);
+    }
 }

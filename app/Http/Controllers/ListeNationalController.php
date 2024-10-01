@@ -444,5 +444,15 @@ class ListeNationalController extends Controller
             return redirect()->back()->with('success', 'Données importées avec succès.');
 
     }
+    public function rejeter(Request $request)
+    {
+        ListeNational::where("id",$request->id)->update(["etat"=>0,"commentaire"=>$request->commentaire,'verif'=>1]);
+        return redirect()->back();
+    }
+    public function valider(Request $request)
+    {
+        ListeNational::where("id",$request->id)->update(["etat"=>1,'verif'=>1]);
+        return redirect()->back();
+    }
    
 }

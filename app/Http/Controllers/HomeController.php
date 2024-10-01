@@ -397,4 +397,83 @@ class HomeController extends Controller
 
     
     }
+    public function listeControle($id)
+    {
+        $departements                       = $this->departementRepository->getOrbyRegion();
+        $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType($id,'supleant');
+        $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType($id,'titulaire');
+        $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",$id);
+        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",$id);
+
+        $listeParDepartementFinal = [];
+    
+        foreach ($departements as $departement) {
+            $titulaire = [];
+            $supleant = [];
+    
+            foreach ($listeDepartementaleTitulaires as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $titulaire[] = ["data" => $listeDepartementale];
+                }
+            }
+            foreach ($listeDepartementaleSupleants as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $supleant[] = ["data" => $listeDepartementale];
+                }
+            }
+    
+            if(!empty($titulaire) || !empty($supleant))
+            {
+                $listeParDepartementFinal[$departement->nom]["titulaire"] = $titulaire;
+                $listeParDepartementFinal[$departement->nom]["supleant"] = $supleant;
+                $listeParDepartementFinal[$departement->nom]["nombre"] = $departement->nb;
+            }
+         
+        }
+    
+       //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
+    
+        return view("controle",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements')); // Vous pouvez retourner le résultat final si besoin
+
+    
+    }
+
+    public function controleFichier($id)
+    {
+        $departements                       = $this->departementRepository->getOrbyRegion();
+        $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType($id,'supleant');
+        $listenationalTitulaire             = $this->listeNationalRepository->getByListeAndType($id,'titulaire');
+        $listeDepartementaleTitulaires      = $this->listeDepartementRepository->getByTypeAndListe("titulaire",$id);
+        $listeDepartementaleSupleants       = $this->listeDepartementRepository->getByTypeAndListe("supleant",$id);
+
+        $listeParDepartementFinal = [];
+    
+        foreach ($departements as $departement) {
+            $titulaire = [];
+            $supleant = [];
+    
+            foreach ($listeDepartementaleTitulaires as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $titulaire[] = ["data" => $listeDepartementale];
+                }
+            }
+            foreach ($listeDepartementaleSupleants as $listeDepartementale) {
+                if (!empty($listeDepartementale->departement_id) && $departement->id == $listeDepartementale->departement_id) {
+                    $supleant[] = ["data" => $listeDepartementale];
+                }
+            }
+    
+            if(!empty($titulaire) || !empty($supleant))
+            {
+                $listeParDepartementFinal[$departement->nom]["titulaire"] = $titulaire;
+                $listeParDepartementFinal[$departement->nom]["supleant"] = $supleant;
+                $listeParDepartementFinal[$departement->nom]["nombre"] = $departement->nb;
+            }
+            $liste = $this->listeRepository->getById($id);
+         
+        }
+        return view("controle-fichier",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+
+    
+    }
 }

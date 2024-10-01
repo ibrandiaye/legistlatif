@@ -62,7 +62,13 @@ Route::post('/search/candidat',[HomeController::class,'searchCandidat'])->name("
 Route::post('/formulaire',[HomeController::class,'formulaire'])->name("generer.formulaire")->middleware(['auth', 'checkMaxSessions']);
 
 Route::get('/generer/formulaire/{liste}',[HomeController::class,'genererFormulaire'])->name("generer.formulaire.admin")->middleware(['auth','admin', 'checkMaxSessions']);
+Route::get('/controle/{id}',[HomeController::class,'listeControle'])->name("controle.liste")->middleware(['auth','admin', 'checkMaxSessions']);
 
+Route::post('/rejeter/national',[ListeNationalController::class,'rejeter'])->name("rejeter.national")->middleware(["auth","admin", 'checkMaxSessions']);
+Route::get('/valider/national/{id}',[ListeNationalController::class,'valider'])->name("valider.national")->middleware(["auth","admin", 'checkMaxSessions']);
+
+Route::post('/rejeter/departemental',[ListeDepartementalController::class,'rejeter'])->name("rejeter.departemental")->middleware(["auth","admin", 'checkMaxSessions']);
+Route::get('/valider/departemental/{id}',[ListeDepartementalController::class,'valider'])->name("valider.departemental")->middleware(["auth","admin", 'checkMaxSessions']);
 
 
 Route::get('/dashboard', function () {
@@ -88,5 +94,7 @@ Route::get('/supprimer/liste/{scrutin}/{type}/{departement}', [HomeController::c
 Route::get('/supprimer/liste', [HomeController::class,'supprimerVoir'])->name("supprimer.voir")->middleware(['auth', 'checkMaxSessions']);
 
 Route::get('/recap', [HomeController::class,'recap'])->name("recap")->middleware(['auth', 'checkMaxSessions']);
+
+Route::get( '/controle-fichier/{id}', [HomeController::class,'controleFichier'])->name("controle.fichier")->middleware(['auth', 'admin','checkMaxSessions']);
 
 require __DIR__.'/auth.php';

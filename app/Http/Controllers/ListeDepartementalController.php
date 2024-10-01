@@ -879,5 +879,14 @@ class ListeDepartementalController extends Controller
         return view('liste_candidat',compact('listedepartementals',"listes","departements","listenationals"));
     }
 
-
+    public function rejeter(Request $request)
+    {
+        ListeDepartemental::where("id",$request->id)->update(["etat"=>0,"commentaire"=>$request->commentaire,'verif'=>1]);
+        return redirect()->back();
+    }
+    public function valider(Request $request)
+    {
+        ListeDepartemental::where("id",$request->id)->update(["etat"=>1,'verif'=>1]);
+        return redirect()->back();
+    }
 }
