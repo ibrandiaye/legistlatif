@@ -449,8 +449,8 @@
                         <td>{{ $supleant['data']->lieunaiss }}</td>
                         <td class="text-danger">{{ $supleant['data']->erreur }} <br>{{ $supleant['data']->parite }}<br> {{ $supleant['data']->doublon_interne }}</td>
                         <td><a href="{{ route('valider.departemental',["id"=>$supleant['data']->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
-                            <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#listedepartemental{{ $titulaire['data']->id}}"><i class="fas fa-ban"></i></button>
-                            <div id="listedepartemental{{ $titulaire['data']->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#listedepartemental{{ $supleant['data']->id}}"><i class="fas fa-ban"></i></button>
+                            <div id="listedepartemental{{ $supleant['data']->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
