@@ -248,14 +248,14 @@ class ListeNationalController extends Controller
                     $liste = DB::table("listes")->where("id",$listeDepartemental->liste_id)->first();
                     $departement = DB::table("departements")->where("id",$listeDepartemental->departement_id)->first();
                     $doublon_externe = $doublon_externe. ' : Liste '.$listeDepartemental->type.' '.$liste->nom.' Departement :'.$departement->nom ;
-                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_externe"=>" Doublon externe Liste".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
+                    ListeDepartemental::where("id",$listeDepartemental->id)->update(["doublon_externe"=>" Doublon externe Liste ".$listeDepartemental->type.' '.$request->liste.' '.' Departement :'.$departement->nom ]);
 
                 }
                 if($listeNational)
                 {
                     $liste = DB::table("listes")->where("id",$listeNational->liste_id)->first();
                     $doublon_externe = $doublon_externe. ' Liste '.$listeNational->type.' '.$liste->nom.' ';
-                    ListeNational::where("id",$listeNational->id)->update(["doublon_externe"=>" Doublon externe Liste".$listeNational->type.' '.$request->liste.' ']);
+                    ListeNational::where("id",$listeNational->id)->update(["doublon_externe"=>" Doublon externe Liste ".$listeNational->type.' '.$request->liste.' ']);
 
                 }
             }

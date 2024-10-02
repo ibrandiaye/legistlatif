@@ -116,6 +116,7 @@
     </div>
     <div id="defaut">
         <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>1]) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i> Voir Non Verifier  </a>
+        <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>3]) }}" role="button" class="btn btn-info"><i class="fas fa-ban"></i> voir Rejeter </a>
         <a href="{{ route('controle.fichier', $id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
         <a href="{{ route('valider.liste',["id"=>$id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i> Valider la liste</a>
         <a href="" data-toggle="modal" data-target="#liste{{$id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i> Rejeter la liste</a>

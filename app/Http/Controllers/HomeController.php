@@ -437,6 +437,8 @@ class HomeController extends Controller
             return view("controle",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
         elseif($type==2)
             return view("controle-all",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+        elseif($type==3)
+            return view("controle-rejeter",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
 
     }
 
