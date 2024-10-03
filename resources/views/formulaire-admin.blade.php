@@ -30,6 +30,7 @@
                 html{
                     background: white;
                 }
+               
         </style>
 
 
@@ -41,8 +42,8 @@
         
         </div>
         <div class="col-sm-8 text-center">
-            <h3>FORMULAIRE</h3>
-            <h4>POUR LE SCRUTIN PROPORTIONNEL</h4>
+            <h3>REPUBLIQUE DU SENEGAL </h3>
+           
 
         </div>
         <div class="col-sm-2">
@@ -51,7 +52,7 @@
 </div>
 <div class="row " >
     <div class="col text-center">
-        <h4>Elections législatives anticipées du 17 novembre 2024</h4>
+        <h4>Un Peuple-Un But-une Foi </h4>
 
     </div>
 </div>
@@ -77,8 +78,8 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>I- TITULAIRE</h4>
-        <p>Cinquante trois (53) candidats</p>
+        <h4>Liste des Titulaires</h4>
+    
     </div>
     
 </div>
@@ -91,15 +92,12 @@
         <table  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>ordre</th>
+                    <th>ordre d'investiture</th>
                     <th>Prenom</th>
                     <th>Nom</th>
-                    <th>Num Electeur</th>
-                    <th>Date de Naissance</th>
+                    <th>Numero Electeur</th>
                     <th>Sexe</th>
                     <th>Profession</th>
-                    <th>Domicile </th>
-                    <th>Service, Emploi et lieu d’affectation pour les agents de l’Etat</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,11 +110,8 @@
                             <td>{{ $listenational->prenom }}</td>
                             <td>{{ $listenational->nom }}</td>
                             <td>{{ $listenational->numelecteur }}</td>
-                            <td>{{ $listenational->datenaiss }} à {{ $listenational->lieunaiss }}</td>
                             <td>{{ $listenational->sexe }}</td>
                             <td>{{ $listenational->profession }}</td>
-                            <td>{{ $listenational->domicile }}</td>
-                            <td>{{ $listenational->se }}</td>
 
 
                         </tr>
@@ -136,8 +131,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>II- SUPPLEANTS</h4>
-        <p> Cinquante (50) candidats</p>
+        <h4>Liste des suppleants</h4>
     </div>
   
 </div>
@@ -150,15 +144,13 @@
         <table  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>ordre</th>
+                    <th>ordre d'investiture</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Num Electeur</th>
-                    <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
-                    <th>Domicile </th>
-                    <th>Service, Emploi et lieu d’affectation pour les agents de l’Etat</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -171,11 +163,9 @@
                             <td>{{$listenational->prenom }}</td>
                             <td>{{$listenational->nom }}</td>
                             <td>{{ $listenational->numelecteur }}</td>
-                            <td>{{$listenational->datenaiss }} à {{$listenational->lieunaiss }}</td>
                             <td>{{$listenational->sexe }}</td>
                             <td>{{$listenational->profession }}</td>
-                            <td>{{$listenational->domicile }}</td>
-                            <td>{{$listenational->se }}</td>
+                           
 
 
                         </tr>
@@ -195,29 +185,24 @@
 </div>
 
  <div class="page-break"></div>
-      <!--  jQuery  -->
-      @foreach($listeParDepartementFinal as $departement => $categories)
+ <div class="row">
+    <div class="col-sm-2">
+    
+    </div>
+    <div class="col-sm-8 text-center">
+        <h4>SCRUTIN MAJORITAIRE</h4>
+        <h4>Liste  departementales</h4>
 
-      <div class="row">
-        <div class="col-sm-2">
-        
-        </div>
-        <div class="col-sm-8 text-center">
-            <h3>FORMULAIRE</h3>
-            <h4>POUR LE SCRUTIN MAJORITAIRE DEPARTEMENTAL</h4>
-            
-
-        </div>
-        <div class="col-sm-2">
-
-        </div>
-</div>
-<div class="row text-center" >
-    <div class="col text-center">
-        <h4>Elections législatives anticipées du 17 novembre 2024</h4>
+    </div>
+    <div class="col-sm-2">
 
     </div>
 </div>
+      <!--  jQuery  -->
+      @foreach($listeParDepartementFinal as $departement => $categories)
+
+    
+
 
 
 <div class="row">
@@ -270,15 +255,13 @@
         <table  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>ordre</th>
+                    <th>ordre d'investiture</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Num Electeur</th>
-                    <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
-                    <th>Domicile </th>
-                    <th>Service, Emploi et lieu d’affectation pour les agents de l’Etat</th>
+                  
                 </tr>
             </thead>
             <tbody>
@@ -291,11 +274,9 @@
                             <td>{{ $titulaire['data']->prenom }}</td>
                             <td>{{ $titulaire['data']->nom }}</td>
                             <td>{{ $titulaire['data']->numelecteur }}</td>
-                            <td>{{ date('d-m-Y', strtotime($titulaire['data']->datenaiss)) }} à {{ $titulaire['data']->lieunaiss }}</td>
                             <td>{{ $titulaire['data']->sexe }}</td>
                             <td>{{ $titulaire['data']->profession }}</td>
-                            <td>{{ $titulaire['data']->domicile }}</td>
-                            <td>{{ $titulaire['data']->se }}</td>
+                           
 
 
                         </tr>
@@ -314,7 +295,7 @@
 </div>
 <div class="row text-center" >
     <div class="col text-center">
-        <h4>II- SUPPLEANTS</h4>
+        <h4>II- ordre d'investiture</h4>
         <p>{{$categories['nombre']}} candidats</p>
     </div>
    
@@ -325,18 +306,16 @@
     </div>
     <div class="col-sm-10">
 
-        <table  class="table table-bordered table-responsive-md table-striped text-center ">
+        <table style="width: 100%;"  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>ordre</th>
+                    <th>orordre d'investituredre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Num Electeur</th>
-                    <th>Date de Naissance</th>
                     <th>Sexe</th>
                     <th>Profession</th>
-                    <th>Domicile </th>
-                    <th>Service, Emploi et lieu d’affectation pour les agents de l’Etat</th>
+                  
                 </tr>
             </thead>
             <tbody>
@@ -349,13 +328,9 @@
                             <td>{{ $supleant['data']->prenom }}</td>
                             <td>{{ $supleant['data']->nom }}</td>
                             <td>{{  $supleant['data']->numelecteur }}</td>
-                            <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }} à {{ $supleant['data']->lieunaiss }}</td>
                             <td>{{ $supleant['data']->sexe }}</td>
                             <td>{{ $supleant['data']->profession }}</td>
-                            <td>{{ $supleant['data']->domicile }}</td>
-                            <td>{{ $supleant['data']->se }}</td>
-
-
+                          
                         </tr>
                     @endforeach        
                 @endif
