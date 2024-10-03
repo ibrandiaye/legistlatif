@@ -20,6 +20,7 @@ class ListeController extends Controller
         $this->listeRepository              = $listeRepository;
         $this->listeDepartementalRepository = $listeDepartementalRepository;
         $this->listeNationalRepository      = $listeNationalRepository;
+        $this->middleware('admin')->except(['index','rejeter','valider']);
     }
 
     /**

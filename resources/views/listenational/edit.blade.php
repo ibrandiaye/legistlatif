@@ -14,9 +14,9 @@
 
                         </ol>
                     </div>
-                     @if(Auth::user()->role=="admin") DGE
+                     @if(Auth::user()->role=="candidats")   {{Auth::user()->liste->nom}}
                         @else
-                        {{Auth::user()->liste->nom}}
+                        DGE
                          @endif
                 </div>
             </div>
@@ -123,7 +123,7 @@
                                         <select class="form-control"  name="liste" required="">
                                             <option value="">Selectionner</option>
                                             @foreach ($listes as $liste)
-                                            <option value="{{$liste->nom}}" {{Auth::user()->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
+                                            <option value="{{$liste->nom}}" {{$listenational->liste_id==$liste->id ? 'selected' : ''}}>{{$liste->nom}}</option>
                                                 @endforeach
     
                                         </select>

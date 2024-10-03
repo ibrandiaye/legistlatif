@@ -161,6 +161,13 @@
                             </a>
                             </li> --}}
                             @endif
+                            @if(Auth::user()->role=="controlleur")
+                            <li>
+                                <a href="{{ route('liste.index') }}">
+                                <i class="mdi mdi-airplay"></i> Liste
+                            </a>
+                            </li>
+                            @endif
                            
                             @if(Auth::user()->role=='admin')
                             <li class="has_sub">

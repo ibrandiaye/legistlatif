@@ -45,6 +45,11 @@ class HomeController extends Controller
             $listes = $this->listeRepository->getAll();
             return view("dashboard",compact("listes"));
         }
+        else if(Auth::user()->role == 'controlleur')
+        {
+            $listes = $this->listeRepository->getAll();
+            return view("liste.index",compact("listes"));
+        }
 
     }
     public function stateByScrutin($scrution,$liste)
@@ -442,7 +447,7 @@ class HomeController extends Controller
 
     }
 
-    public function controleFichier($id)
+    public function controleFichier($id,$type)
     {
         $departements                       = $this->departementRepository->getOrbyRegion();
         $listenationalSuppleant             = $this->listeNationalRepository->getByListeAndType($id,'supleant');
@@ -476,7 +481,11 @@ class HomeController extends Controller
             $liste = $this->listeRepository->getById($id);
 
         }
-        return view("controle-fichier",compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+        if($type==1)
+            return view("controle-fichier", compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+        if($type==2)
+            return view("controle-rejet",  compact('listeParDepartementFinal','id','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+
 
 
     }

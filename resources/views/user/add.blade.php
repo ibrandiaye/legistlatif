@@ -65,7 +65,7 @@
                                
                                     <div class="col-lg-6">
                                         <label>Liste</label>
-                                        <select class="form-control" name="liste_id" required="">
+                                        <select class="form-control" name="liste_id" >
                                             <option value="">Selectionner</option>
                                             @foreach ($listes as $liste)
                                             <option value="{{$liste->id}}">{{$liste->nom}}</option>
@@ -79,6 +79,7 @@
                                             <option value="">Selectionner</option>
                                             <option value="admin">Admin</option>
                                             <option value="candidats">candidats</option> 
+                                            <option value="controlleur">controlleur</option>
                                         </select>
                                     </div>
 

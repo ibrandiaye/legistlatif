@@ -118,7 +118,7 @@
         <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>2]) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i> Voir Tous </a>
         <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>3]) }}" role="button" class="btn btn-info"><i class="fas fa-ban"></i> voir Rejeter </a>
 
-        <a href="{{ route('controle.fichier', $id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
+        <a href="{{ route('controle.fichier', ["id"=>$id,"type"=>1]) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
         <a href="{{ route('valider.liste',["id"=>$id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i> Valider la liste</a>
         <a href="" data-toggle="modal" data-target="#liste{{$id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i> Rejeter la liste</a>
 
@@ -220,7 +220,9 @@
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->
                                     </div><!-- /.modal -->
-                                            </td>
+                                    <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
+                                    </td>
                                      <td>
                                        @if ($listenational->verif==0)
                                            <span class="badge badge-boxed  badge-info"> Non verifier</span>
@@ -301,6 +303,7 @@
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->
                                     </div><!-- /.modal -->
+                                    <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td>
                                         @if ($listenational->verif==0)
@@ -392,6 +395,8 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
+                                        <a href="{{ route('listedepartemental.edit', $titulaire['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
                                     </td>
                                     <td>
                                         @if ($titulaire['data']->verif==0)
@@ -450,7 +455,8 @@
                         <td>{{ date('d-m-Y', strtotime($supleant['data']->datenaiss)) }}</td>
                         <td>{{ $supleant['data']->lieunaiss }}</td>
                         <td class="text-danger">{{ $supleant['data']->erreur }} <br>{{ $supleant['data']->parite }}<br> {{ $supleant['data']->doublon_interne }}<br>{{ $supleant['data']->doublon_externe }} <br>	{{ $supleant['data']->sur_le_fichier }}</td>
-                        <td><a href="{{ route('valider.departemental',["id"=>$supleant['data']->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
+                        <td>
+                            <a href="{{ route('valider.departemental',["id"=>$supleant['data']->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
                             <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#listedepartemental{{ $supleant['data']->id}}"><i class="fas fa-ban"></i></button>
                             <div id="listedepartemental{{ $supleant['data']->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -479,6 +485,8 @@
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
                             </div><!-- /.modal -->
+                            <a href="{{ route('listedepartemental.edit', $supleant['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
+
                         </td>
                      <td>   @if ($supleant['data']->verif==0)
                         <span class="badge badge-boxed  badge-info"> Non verifier</span>

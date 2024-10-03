@@ -117,7 +117,7 @@
     <div id="defaut">
         <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>1]) }}" role="button" class="btn btn-warning"><i class="fas fa-eye"></i> Voir Non Verifier  </a>
         <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>3]) }}" role="button" class="btn btn-info"><i class="fas fa-ban"></i> voir Rejeter </a>
-        <a href="{{ route('controle.fichier', $id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
+        <a href="{{ route('controle.fichier',["id"=>$id,"type"=>1] ) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer </a>
         <a href="{{ route('valider.liste',["id"=>$id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i> Valider la liste</a>
         <a href="" data-toggle="modal" data-target="#liste{{$id}}" role="button" class="btn btn-danger"><i class="fas fa-ban"></i> Rejeter la liste</a>
 
@@ -219,6 +219,8 @@
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->
                                     </div><!-- /.modal -->
+                                    <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
                                             </td>
                                      <td>
                                        @if ($listenational->verif==0)
@@ -300,6 +302,8 @@
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->
                                     </div><!-- /.modal -->
+                                    <a href="{{ route('listenational.edit', $listenational->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+
                                     </td>
                                     <td>
                                         @if ($listenational->verif==0)
@@ -391,6 +395,7 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
+                                        <a href="{{ route('listedepartemental.edit', $titulaire['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                     </td>
                                     <td>
                                         @if ($titulaire['data']->verif==0)
@@ -478,6 +483,8 @@
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
                             </div><!-- /.modal -->
+                            <a href="{{ route('listedepartemental.edit', $supleant['data']->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a></td>
+
                         </td>
                      <td>   @if ($supleant['data']->verif==0)
                         <span class="badge badge-boxed  badge-info"> Non verifier</span>

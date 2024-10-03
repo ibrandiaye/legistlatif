@@ -52,10 +52,11 @@
                             <td>
                                 <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>1]) }}" role="button" class="btn btn-info"><i class="fas fa-database"></i> Contrôler</a>
                                 <a href="{{ route('generer.formulaire.admin', $liste->id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer formulaire</a>
+                              @if(Auth::user()->role=="admin")  
                                 <a href="{{ route('liste.edit', $liste->id) }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                 {!! Form::open(['method' => 'DELETE', 'route'=>['liste.destroy', $liste->id], 'style'=> 'display:inline', 'onclick'=>"if(!confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?')) { return false; }"]) !!}
                                 <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Supprimer les candidats</button>
-                                {!! Form::close() !!}
+                                {!! Form::close() !!}@endif
 
 
 

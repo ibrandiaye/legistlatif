@@ -14,9 +14,9 @@
 
                         </ol>
                     </div>
-                     @if(Auth::user()->role=="admin") DGE
+                     @if(Auth::user()->role=="candidats")   {{Auth::user()->liste->nom}}
                         @else
-                        {{Auth::user()->liste->nom}}
+                        DGE
                          @endif
                 </div>
             </div>

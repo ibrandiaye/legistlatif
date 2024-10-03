@@ -344,6 +344,11 @@ class ListeNationalController extends Controller
                 return redirect('listedepartemental')->with('success', 'Candidat modifier avec succès.');
 
             }
+            else if(Auth::user()->role=='controlleur')
+            {
+                return redirect("/controle/".$request->liste_id."/2")->with('success', 'Candidat modifier avec succès.');
+
+            }
       /*   }
         else
         {
