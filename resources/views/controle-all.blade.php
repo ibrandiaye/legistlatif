@@ -267,8 +267,8 @@
                                         <td>{{ $listenational->nom }}</td>
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
-
-                                        <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}<td>
+                                        <td>{{ $listenational->profession }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}</td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                         <td class="text-danger">{{ $listenational->erreur }}<br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}<br>{{ $listenational->doublon_externe }} <br>	{{ $listenational->sur_le_fichier }}</td>
                                     <td> <a href="{{ route('valider.national',["id"=>$listenational->id]) }}" role="button" class="btn btn-success"><i class="fas fa-check"></i></a>
