@@ -30,7 +30,18 @@
                 html{
                     background: white;
                 }
-               
+                div
+                {
+                    text-align: center;
+                    margin-top: 0px !important;
+                    margin-bottom: 0px !important;
+                }
+                table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align:  center;
+}
+  
         </style>
 
 
@@ -38,59 +49,31 @@
     <!-- Begin page -->
 
 <div class="row">
-        <div class="col-sm-2">
-        
-        </div>
-        <div class="col-sm-8 text-center">
+       
             <h3>REPUBLIQUE DU SENEGAL </h3>
-           
+            <h4>Un Peuple-Un But-une Foi </h4>
+            <h4>{{$liste->nom}}</h4>
+            <h4>SCRUTIN PROPORTIONNEL</h4>
+            <h4>Liste des Titulaires</h4>
 
-        </div>
-        <div class="col-sm-2">
-
-        </div>
-</div>
-<div class="row " >
-    <div class="col text-center">
-        <h4>Un Peuple-Un But-une Foi </h4>
-
-    </div>
+     
 </div>
 
+   
+       
 
+
+
+
+  
+    
 
 <div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <h4>{{$liste->nom}}</h4>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row text-center" >
-    <div class="col text-center">
-        <h4>SCRUTIN PROPORTIONNEL</h4>
-
-    </div>
-</div>
-<div class="row text-center" >
-    <div class="col text-center">
-        <h4>Liste des Titulaires</h4>
-    
-    </div>
-    
-</div>
-<div class="row">
-    <div class="col-sm-1">
-    
-    </div>
+  
     <div class="col-sm-10">
 
-        <table  class="table table-bordered table-responsive-md table-striped text-center ">
-            <thead>
+        <table   class="table table-bordered table-responsive-md table-striped text-center ">
+            <thead >
                 <tr>
                     <th>ordre d'investiture</th>
                     <th>Prenom</th>
@@ -130,9 +113,8 @@
     </div>
 </div>
 <div class="row text-center" >
-    <div class="col text-center">
+   
         <h4>Liste des suppleants</h4>
-    </div>
   
 </div>
 <div class="row">
@@ -141,7 +123,7 @@
     </div>
     <div class="col-sm-10">
 
-        <table  class="table table-bordered table-responsive-md table-striped text-center ">
+        <table    class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
                     <th>ordre d'investiture</th>
@@ -186,73 +168,29 @@
 
  <div class="page-break"></div>
  <div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
+  
         <h4>SCRUTIN MAJORITAIRE</h4>
         <h4>Liste  departementales</h4>
+        <h4>{{$liste->nom}}</h4>
 
-    </div>
-    <div class="col-sm-2">
-
-    </div>
 </div>
       <!--  jQuery  -->
       @foreach($listeParDepartementFinal as $departement => $categories)
 
-    
-
-
 
 <div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <h4>{{$liste->nom}}</h4>
-    </div>
-    <div class="col-sm-2">
+    <h4>DEPARTEMENT DE {{ $departement }}
+    </h4>
+    <h4>Liste des titulaires</h4>
+</div>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <h4>SCRUTIN MAJORITAIRE</h4>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2">
-    
-    </div>
-    <div class="col-sm-8 text-center">
-        <h4>DEPARTEMENT DE {{ $departement }}
-        </h4>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row text-center" >
-    <div class="col text-center">
-        <h4>I- TITULAIRE</h4>
-        <p>{{$categories['nombre']}} candidats</p>
-    </div>
-   
-</div>
 <div class="row">
     <div class="col-sm-1">
     
     </div>
     <div class="col-sm-10">
 
-        <table  class="table table-bordered table-responsive-md table-striped text-center ">
+        <table    class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
                     <th>ordre d'investiture</th>
@@ -294,19 +232,15 @@
     </div>
 </div>
 <div class="row text-center" >
-    <div class="col text-center">
-        <h4>II- ordre d'investiture</h4>
-        <p>{{$categories['nombre']}} candidats</p>
-    </div>
+  
+        <h4> Liste des suppleants</h4>
    
 </div>
 <div class="row">
-    <div class="col-sm-1">
-    
-    </div>
+   
     <div class="col-sm-10">
 
-        <table style="width: 100%;"  class="table table-bordered table-responsive-md table-striped text-center ">
+        <table   style="width: 100%;"  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
                     <th>orordre d'investituredre</th>

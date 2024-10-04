@@ -10,7 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
-
+use PDF;
 class HomeController extends Controller
 {
     protected $listeDepartementRepository;
@@ -397,9 +397,9 @@ class HomeController extends Controller
         }
 
        //dd($listenationalSuppleant); // Pour déboguer et afficher le résultat final
-
-        return view("formulaire-admin",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
-
+       $pdf = PDF::loadView("formulaire-admin", compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire','departements','liste'));
+       // return view("formulaire-admin",compact('listeParDepartementFinal','listenationalSuppleant','listenationalTitulaire','departements','liste')); // Vous pouvez retourner le résultat final si besoin
+       return $pdf->download(\Str::slug($liste->nom).".pdf");
 
     }
     public function listeControle($id,$type)
