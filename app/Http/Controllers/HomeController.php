@@ -489,13 +489,31 @@ class HomeController extends Controller
 
 
     }
-    public function getDoublonExterne($id)
+    public function getDoublonExterne($id,$erreur)
     {
-        $listeDepartements = $this->listeDepartementRepository->getDoublonExterne();
-        $listeNationals = $this->listeNationalRepository->getDoublonExterne();
+        if($erreur=="doublon_externe")
+        {
+            $listeDepartements = $this->listeDepartementRepository->getDoublonExterne();
+            $listeNationals = $this->listeNationalRepository->getDoublonExterne();
+        }
+        elseif($erreur=="doublon_interne")
+        {
+            $listeDepartements = $this->listeDepartementRepository->getDoublonInterne();
+            $listeNationals = $this->listeNationalRepository->getDoublonInterne();
+        }
+        elseif($erreur=="parite")
+        {
+            $listeDepartements = $this->listeDepartementRepository->getParite();
+            $listeNationals = $this->listeNationalRepository->getParite();
+        }
+        elseif($erreur=="sur_le_fichier")
+        {
+            $listeDepartements = $this->listeDepartementRepository->getSurLeFichier();
+            $listeNationals = $this->listeNationalRepository->getSurLeFichier();
+        }
        // dd($listeNationals);
        if($id==1)
-            return view("doublon-externe",compact("listeDepartements","listeNationals"));
+            return view("doublon-externe",compact("listeDepartements","listeNationals","erreur"));
         else
         {
             $pdf = PDF::loadView("doublon-externe-fichier", compact("listeDepartements","listeNationals"));

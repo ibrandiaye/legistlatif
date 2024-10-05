@@ -36,7 +36,7 @@
                 <div class="card-header">LISTE PROPORTIONNEL</div>
                     <div class="card-body">
 
-                        <a class="btn btn-primary" href="{{ route('doublon.externe', ['id'=>2]) }}">Imprimer</a>
+                        <a class="btn btn-primary" href="{{ route('doublon.externe', ['id'=>2,"erreur"=>$erreur]) }}">Imprimer</a>
                         <br><br>
                         <table id="datatable-buttons" class="table datatable-buttons1 table-bordered table-responsive table-striped text-center ">
                             <thead>
@@ -47,6 +47,7 @@
                                     <th>Numero Electeur</th>
                                     <th>Sexe</th>
                                     <th>Profession</th>
+                                    <th>liste</th>
                                     <th>Date de Naissance</th>
                                     <th>Lieux de Naissance</th>
                                     <th>Erreur</th>
@@ -67,6 +68,7 @@
                                         <td>{{ $listenational->numelecteur }}</td>
                                         <td>{{ $listenational->sexe }}</td>
                                         <td>{{ $listenational->profession }}</td>
+                                        <td>{{ $listenational->liste }}</td>
                                         <td>{{ date('d-m-Y', strtotime($listenational->datenaiss)) }}</td>
                                         <td>{{ $listenational->lieunaiss }}</td>
                                        <td class="text-danger">{{ $listenational->erreur }} <br>{{ $listenational->parite }}<br>{{ $listenational->doublon_interne }}<br>{{ $listenational->doublon_externe }} <br>	{{ $listenational->sur_le_fichier }}</td>

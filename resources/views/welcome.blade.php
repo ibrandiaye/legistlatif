@@ -179,8 +179,23 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="{{ route('doublon.externe',1) }}">
+                                <a href="{{ route('doublon.externe',["id"=>1,"erreur"=>"doublon_externe"]) }}">
                                 <i class="mdi mdi-airplay"></i> Doublon Externe
+                            </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('doublon.externe',["id"=>1,"erreur"=>"doublon_interne"]) }}">
+                                <i class="mdi mdi-airplay"></i> Doublon Interne
+                            </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('doublon.externe',["id"=>1,"erreur"=>"parite"]) }}">
+                                <i class="mdi mdi-airplay"></i> Parite
+                            </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('doublon.externe',["id"=>1,"erreur"=>"sur_le_fichier"]) }}">
+                                <i class="mdi mdi-airplay"></i> Personne Non Identifier
                             </a>
                             </li>
                             

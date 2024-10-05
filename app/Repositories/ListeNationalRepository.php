@@ -144,5 +144,29 @@ class ListeNationalRepository extends RessourceRepository{
         ->where("liste_nationals.doublon_externe","!=","")
         ->get();
        }
+       public function getParite()
+       {
+        return DB::table("liste_nationals")
+        ->join("listes","liste_nationals.liste_id","=","listes.id")
+        ->select("listes.nom as liste","liste_nationals.*")
+        ->where("liste_nationals.parite","!=","")
+        ->get();
+       }
+       public function getDoublonInterne()
+       {
+        return DB::table("liste_nationals")
+        ->join("listes","liste_nationals.liste_id","=","listes.id")
+        ->select("listes.nom as liste","liste_nationals.*")
+        ->where("liste_nationals.doublon_interne","!=","")
+        ->get();
+       }
+       public function getSurLeFichier()
+       {
+        return DB::table("liste_nationals")
+        ->join("listes","liste_nationals.liste_id","=","listes.id")
+        ->select("liste_nationals.*","listes.nom as liste")
+        ->where("liste_nationals.sur_le_fichier","!=","")
+        ->get();
+       }
      
 }

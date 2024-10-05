@@ -193,5 +193,32 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where("liste_departementals.doublon_externe","!=","")
         ->get();
        }
+       public function getParite()
+       {
+        return DB::table("liste_departementals")
+        ->join("listes","liste_departementals.liste_id","=","listes.id")
+        ->join("departements","liste_departementals.departement_id","=","departements.id")
+        ->select("liste_departementals.*","listes.nom as liste","departements.nom as departement")
+        ->where("liste_departementals.parite","!=","")
+        ->get();
+       }
+       public function getDoublonInterne()
+       {
+        return DB::table("liste_departementals")
+        ->join("listes","liste_departementals.liste_id","=","listes.id")
+        ->join("departements","liste_departementals.departement_id","=","departements.id")
+        ->select("liste_departementals.*","listes.nom as liste","departements.nom as departement")
+        ->where("liste_departementals.doublon_interne","!=","")
+        ->get();
+       }
+       public function getSurLeFichier()
+       {
+        return DB::table("liste_departementals")
+        ->join("listes","liste_departementals.liste_id","=","listes.id")
+        ->join("departements","liste_departementals.departement_id","=","departements.id")
+        ->select("liste_departementals.*","listes.nom as liste","departements.nom as departement")
+        ->where("liste_departementals.sur_le_fichier","!=","")
+        ->get();
+       }
        
 }
