@@ -13,10 +13,10 @@ class ListeDepartemental extends Model
         ,'extrait_ou_cni','casier','etat','ordre',"erreur","erreurdge","domicile","se","doublon_externe","doublon_interne","parite",
         "sur_le_fichier","commune","verif",'commentaire'
     ];
-    public function validationDepartemental()
+   /* public function validationDepartemental()
     {
         return $this->hasOne(ValidationDepartemental::class);
-    }
+    }*/
 
 }
 

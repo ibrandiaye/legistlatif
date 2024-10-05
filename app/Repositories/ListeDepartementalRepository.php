@@ -183,5 +183,15 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where([["liste_id",$liste],["type",$type],['departement_id',$departement]])
         ->delete();
        }
+
+       public function getDoublonExterne()
+       {
+        return DB::table("liste_departementals")
+        ->join("listes","liste_departementals.liste_id","=","listes.id")
+        ->join("departements","liste_departementals.departement_id","=","departements.id")
+        ->select("liste_departementals.*","listes.nom as liste","departements.nom as departement")
+        ->where("liste_departementals.doublon_externe","!=","")
+        ->get();
+       }
        
 }

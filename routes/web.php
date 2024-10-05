@@ -101,4 +101,6 @@ Route::get('/recap', [HomeController::class,'recap'])->name("recap")->middleware
 
 Route::get( '/controle-fichier/{id}/{type}', [HomeController::class,'controleFichier'])->name("controle.fichier")->middleware(['auth', 'controlleur','checkMaxSessions']);
 
+Route::get( '/doublon-externe/{id}', [HomeController::class,'getDoublonExterne'])->name("doublon.externe")->middleware(['auth', 'controlleur','checkMaxSessions']);
+
 require __DIR__.'/auth.php';

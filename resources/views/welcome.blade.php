@@ -167,6 +167,7 @@
                                 <i class="mdi mdi-airplay"></i> Liste
                             </a>
                             </li>
+
                             @endif
                            
                             @if(Auth::user()->role=='admin')
@@ -177,6 +178,12 @@
                                     <li><a href="{{ route('user.index') }}">Lister</a></li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="{{ route('doublon.externe',1) }}">
+                                <i class="mdi mdi-airplay"></i> Doublon Externe
+                            </a>
+                            </li>
+                            
                             @endif
                             {{-- <li>
                                 <a href="{{ route('home') }}">

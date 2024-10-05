@@ -16,10 +16,16 @@ $(document).ready(function() {
         "ordering": false
 
     });
+    table1 = $('.datatable-buttons1').DataTable({
+        lengthChange: true,
+        buttons: ['copy', 'excel', 'pdf', 'colvis'],
+        "ordering": false
+
+    });
    
     table.buttons().container()
         .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
-        table.buttons().container()
+        table1.buttons().container()
         .appendTo('.datatable-buttons_wrapper .col-md-6:eq(0)');
 } );
 

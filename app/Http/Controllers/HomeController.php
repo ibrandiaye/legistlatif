@@ -489,4 +489,17 @@ class HomeController extends Controller
 
 
     }
+    public function getDoublonExterne($id)
+    {
+        $listeDepartements = $this->listeDepartementRepository->getDoublonExterne();
+        $listeNationals = $this->listeNationalRepository->getDoublonExterne();
+       // dd($listeNationals);
+       if($id==1)
+            return view("doublon-externe",compact("listeDepartements","listeNationals"));
+        else
+        {
+            $pdf = PDF::loadView("doublon-externe-fichier", compact("listeDepartements","listeNationals"));
+            return $pdf->download("doubon-externe.pdf");
+        }
+    }
 }

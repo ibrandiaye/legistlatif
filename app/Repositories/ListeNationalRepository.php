@@ -136,5 +136,13 @@ class ListeNationalRepository extends RessourceRepository{
         ->where([["liste_id",$liste],["type",$type]])
         ->delete();
        }
+       public function getDoublonExterne()
+       {
+        return DB::table("liste_nationals")
+        ->join("listes","liste_nationals.liste_id","=","listes.id")
+        ->select("liste_nationals.*","listes.nom as liste")
+        ->where("liste_nationals.doublon_externe","!=","")
+        ->get();
+       }
      
 }
