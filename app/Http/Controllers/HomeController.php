@@ -520,4 +520,12 @@ class HomeController extends Controller
             return $pdf->download("doubon-externe.pdf");
         }
     }
+    public function verifNbDepute($id)
+    {
+        $listeNationals = $this->listeNationalRepository->countByListeGroupByType($id);
+        $listeDepartementals = $this->listeDepartementRepository->countGroupByTypeAndListeByDepartement($id);
+        $liste = $this->listeRepository->getById($id);
+        return view("verif",compact("listeNationals","listeDepartementals","liste"));
+       // dd($listeDepartementals,$listeNationals);
+    }
 }

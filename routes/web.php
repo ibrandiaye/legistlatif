@@ -103,4 +103,6 @@ Route::get( '/controle-fichier/{id}/{type}', [HomeController::class,'controleFic
 
 Route::get( '/doublon-externe/{id}/{erreur}', [HomeController::class,'getDoublonExterne'])->name("doublon.externe")->middleware(['auth', 'controlleur','checkMaxSessions']);
 
+Route::get( '/verif/nb/candidat/{id}', [HomeController::class,'verifNbDepute'])->name("verif.nb.candidat")->middleware(['auth', 'controlleur','checkMaxSessions']);
+
 require __DIR__.'/auth.php';

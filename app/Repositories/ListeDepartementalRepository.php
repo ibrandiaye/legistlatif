@@ -220,5 +220,16 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where("liste_departementals.sur_le_fichier","!=","")
         ->get();
        }
+       public function countGroupByTypeAndListeByDepartement($liste)
+       {
+        return DB::table("liste_departementals")
+        ->join("listes","liste_departementals.liste_id","=","listes.id")
+        ->join("departements","liste_departementals.departement_id","=","departements.id")
+        ->select('departements.nom as departement','departements.nb','liste_departementals.type' ,DB::raw('count(liste_departementals.id) as nbre'))
+        ->where("liste_departementals.liste_id",$liste)
+
+        ->groupBy('departements.nom','departements.nb','liste_departementals.type')
+        ->get();
+       }
        
 }

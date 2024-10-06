@@ -50,6 +50,7 @@
                             <td>{{ $liste->nom }}</td>
                             <td>{{ $liste->type }}</td>
                             <td>
+                                <a href="{{ route('verif.nb.candidat', ["id"=>$liste->id]) }}" role="button" class="btn btn-warning"><i class="fas fa-check"></i> Contrôler nb candidat</a>
                                 <a href="{{ route('controle.liste', ["id"=>$liste->id,"type"=>1]) }}" role="button" class="btn btn-info"><i class="fas fa-database"></i> Contrôler</a>
                                 <a href="{{ route('generer.formulaire.admin', $liste->id) }}" role="button" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Imprimer formulaire</a>
                               @if(Auth::user()->role=="admin")  

@@ -168,5 +168,14 @@ class ListeNationalRepository extends RessourceRepository{
         ->where("liste_nationals.sur_le_fichier","!=","")
         ->get();
        }
+       public function countByListeGroupByType($liste)
+       {
+        return DB::table("liste_nationals")
+        ->select('liste_nationals.type' ,DB::raw('count(liste_nationals.id) as nbre'))
+        ->where("liste_id",$liste)
+        ->groupBy('liste_nationals.type')
+        ->get();
+       }
+      
      
 }
