@@ -246,7 +246,7 @@ table{
         <table   style="width: 100%;"  class="table table-bordered table-responsive-md table-striped text-center ">
             <thead>
                 <tr>
-                    <th>orordre d'investituredre</th>
+                    <th>ordre d'investituredre</th>
                     <th>Prenom</th>
                     <th>Nom</th>
                     <th>Num Electeur</th>
