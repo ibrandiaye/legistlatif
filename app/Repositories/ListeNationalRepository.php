@@ -34,7 +34,7 @@ class ListeNationalRepository extends RessourceRepository{
        public function changerEtat($id,$etat){
         return ListeNational::where("id",$id)->update(["etat"=>$etat]);
        }
-      
+
        public function getByCni($cni){
         return DB::table("liste_nationals")
         ->where('numcni',$cni)
@@ -176,6 +176,11 @@ class ListeNationalRepository extends RessourceRepository{
         ->groupBy('liste_nationals.type')
         ->get();
        }
-      
-     
+
+       public function countBySexe($sexe)
+       {
+        return DB::table("liste_nationals")
+        ->where("sexe",$sexe)
+        ->count();
+       }
 }

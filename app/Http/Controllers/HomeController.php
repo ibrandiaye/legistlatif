@@ -26,6 +26,12 @@ class HomeController extends Controller
         $this->departementRepository      = $departementRepository;
         $this->listeRepository            = $listeRepository;
     }
+    function calculerAge($dateNaissance) {
+        $dateNaissance = new \DateTime($dateNaissance);
+        $aujourdhui = new \DateTime();
+        $age = $aujourdhui->diff($dateNaissance);
+        return $age->y; // Retourne l'âge en années
+    }
 
     public function home()
     {
@@ -42,8 +48,52 @@ class HomeController extends Controller
         }
         else if(Auth::user()->role == 'admin')
         {
+            $entre18_35 = 0;
+            $entre35_45 = 0;
+            $entre45_plus = 0;
             $listes = $this->listeRepository->getAll();
-            return view("dashboard",compact("listes"));
+            $nbHommeNational = $this->listeNationalRepository->countBySexe("M");
+            $nbFemmeNational = $this->listeNationalRepository->countBySexe("F");
+            $nbHommeDepartement = $this->listeDepartementRepository->countBySexe("M");
+            $nbFemmeDepartement = $this->listeDepartementRepository->countBySexe("F");
+            $listeNationals = $this->listeNationalRepository->getAll();
+            $listeDeprtements = $this->listeDepartementRepository->getAll();
+            foreach ($listeNationals as $key => $value) {
+                $age = $this->calculerAge($value->datenaiss);
+                if($age > 17 && $age <36)
+                {
+                    $entre18_35 =  $entre18_35 + 1;
+                }
+                elseif($age > 35 && $age <46)
+                {
+                    $entre35_45 =  $entre35_45 + 1;
+                }
+                else
+                {
+                    $entre45_plus =  $entre45_plus + 1;
+
+                }
+            }
+
+            foreach ($listeDeprtements as $key => $value) {
+                $age = $this->calculerAge($value->datenaiss);
+                if($age > 17 && $age <36)
+                {
+                    $entre18_35 =  $entre18_35 + 1;
+                }
+                elseif($age > 35 && $age <46)
+                {
+                    $entre35_45 =  $entre35_45 + 1;
+                }
+                else
+                {
+                    $entre45_plus =  $entre45_plus + 1;
+
+                }
+            }
+           // dd($entre18_35,$entre35_45,$entre45_plus);
+            return view("dashboard",compact("listes","nbHommeNational","nbFemmeNational","nbHommeDepartement","nbFemmeDepartement",
+           "entre18_35","entre35_45","entre45_plus"));
         }
         else if(Auth::user()->role == 'controlleur')
         {

@@ -10,7 +10,7 @@ class ListeDepartementalRepository extends RessourceRepository{
         $this->model = $listedepartemental;
     }
 
-  
+
     public function deleteAll(){
         return DB::table("listedepartementals")
         ->delete();
@@ -97,7 +97,7 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->where([['numcni',$cni],["liste_id",$liste],["departement_id",$departement_id  ],["type",$type]])
         ->whereNot('ordre',$ordre)
         ->get();
-       } 
+       }
        public function getByCniAndListeOuterDepartement($cni,$liste,$departement_id){
         return DB::table("liste_departementals")
         ->where([['numcni',$cni],["liste_id",$liste]])
@@ -135,7 +135,7 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->orderBy("ordre",'desc')
         ->first();
        }
-     
+
        public function getfirstordreByListe($liste_id,$type,$departement){
         return DB::table("liste_departementals")
         ->where([["liste_id",$liste_id],['type',$type],
@@ -149,7 +149,7 @@ class ListeDepartementalRepository extends RessourceRepository{
         ['departement_id',$departement]])
         ->get();
        }
-       
+
        public function getLastOrdreByListeAndOrdre($liste_id,$type,$departement,$ordre){
         return DB::table("liste_departementals")
         ->where([["liste_id",$liste_id],['type',$type],
@@ -231,5 +231,11 @@ class ListeDepartementalRepository extends RessourceRepository{
         ->groupBy('departements.nom','departements.nb','liste_departementals.type')
         ->get();
        }
-       
+       public function countBySexe($sexe)
+       {
+        return DB::table("liste_departementals")
+        ->where("sexe",$sexe)
+        ->count();
+       }
+
 }
